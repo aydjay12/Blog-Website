@@ -9,8 +9,8 @@ export const generateTokenAndSetCookie = (res, userId, rememberMe) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    secure: true, // Always true in production (HTTPS)
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // "none" for cross-origin
+    secure: true, // Must be true for sameSite: "none"
+    sameSite: "none", // Allows cross-site requests
     maxAge: rememberMe ? 7 * 24 * 60 * 60 * 1000 : 60 * 60 * 1000,
   });
 
