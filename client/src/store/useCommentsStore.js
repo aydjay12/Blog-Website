@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 const API_URL =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:8000/api/comments"
+    ? "https://blog-website-a1ux.onrender.com/api/comments"
     : "/api/comments";
 
 axios.defaults.withCredentials = true;
