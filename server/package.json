@@ -1,7 +1,7 @@
 {
   "name": "Blog-Website",
   "version": "1.0.0",
-  "main": "server/index.js",
+  "main": "index.js",
   "license": "ISC",
   "type": "module",
   "scripts": {
