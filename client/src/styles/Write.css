@@ -61,13 +61,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.3s ease;
   }
   
-  .image-preview:hover .image-overlay {
+  /* .image-preview:hover .image-overlay {
     opacity: 1;
-  }
+  } */
   
   .upload-label {
     display: flex;
@@ -650,7 +650,7 @@
     
     .category-tag {
       padding: 0.4rem 0.8rem;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
     }
     
     .write-form {
