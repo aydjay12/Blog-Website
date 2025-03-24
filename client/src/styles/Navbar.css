@@ -311,10 +311,14 @@
   
     .mobile-controls {
       display: flex;
+      button, img{
+        cursor: unset;
+      }
     }
 
     .user-profile{
       margin-left: 0;
+      cursor: unset;
     }
   
     .leftSide .logo {
@@ -324,6 +328,7 @@
     
     .logo-container {
       margin-left: 0;
+      cursor: unset;
     }
 
     .topImg{
