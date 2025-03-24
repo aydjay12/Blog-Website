@@ -50,6 +50,7 @@ const CommentsSection = ({ postId }) => {
   
   const { user, isAuthenticated } = useAuthStore();
   const currentUser = user || { username: "Guest", profileImage: "" };
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const [newComment, setNewComment] = useState("");
   const [replyState, setReplyState] = useState({
@@ -158,16 +159,21 @@ const CommentsSection = ({ postId }) => {
 
   const confirmDeleteComment = async () => {
     const { itemType, commentId, replyId } = deleteModal;
-    if (loading) return;
+    if (loading || isDeleting) return; // Prevent action if already deleting
     
-    if (itemType === "comment") {
-      await deleteComment(postId, commentId);
-      showNotification("Comment deleted successfully");
-    } else if (itemType === "reply") {
-      await deleteReply(postId, commentId, replyId);
-      showNotification("Reply deleted successfully");
+    setIsDeleting(true); // Set deleting state
+    try {
+      if (itemType === "comment") {
+        await deleteComment(postId, commentId);
+        showNotification("Comment deleted successfully");
+      } else if (itemType === "reply") {
+        await deleteReply(postId, commentId, replyId);
+        showNotification("Reply deleted successfully");
+      }
+      closeDeleteModal();
+    } finally {
+      setIsDeleting(false); // Reset deleting state
     }
-    closeDeleteModal();
   };
 
   const toggleLike = async (commentId, replyId = null) => {
@@ -389,80 +395,82 @@ const CommentsSection = ({ postId }) => {
   };
 
   const deleteDialog = (
-    <Dialog
-      open={deleteModal.isOpen}
-      onClose={closeDeleteModal}
-      aria-labelledby="delete-dialog-title"
-      aria-describedby="delete-dialog-description"
-      PaperProps={{
-        style: {
-          borderRadius: "10px",
-          padding: "0.5rem 0",
-          minWidth: "350px",
-        },
-      }}
-    >
-      <DialogTitle id="delete-dialog-title">
+<Dialog
+    open={deleteModal.isOpen}
+    onClose={closeDeleteModal}
+    aria-labelledby="delete-dialog-title"
+    aria-describedby="delete-dialog-description"
+    PaperProps={{
+      style: {
+        borderRadius: "10px",
+        padding: "0.5rem 0",
+        minWidth: "350px",
+      },
+    }}
+  >
+    <DialogTitle id="delete-dialog-title">
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        Confirm Delete {deleteModal.itemType}
+      </motion.div>
+    </DialogTitle>
+    <DialogContent>
+      <DialogContentText id="delete-dialog-description">
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
         >
-          Confirm Delete {deleteModal.itemType}
+          Are you sure you want to delete this {deleteModal.itemType}? This
+          action cannot be undone.
         </motion.div>
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText id="delete-dialog-description">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-          >
-            Are you sure you want to delete this {deleteModal.itemType}? This
-            action cannot be undone.
-          </motion.div>
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions style={{ paddingBottom: "25px", paddingRight: "24px" }}>
-        <Button
-          onClick={closeDeleteModal}
-          color="primary"
-          variant="outlined"
-          component={motion.button}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-          sx={{
-            textTransform: "none",
-            borderRadius: "6px",
-            fontFamily: "inherit",
-          }}
-        >
-          Cancel
-        </Button>
-        <Button
-          onClick={confirmDeleteComment}
-          color="error"
-          variant="contained"
-          component={motion.button}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-          sx={{
-            textTransform: "none",
-            borderRadius: "6px",
-            fontFamily: "inherit",
-            backgroundColor: "#f44336",
-          }}
-        >
-          Delete
-        </Button>
-      </DialogActions>
-    </Dialog>
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions style={{ paddingBottom: "25px", paddingRight: "24px" }}>
+      <Button
+        onClick={closeDeleteModal}
+        color="primary"
+        variant="outlined"
+        component={motion.button}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        sx={{
+          textTransform: "none",
+          borderRadius: "6px",
+          fontFamily: "inherit",
+        }}
+        disabled={isDeleting} // Disable Cancel button while deleting
+      >
+        Cancel
+      </Button>
+      <Button
+        onClick={confirmDeleteComment}
+        color="error"
+        variant="contained"
+        component={motion.button}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        sx={{
+          textTransform: "none",
+          borderRadius: "6px",
+          fontFamily: "inherit",
+          backgroundColor: "#f44336",
+        }}
+        disabled={isDeleting} // Disable Delete button while deleting
+      >
+        {isDeleting ? "Deleting..." : "Delete"}
+      </Button>
+    </DialogActions>
+  </Dialog>
   );
 
   return (
