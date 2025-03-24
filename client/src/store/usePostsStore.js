@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 
 const API_URL =
   process.env.NODE_ENV === "development"
-    ? "https://blog-website-a1ux.onrender.com/api/posts"
-    : "/api/posts";
+    ? "http://localhost:8000/api/posts"
+    : "https://blog-website-a1ux.onrender.com/api/posts";
 
 axios.defaults.withCredentials = true;
 
