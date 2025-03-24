@@ -1,0 +1,39 @@
+{
+  "name": "Blog-Website",
+  "version": "1.0.0",
+  "main": "server/index.js",
+  "license": "ISC",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "build": "yarn install"
+  },
+  "engines": {
+    "node": "23.x"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-async-handler": "^1.2.0",
+    "google-auth-library": "^9.15.1",
+    "ioredis": "^5.4.2",
+    "jsonwebtoken": "^9.0.2",
+    "mailtrap": "^3.4.0",
+    "mongoose": "^8.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.10.0",
+    "nodemon": "^3.1.9",
+    "stripe": "^17.6.0"
+  },
+  "devDependencies": {
+    "npm": "^10.9.2"
+  }
+}
