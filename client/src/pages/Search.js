@@ -4,6 +4,7 @@ import "../styles/Search.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { usePostsStore } from "../store/usePostsStore";
 import BlogPost from "../components/blogpost/Blogpost";
+import Loading from "../components/loading/Loading";
 
 // Utility functions
 const stripHtml = (html, maxLength = 150) => {
@@ -364,7 +365,7 @@ export default function Search() {
 
         <div className="search-results" ref={searchResultsRef}>
           {loadingPost ? (
-            <div className="loading-section"><div className="loader"></div><p>Loading...</p></div>
+            <Loading />
           ) : error ? (
             <div className="error-message"><p>Failed to load posts: {error}</p></div>
           ) : hasSearched && results.length === 0 ? (
