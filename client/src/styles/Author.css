@@ -1,0 +1,143 @@
+/* Author Page Styles */
+.author-page {
+  padding: 2rem 4rem;
+  padding-bottom: 5rem;
+  /* Loading state */
+.author-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+}
+
+.author-loading .loader {
+  border: 4px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 4px solid #be9656;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1.5rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.author-loading p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Author not found */
+.author-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  text-align: center;
+}
+
+.author-not-found h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.author-not-found p {
+  color: #666;
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+.return-link {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background-color: #be9656;
+  color: white;
+  border-radius: 5px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.return-link:hover {
+  background-color: #a3814a;
+  transform: translateY(-2px);
+}
+
+/* Author Header */
+.author-header {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  padding: 3rem;
+  margin-bottom: 3rem;
+}
+
+.author-profile {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.author-image-container {
+  flex-shrink: 0;
+}
+
+.author-image {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.author-info {
+  flex-grow: 1;
+}
+
+.author-info h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.author-position {
+  display: block;
+  color: #be9656;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.author-bio {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.author-social {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  color: #555;
+}
+}

@@ -1,0 +1,132 @@
+.not-found-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    padding: 6rem 2rem;
+    .not-found-content {
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+    }
+    
+    .not-found-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 3rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    .error-code {
+      font-size: 8rem;
+      font-weight: 700;
+      color: #be9656;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    
+    .not-found-card h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+    }
+    
+    .not-found-card p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+    
+    .not-found-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    
+    .primary-btn,
+    .secondary-btn {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .primary-btn {
+      background-color: #be9656;
+      color: white;
+      border: 2px solid #be9656;
+    }
+    
+    .primary-btn:hover {
+      background-color: #a88449;
+      border-color: #a88449;
+    }
+    
+    .secondary-btn {
+      background-color: transparent;
+      color: #be9656;
+      border: 2px solid #be9656;
+    }
+    
+    .secondary-btn:hover {
+      background-color: #be9656;
+      color: white;
+    }
+  }
+  
+  /* Responsive design */
+  @media screen and (max-width: 768px) {
+    .not-found-container{
+      padding: 0;
+      .not-found-card {
+        padding: 1.5rem;
+        padding-top: 0;
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      
+      .error-code {
+        font-size: 6rem;
+      }
+      
+      .not-found-card h1 {
+        font-size: 2rem;
+      }
+      
+      .not-found-card p {
+        font-size: 1rem;
+      }
+
+      .not-found-actions {
+        flex-direction: column;
+        gap: 1rem;
+        a{
+          width: unset;
+        }
+      }
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .not-found-container{  
+      .error-code {
+        font-size: 5rem;
+      }
+      
+      .not-found-card h1 {
+        font-size: 1.8rem;
+      }
+      
+      .primary-btn,
+      .secondary-btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }

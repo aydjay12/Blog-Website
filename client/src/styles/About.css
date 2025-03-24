@@ -1,0 +1,482 @@
+/* About Page Styles */
+.about-container {
+    min-height: 100vh;
+    color: #444;
+    padding-bottom: 4rem;
+      /* Hero Section */
+  .about-hero {
+    height: 400px;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                url('https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-bottom: 3rem;
+  }
+  
+  .about-hero-content {
+    max-width: 800px;
+    padding: 0 2rem;
+  }
+  
+  .about-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .about-hero p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+  
+  /* Section Layouts */
+  .about-section {
+    padding: 0;
+  }
+  
+  .about-section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    margin-top: 0;
+    color: #333;
+    position: relative;
+  }
+  
+  .section-title:after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: #be9656;
+  }
+  
+  /* Mission Card */
+  .about-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+  }
+  
+  .mission-card {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 3rem auto;
+  }
+  
+  .mission-card h2 {
+    color: #333;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .mission-card p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Values Section */
+  .values-section {
+    background-color: #f9f9f9;
+    padding: 1rem 0;
+    padding-bottom: 3.5rem;
+  }
+  
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+  }
+  
+  .value-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .value-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .value-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .value-card h3 {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .value-card p {
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  /* Team Section */
+  .team-section {
+    padding: 2rem 0;
+    padding-bottom: 4rem;
+  }
+  
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+  }
+  
+  .team-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+  }
+  
+  .team-card:hover {
+    transform: translateY(-8px);
+  }
+  
+  .team-image {
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .team-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .team-card:hover .team-image img {
+    transform: scale(1.05);
+  }
+  
+  .team-info {
+    padding: 1.5rem;
+  }
+  
+  .team-info h3 {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 0.3rem;
+  }
+  
+  .team-info h4 {
+    font-size: 1rem;
+    color: #be9656;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  
+  .team-info p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+  
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+  
+  .social-links a {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    transition: all 0.3s ease;
+  }
+  
+  .social-links a:hover {
+    background-color: #be9656;
+    color: white;
+  }
+  
+  /* Story Section */
+  .story-section {
+    background-color: #f9f9f9;
+    padding: 1rem 0;
+  }
+  
+  .story-content {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+  }
+  
+  .story-text {
+    flex: 1;
+  }
+  
+  .story-text h2 {
+    font-size: 2.2rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+  }
+  
+  .story-text p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 1.5rem;
+  }
+  
+  .story-image {
+    flex: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    min-height: 300px;
+    width: 100%;
+  }
+  
+  .story-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  /* Join Section */
+  .join-section {
+    padding: 2rem 0;
+  }
+  
+  .join-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 3.5rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .join-card h2 {
+    font-size: 2.2rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+  
+  .join-card p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  .primary-btn,
+  .secondary-btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .primary-btn {
+    background-color: #be9656;
+    color: white;
+    border: 2px solid #be9656;
+  }
+  
+  .primary-btn:hover {
+    background-color: #a88449;
+    border-color: #a88449;
+  }
+  
+  .secondary-btn {
+    background-color: transparent;
+    color: #be9656;
+    border: 2px solid #be9656;
+  }
+  
+  .secondary-btn:hover {
+    background-color: #be9656;
+    color: white;
+  }
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 1024px) {
+    .about-container{
+      .about-hero {
+        height: 350px;
+      }
+      
+      .about-hero h1 {
+        font-size: 3rem;
+      }
+      
+      .story-content {
+        flex-direction: column;
+        gap: 2rem;
+      }
+      
+      .story-text {
+        order: 1;
+      }
+      
+      .story-image {
+        order: 0;
+        min-height: 300px;
+        margin: 0 auto;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .about-container{
+      .about-hero {
+        height: 300px;
+        margin-bottom: 0;
+      }
+
+      .about-hero-content{
+        padding: 1em;
+      }
+
+      .about-card, .join-card{
+        box-shadow: none;
+        padding: 1em;
+        margin-bottom: 1rem;
+      }
+      
+      .about-hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .about-hero p {
+        font-size: 1.1rem;
+      }
+  
+      .about-section-inner{
+        padding: 0;
+      }
+
+      .values-grid{
+        padding: 1em;
+      }
+
+      .value-card{
+        padding: 1rem;
+      }
+
+      .team-grid{
+        padding: 1em;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+        margin-top: 1em;
+      }
+
+      .story-content{
+        padding: 1em;
+        padding-top: 2em;
+      }
+
+      .join-section{
+        padding: 0;
+      }
+      
+      .mission-card h2,
+      .story-text h2,
+      .join-card h2 {
+        font-size: 1.8rem;
+      }
+
+      .mission-card h2{
+        margin-top: 1em;
+      }
+      
+      .mission-card p,
+      .story-text p,
+      .join-card p {
+        font-size: 1rem;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        gap: 1rem;
+        max-width: 250px;
+        margin: 0 auto;
+      }
+      .team-section{
+        padding-top: 1em;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .about-container{
+      .about-hero {
+        height: 250px;
+      }
+      
+      .about-hero h1 {
+        font-size: 2rem;
+      }
+      
+      .about-hero p {
+        font-size: 1rem;
+      }
+      
+      .section-title {
+        font-size: 1.7rem;
+      }
+      
+      .value-card,
+      .team-info {
+        padding: 1rem;
+      }
+      
+      .team-image {
+        height: 250px;
+      }
+    }
+  }

@@ -1,0 +1,28 @@
+.posts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
+  padding: 0 4rem;
+  margin: 20px 0;
+}
+
+@media only screen and (max-width: 1024px) {
+  .posts {
+    padding: 0 2rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .posts {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    padding: 0 1rem;
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .posts {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+}

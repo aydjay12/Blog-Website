@@ -1,0 +1,174 @@
+.post {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  height: 100%; /* Ensures the card takes full height of grid cell */
+}
+
+.post:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.post-image-container {
+  height: 200px; /* Fixed height like Blogs.css */
+  position: relative;
+  overflow: hidden;
+}
+
+.postImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.post:hover .postImg {
+  transform: scale(1.05);
+}
+
+.post-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.post:hover .post-overlay {
+  opacity: 1;
+}
+
+.post-read-more {
+  padding: 0.6rem 1.2rem;
+  background-color: #be9656;
+  color: white;
+  border-radius: 5px;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.post-read-more:hover {
+  background-color: white;
+  color: #be9656;
+}
+
+.postInfo {
+  padding: 1rem;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Allows this section to expand and maintain consistency */
+}
+
+.postCats {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.postCat {
+  background-color: #be9656;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.postTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: #333;
+  line-height: 1.4;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.post-author {
+  display: flex;
+  align-items: center;
+}
+
+.author-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+}
+
+.post-author span {
+  font-weight: 500;
+}
+
+.postDate {
+  font-style: italic;
+  color: #999;
+}
+
+.postDesc {
+  color: #555;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limits to 3 lines like Blogs.css */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex-grow: 1; /* Ensures consistent height by pushing content */
+}
+
+@media only screen and (max-width: 768px) {
+  .post {
+    margin: 0;
+  }
+
+  /* Always show the overlay on mobile */
+  .post-overlay {
+    opacity: 1;
+  }
+
+  /* Optional: Adjust the overlay background for better visibility on mobile */
+  .post-overlay {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  /* Optional: Adjust the button styling for mobile */
+  .post-read-more {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  /* Disable hover effects on mobile */
+  .post:hover .post-overlay {
+    opacity: 1; /* Already visible, no change needed */
+  }
+
+  .post:hover .postImg {
+    transform: none; /* Disable image zoom on mobile */
+  }
+
+  .post:hover {
+    transform: none; /* Disable card lift on mobile */
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07); /* Keep original shadow */
+  }
+}

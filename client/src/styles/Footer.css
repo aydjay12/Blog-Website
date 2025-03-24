@@ -1,0 +1,212 @@
+.footer {
+  background-color: #222;
+  color: #fff;
+  padding: 0 3em;
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 2em 0;
+  }
+  
+  .footer-section {
+    flex: .5;
+    min-width: 150px;
+    margin-bottom: 2rem;
+    padding-right: 1.5rem;
+  }
+  
+  .footer-section h2 {
+    position: relative;
+    color: #fff;
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  .footer-section h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 50px;
+    height: 2px;
+    background-color: #be9656;
+  }
+  
+  .footer-section.about {
+    flex: 1;
+  }
+  
+  .footer-section.subscribe{
+    flex: .8;
+  }
+  
+  .footer-section.about p {
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: #ddd;
+  }
+  
+  .logo-text {
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+  }
+  
+  .contact {
+    margin-top: 1.5rem;
+  }
+  
+  .contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.7rem;
+  }
+  
+  .contact-icon {
+    margin-right: 0.5rem;
+    color: #be9656;
+    font-size: 1.1rem;
+  }
+  
+  .footer-section.links ul,
+  .footer-section.categories ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-section.links li,
+  .footer-section.categories li {
+    margin-bottom: 0.7rem;
+  }
+  
+  .footer-section.links a,
+  .footer-section.categories a {
+    color: #ddd;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .footer-section.links a:hover,
+  .footer-section.categories a:hover {
+    color: #be9656;
+    padding-left: 5px;
+  }
+  
+  .footer-section.subscribe p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: #ddd;
+  }
+  
+  .footer-section.subscribe form {
+    display: flex;
+    margin-bottom: 1.5rem;
+  }
+  
+  .footer-section.subscribe input {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    border-radius: 3px 0 0 3px;
+    outline: none;
+  }
+  
+  .btn-subscribe {
+    padding: 0 1rem;
+    background-color: #be9656;
+    color: white;
+    border: none;
+    border-radius: 0 3px 3px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-subscribe:hover {
+    background-color: #a88144;
+  }
+  
+  .social-media {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .social-icon {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+  }
+  
+  .social-icon:hover {
+    color: #be9656;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    padding-top: 1rem;
+    margin-top: 2rem;
+    border-top: 1px solid #444;
+  }
+  
+  .footer-bottom p {
+    font-size: 1rem;
+    color: #aaa;
+    padding-bottom: 1rem;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .footer {
+    padding: 0 2em; /* Reduce padding for narrower screens */
+    .footer-content {
+      flex-wrap: wrap; /* Allow sections to wrap if needed */
+      gap: 1rem; /* Add some spacing between wrapped sections */
+    }
+  
+    .footer-section {
+      flex: 1 1 45%; /* Two columns layout, slightly wider than mobile */
+      padding-right: 1rem; /* Reduce padding slightly */
+      min-width: 200px; /* Ensure sections don’t get too narrow */
+    }
+  
+    .footer-section.about {
+      flex: 1 1 100%; /* About section takes full width */
+      margin-bottom: 1.5rem;
+    }
+  
+    .footer-section.subscribe {
+      flex: 1 1 45%; /* Subscribe section aligns with others */
+    }
+  
+    .social-media {
+      gap: 0.8rem; /* Slightly reduce icon spacing */
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .footer{
+    padding: 1em;
+    .footer-content {
+      flex-direction: column;
+      padding-top: 0;
+    }
+    
+    .footer-section {
+      margin-bottom: 1rem;
+      padding-right: 0;
+    }
+    
+    .footer-section.about {
+      flex: 1;
+    }
+  
+    .footer-bottom{
+      margin-top: 0;
+      p{
+        margin-bottom: 0;
+      }
+    }
+  }
+}

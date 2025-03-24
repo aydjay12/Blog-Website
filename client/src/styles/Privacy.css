@@ -1,0 +1,316 @@
+/* Privacy Policy Page Styles */
+.privacy-container {
+    min-height: 100vh;
+    color: #444;
+    padding-bottom: 0;
+  
+    /* Hero Section */
+    .privacy-hero {
+      height: 400px;
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                url('https://images.pexels.com/photos/4348401/pexels-photo-4348401.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      margin-bottom: 3rem;
+    }
+    
+    .privacy-hero-content {
+      max-width: 800px;
+      padding: 0 2rem;
+    }
+    
+    .privacy-hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .privacy-hero p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+    
+    /* Section Layouts */
+    .privacy-section {
+      padding: 0;
+    }
+    
+    .privacy-section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem;
+      padding-bottom: 5rem;
+    }
+    
+    /* Privacy Cards */
+    .privacy-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      margin-bottom: 2rem;
+    }
+    
+    .introduction-card {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto 5rem auto;
+    }
+    
+    .introduction-card p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+    
+    .last-updated {
+      text-align: right;
+      color: #777;
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Privacy Policy Grid */
+    .privacy-policy-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 5rem;
+    }
+    
+    .privacy-policy-section {
+      background-color: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .privacy-policy-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .privacy-policy-section h2 {
+      font-size: 1.6rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #be9656;
+      padding-bottom: 0.5rem;
+      display: inline-block;
+    }
+    
+    .policy-content {
+      padding-left: 1rem;
+    }
+    
+    .policy-content h3 {
+      font-size: 1.2rem;
+      color: #444;
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .policy-content p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+    
+    .policy-content ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .policy-content li {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #555;
+      margin-bottom: 0.5rem;
+    }
+    
+    .contact-info {
+      list-style-type: none;
+      padding-left: 0.5rem;
+    }
+    
+    /* Contact Section */
+    .privacy-contact-section {
+      padding: 2rem 0;
+      background-color: #f9f9f9;
+      padding-top: 5rem;
+      padding-bottom: 8rem;
+    }
+    
+    .privacy-contact-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 3rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .privacy-contact-card h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+    }
+    
+    .privacy-contact-card p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #555;
+      margin-bottom: 2rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    
+    .primary-btn,
+    .secondary-btn {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .primary-btn {
+      background-color: #be9656;
+      color: white;
+      border: 2px solid #be9656;
+    }
+    
+    .primary-btn:hover {
+      background-color: #a88449;
+      border-color: #a88449;
+    }
+    
+    .secondary-btn {
+      background-color: transparent;
+      color: #be9656;
+      border: 2px solid #be9656;
+    }
+    
+    .secondary-btn:hover {
+      background-color: #be9656;
+      color: white;
+    }
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 1024px) {
+    .privacy-container {
+      .privacy-hero {
+        height: 370px;
+      }
+      
+      .privacy-hero h1 {
+        font-size: 2.5rem;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .privacy-container {
+      .privacy-hero {
+        height: 300px;
+        margin-bottom: 2rem;
+      }
+      
+      .privacy-hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .privacy-hero p {
+        font-size: 1rem;
+      }
+      
+      .privacy-section-inner {
+        padding: 1rem;
+        padding-bottom: 4rem;
+      }
+      
+      .privacy-card,
+      .privacy-policy-section,
+      .privacy-contact-card {
+        padding: 1rem;
+      }
+
+      .introduction-card{
+        margin-bottom: 3rem;
+      }
+      
+      .introduction-card p {
+        font-size: 1rem;
+      }
+
+      .privacy-contact-section{
+        padding: 4rem 1rem;
+        padding-bottom: 6rem;
+      }
+
+      .privacy-contact-card{
+        padding-bottom: 2.7rem;
+      }
+
+      .privacy-policy-grid{
+        gap: 3rem;
+      }
+      
+      .policy-content {
+        padding-left: 0.5rem;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        gap: 1rem;
+        max-width: 250px;
+        margin: 0 auto;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .privacy-container {
+      .privacy-hero {
+        height: 250px;
+      }
+      
+      .privacy-hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .privacy-hero p {
+        font-size: 0.9rem;
+      }
+      
+      .privacy-policy-section h2 {
+        font-size: 1.4rem;
+      }
+      
+      .policy-content h3 {
+        font-size: 1.1rem;
+      }
+      
+      .privacy-contact-card h2 {
+        font-size: 1.6rem;
+      }
+    }
+  }

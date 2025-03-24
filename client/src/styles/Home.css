@@ -1,0 +1,17 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 4em;
+   h1{
+    text-align: center;
+    margin-top: 1em;
+  }
+  .postInfo a {
+    text-decoration: none;
+    color: black;
+  }
+  .sidebarList a {
+    text-decoration: none;
+    color: black;
+  }
+}
