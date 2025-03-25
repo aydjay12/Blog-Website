@@ -25,29 +25,33 @@ const formatRelativeTime = (date) => {
   const diffYears = Math.floor(diffDays / 365);
 
   if (diffSeconds < 60) return "Just now";
-  if (diffMinutes < 60) return `${diffMinutes} minute${diffMinutes === 1 ? "" : "s"} ago`;
-  if (diffHours < 24) return `${diffHours} hour${diffHours === 1 ? "" : "s"} ago`;
+  if (diffMinutes < 60)
+    return `${diffMinutes} minute${diffMinutes === 1 ? "" : "s"} ago`;
+  if (diffHours < 24)
+    return `${diffHours} hour${diffHours === 1 ? "" : "s"} ago`;
   if (diffDays < 7) return `${diffDays} day${diffDays === 1 ? "" : "s"} ago`;
-  if (diffWeeks < 4) return `${diffWeeks} week${diffWeeks === 1 ? "" : "s"} ago`;
-  if (diffMonths < 12) return `${diffMonths} month${diffMonths === 1 ? "" : "s"} ago`;
+  if (diffWeeks < 4)
+    return `${diffWeeks} week${diffWeeks === 1 ? "" : "s"} ago`;
+  if (diffMonths < 12)
+    return `${diffMonths} month${diffMonths === 1 ? "" : "s"} ago`;
   return `${diffYears} year${diffYears === 1 ? "" : "s"} ago`;
 };
 
 const CommentsSection = ({ postId }) => {
-  const { 
-    comments, 
-    fetchComments, 
-    createComment, 
-    createReply, 
-    updateComment, 
-    updateReply, 
-    deleteComment, 
-    deleteReply, 
-    likeComment, 
+  const {
+    comments,
+    fetchComments,
+    createComment,
+    createReply,
+    updateComment,
+    updateReply,
+    deleteComment,
+    deleteReply,
+    likeComment,
     likeReply,
-    loading 
+    loading,
   } = useCommentsStore();
-  
+
   const { user, isAuthenticated } = useAuthStore();
   const currentUser = user || { username: "Guest", profileImage: "" };
   const [isDeleting, setIsDeleting] = useState(false);
@@ -109,10 +113,10 @@ const CommentsSection = ({ postId }) => {
     }
     const { commentId, content, mention } = replyState;
     if (content.trim() === "" || loading) return;
-    
+
     const replyContent = mention ? `@${mention} ${content}` : content;
     await createReply(postId, commentId, replyContent);
-    
+
     resetReplyState();
     setExpandedComments((prev) => ({ ...prev, [commentId]: true }));
   };
@@ -129,7 +133,7 @@ const CommentsSection = ({ postId }) => {
   const handleEditSubmit = async () => {
     const { commentId, replyId, content } = editState;
     if (content.trim() === "" || loading) return;
-    
+
     if (replyId) {
       await updateReply(postId, commentId, replyId, content);
       showNotification("Reply updated successfully");
@@ -160,7 +164,7 @@ const CommentsSection = ({ postId }) => {
   const confirmDeleteComment = async () => {
     const { itemType, commentId, replyId } = deleteModal;
     if (loading || isDeleting) return; // Prevent action if already deleting
-    
+
     setIsDeleting(true); // Set deleting state
     try {
       if (itemType === "comment") {
@@ -224,7 +228,8 @@ const CommentsSection = ({ postId }) => {
   };
 
   const sortedComments = [...comments].sort((a, b) => {
-    if (sortBy === "newest") return new Date(b.createdAt) - new Date(a.createdAt);
+    if (sortBy === "newest")
+      return new Date(b.createdAt) - new Date(a.createdAt);
     else if (sortBy === "popular") return b.likes.length - a.likes.length;
     return 0;
   });
@@ -395,82 +400,82 @@ const CommentsSection = ({ postId }) => {
   };
 
   const deleteDialog = (
-<Dialog
-    open={deleteModal.isOpen}
-    onClose={closeDeleteModal}
-    aria-labelledby="delete-dialog-title"
-    aria-describedby="delete-dialog-description"
-    PaperProps={{
-      style: {
-        borderRadius: "10px",
-        padding: "0.5rem 0",
-        minWidth: "350px",
-      },
-    }}
-  >
-    <DialogTitle id="delete-dialog-title">
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        Confirm Delete {deleteModal.itemType}
-      </motion.div>
-    </DialogTitle>
-    <DialogContent>
-      <DialogContentText id="delete-dialog-description">
+    <Dialog
+      open={deleteModal.isOpen}
+      onClose={closeDeleteModal}
+      aria-labelledby="delete-dialog-title"
+      aria-describedby="delete-dialog-description"
+      PaperProps={{
+        style: {
+          borderRadius: "10px",
+          padding: "0.5rem 0",
+          minWidth: "350px",
+        },
+      }}
+    >
+      <DialogTitle id="delete-dialog-title">
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
         >
-          Are you sure you want to delete this {deleteModal.itemType}? This
-          action cannot be undone.
+          Confirm Delete {deleteModal.itemType}
         </motion.div>
-      </DialogContentText>
-    </DialogContent>
-    <DialogActions style={{ paddingBottom: "25px", paddingRight: "24px" }}>
-      <Button
-        onClick={closeDeleteModal}
-        color="primary"
-        variant="outlined"
-        component={motion.button}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.1 }}
-        sx={{
-          textTransform: "none",
-          borderRadius: "6px",
-          fontFamily: "inherit",
-        }}
-        disabled={isDeleting} // Disable Cancel button while deleting
-      >
-        Cancel
-      </Button>
-      <Button
-        onClick={confirmDeleteComment}
-        color="error"
-        variant="contained"
-        component={motion.button}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.1 }}
-        sx={{
-          textTransform: "none",
-          borderRadius: "6px",
-          fontFamily: "inherit",
-          backgroundColor: "#f44336",
-        }}
-        disabled={isDeleting} // Disable Delete button while deleting
-      >
-        {isDeleting ? "Deleting..." : "Delete"}
-      </Button>
-    </DialogActions>
-  </Dialog>
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="delete-dialog-description">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+          >
+            Are you sure you want to delete this {deleteModal.itemType}? This
+            action cannot be undone.
+          </motion.div>
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions style={{ paddingBottom: "25px", paddingRight: "24px" }}>
+        <Button
+          onClick={closeDeleteModal}
+          color="primary"
+          variant="outlined"
+          component={motion.button}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          sx={{
+            textTransform: "none",
+            borderRadius: "6px",
+            fontFamily: "inherit",
+          }}
+          disabled={isDeleting} // Disable Cancel button while deleting
+        >
+          Cancel
+        </Button>
+        <Button
+          onClick={confirmDeleteComment}
+          color="error"
+          variant="contained"
+          component={motion.button}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          sx={{
+            textTransform: "none",
+            borderRadius: "6px",
+            fontFamily: "inherit",
+            backgroundColor: "#f44336",
+          }}
+          disabled={isDeleting} // Disable Delete button while deleting
+        >
+          {isDeleting ? "Deleting..." : "Delete"}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 
   return (
@@ -569,7 +574,9 @@ const CommentsSection = ({ postId }) => {
             <div className="comment">
               <div className="comment-avatar-container">
                 <img
-                  src={comment.userImg || currentUser.profileImage || ProfilePic}
+                  src={
+                    comment.userImg || currentUser.profileImage || ProfilePic
+                  }
                   alt=""
                   className="comment-avatar"
                 />
@@ -603,8 +610,14 @@ const CommentsSection = ({ postId }) => {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                       >
-                        {comment.likes.includes(currentUser._id) ? <FaHeart /> : <FaRegHeart />}
-                        <span>{comment.likes.length > 0 ? comment.likes.length : ""}</span>
+                        {comment.likes.includes(currentUser._id) ? (
+                          <FaHeart />
+                        ) : (
+                          <FaRegHeart />
+                        )}
+                        <span>
+                          {comment.likes.length > 0 ? comment.likes.length : ""}
+                        </span>
                       </motion.button>
 
                       <motion.button
@@ -623,7 +636,11 @@ const CommentsSection = ({ postId }) => {
                           <motion.button
                             className="comment-action edit-button"
                             onClick={() =>
-                              handleEditClick(comment._id, null, comment.content)
+                              handleEditClick(
+                                comment._id,
+                                null,
+                                comment.content
+                              )
                             }
                             variants={buttonVariants}
                             whileHover={{ scale: 1.1 }}
@@ -634,7 +651,9 @@ const CommentsSection = ({ postId }) => {
                           </motion.button>
                           <motion.button
                             className="comment-action delete-button"
-                            onClick={() => openDeleteModal("comment", comment._id)}
+                            onClick={() =>
+                              openDeleteModal("comment", comment._id)
+                            }
                             variants={buttonVariants}
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
@@ -690,130 +709,140 @@ const CommentsSection = ({ postId }) => {
                           key={reply._id}
                           variants={replyVariants}
                         >
-                          <div className="reply">
-                            <div className="comment-avatar-container">
-                              <img
-                                src={reply.userImg || ProfilePic}
-                                alt=""
-                                className="comment-avatar comment-avatar-small"
-                              />
-                            </div>
-
-                            <div className="comment-content">
-                              <div className="comment-header">
-                                <span className="comment-author">
-                                  {reply.author}
-                                </span>
-                                <span className="comment-date">
-                                  {formatRelativeTime(reply.createdAt)}
-                                </span>
+                          <div className="reply-container-body">
+                            <div className="reply">
+                              <div className="comment-avatar-container">
+                                <img
+                                  src={reply.userImg || ProfilePic}
+                                  alt=""
+                                  className="comment-avatar comment-avatar-small"
+                                />
                               </div>
 
-                              {editState.commentId === comment._id &&
-                              editState.replyId === reply._id ? (
-                                renderEditForm(
-                                  comment._id,
-                                  reply._id,
-                                  reply.content
-                                )
-                              ) : (
-                                <>
-                                  <p className="comment-text">
-                                    {reply.content}
-                                  </p>
-                                  <motion.div
-                                    className="comment-actions"
-                                    variants={containerVariants}
-                                    initial="hidden"
-                                    animate="visible"
-                                  >
-                                    <motion.button
-                                      className={`comment-action like-button ${
-                                        reply.likes.includes(currentUser._id) ? "liked" : ""
-                                      }`}
-                                      onClick={() =>
-                                        toggleLike(comment._id, reply._id)
-                                      }
-                                      variants={buttonVariants}
-                                      whileHover={{ scale: 1.1 }}
-                                      whileTap={{ scale: 0.9 }}
-                                    >
-                                      {reply.likes.includes(currentUser._id) ? (
-                                        <FaHeart />
-                                      ) : (
-                                        <FaRegHeart />
-                                      )}
-                                      <span>
-                                        {reply.likes.length > 0 ? reply.likes.length : ""}
-                                      </span>
-                                    </motion.button>
+                              <div className="comment-content">
+                                <div className="comment-header">
+                                  <span className="comment-author">
+                                    {reply.author}
+                                  </span>
+                                  <span className="comment-date">
+                                    {formatRelativeTime(reply.createdAt)}
+                                  </span>
+                                </div>
 
-                                    <motion.button
-                                      className="comment-action reply-button"
-                                      onClick={() => {
-                                        if (reply.author === currentUser.username) {
-                                          handleReplyClick(
-                                            comment._id,
-                                            reply._id
-                                          );
-                                        } else {
-                                          handleReplyClick(
-                                            comment._id,
-                                            reply._id,
-                                            reply.author
-                                          );
+                                {editState.commentId === comment._id &&
+                                editState.replyId === reply._id ? (
+                                  renderEditForm(
+                                    comment._id,
+                                    reply._id,
+                                    reply.content
+                                  )
+                                ) : (
+                                  <>
+                                    <p className="comment-text">
+                                      {reply.content}
+                                    </p>
+                                    <motion.div
+                                      className="comment-actions"
+                                      variants={containerVariants}
+                                      initial="hidden"
+                                      animate="visible"
+                                    >
+                                      <motion.button
+                                        className={`comment-action like-button ${
+                                          reply.likes.includes(currentUser._id)
+                                            ? "liked"
+                                            : ""
+                                        }`}
+                                        onClick={() =>
+                                          toggleLike(comment._id, reply._id)
                                         }
-                                      }}
-                                      variants={buttonVariants}
-                                      whileHover={{ scale: 1.1 }}
-                                      whileTap={{ scale: 0.9 }}
-                                    >
-                                      <FaReply />
-                                      <span>Reply</span>
-                                    </motion.button>
+                                        variants={buttonVariants}
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.9 }}
+                                      >
+                                        {reply.likes.includes(
+                                          currentUser._id
+                                        ) ? (
+                                          <FaHeart />
+                                        ) : (
+                                          <FaRegHeart />
+                                        )}
+                                        <span>
+                                          {reply.likes.length > 0
+                                            ? reply.likes.length
+                                            : ""}
+                                        </span>
+                                      </motion.button>
 
-                                    {isCurrentUserContent(reply.author) && (
-                                      <>
-                                        <motion.button
-                                          className="comment-action edit-button"
-                                          onClick={() =>
-                                            handleEditClick(
-                                              comment._id,
-                                              reply._id,
-                                              reply.content
-                                            )
-                                          }
-                                          variants={buttonVariants}
-                                          whileHover={{ scale: 1.1 }}
-                                          whileTap={{ scale: 0.9 }}
-                                        >
-                                          <FaEdit />
-                                          <span>Edit</span>
-                                        </motion.button>
-                                        <motion.button
-                                          className="comment-action delete-button"
-                                          onClick={() =>
-                                            openDeleteModal(
-                                              "reply",
+                                      <motion.button
+                                        className="comment-action reply-button"
+                                        onClick={() => {
+                                          if (
+                                            reply.author ===
+                                            currentUser.username
+                                          ) {
+                                            handleReplyClick(
                                               comment._id,
                                               reply._id
-                                            )
+                                            );
+                                          } else {
+                                            handleReplyClick(
+                                              comment._id,
+                                              reply._id,
+                                              reply.author
+                                            );
                                           }
-                                          variants={buttonVariants}
-                                          whileHover={{ scale: 1.1 }}
-                                          whileTap={{ scale: 0.9 }}
-                                        >
-                                          <FaTrash />
-                                          <span>Delete</span>
-                                        </motion.button>
-                                      </>
-                                    )}
-                                  </motion.div>
-                                </>
-                              )}
+                                        }}
+                                        variants={buttonVariants}
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.9 }}
+                                      >
+                                        <FaReply />
+                                        <span>Reply</span>
+                                      </motion.button>
 
-                              {renderReplyForm(comment._id, reply._id)}
+                                      {isCurrentUserContent(reply.author) && (
+                                        <>
+                                          <motion.button
+                                            className="comment-action edit-button"
+                                            onClick={() =>
+                                              handleEditClick(
+                                                comment._id,
+                                                reply._id,
+                                                reply.content
+                                              )
+                                            }
+                                            variants={buttonVariants}
+                                            whileHover={{ scale: 1.1 }}
+                                            whileTap={{ scale: 0.9 }}
+                                          >
+                                            <FaEdit />
+                                            <span>Edit</span>
+                                          </motion.button>
+                                          <motion.button
+                                            className="comment-action delete-button"
+                                            onClick={() =>
+                                              openDeleteModal(
+                                                "reply",
+                                                comment._id,
+                                                reply._id
+                                              )
+                                            }
+                                            variants={buttonVariants}
+                                            whileHover={{ scale: 1.1 }}
+                                            whileTap={{ scale: 0.9 }}
+                                          >
+                                            <FaTrash />
+                                            <span>Delete</span>
+                                          </motion.button>
+                                        </>
+                                      )}
+                                    </motion.div>
+                                  </>
+                                )}
+                              </div>
                             </div>
+                            {renderReplyForm(comment._id, reply._id)}
                           </div>
                         </motion.div>
                       ))}
