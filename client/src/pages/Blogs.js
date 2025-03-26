@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import "../styles/Blogs.css";
 import Sidebar from "../components/sidebar/Sidebar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Loading from "../components/loading/Loading";
 import { usePostsStore } from "../store/usePostsStore";
 import BlogPost from "../components/blogpost/Blogpost";
@@ -31,6 +31,7 @@ const formatDate = (dateString) => {
 
 export default function Blogs() {
   const location = useLocation();
+  const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const categoryParam = searchParams.get("category");
 
@@ -57,6 +58,8 @@ export default function Blogs() {
   useEffect(() => {
     if (categoryParam && categories.includes(categoryParam)) {
       setActiveCategory(categoryParam);
+    } else if (!categoryParam) {
+      setActiveCategory("All");
     }
   }, [categoryParam, categories]);
 
@@ -70,6 +73,11 @@ export default function Blogs() {
   useEffect(() => {
     setCurrentPage(1);
   }, [activeCategory]);
+
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category);
+    navigate(`/blogs?category=${category}`);
+  };
 
   const headerVariants = {
     hidden: { opacity: 0, y: -50 },
@@ -149,7 +157,7 @@ export default function Blogs() {
               className={`category-btn ${
                 activeCategory === category ? "active" : ""
               }`}
-              onClick={() => setActiveCategory(category)}
+              onClick={() => handleCategoryChange(category)}
               variants={categoryVariants}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
