@@ -21,6 +21,7 @@ function Navbar() {
   const [openSearch, setOpenSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false); // New loading state
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -34,11 +35,14 @@ function Navbar() {
   };
 
   const confirmLogout = async () => {
+    setIsLoggingOut(true); // Start loading state
     try {
       await logout();
       setShowLogoutDialog(false);
     } catch (error) {
       console.error("Logout failed:", error);
+    } finally {
+      setIsLoggingOut(false); // End loading state
     }
   };
 
@@ -75,7 +79,7 @@ function Navbar() {
     visible: { opacity: 1, y: 0 },
   };
 
-  // Logout confirmation dialog (unchanged)
+  // Updated logout confirmation dialog with loading state
   const logoutDialog = (
     <Dialog
       open={showLogoutDialog}
@@ -115,6 +119,7 @@ function Navbar() {
           onClick={() => setShowLogoutDialog(false)}
           color="primary"
           variant="outlined"
+          disabled={isLoggingOut} // Disable when logging out
           component={motion.button}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -130,6 +135,7 @@ function Navbar() {
           onClick={confirmLogout}
           color="error"
           variant="contained"
+          disabled={isLoggingOut} // Disable when logging out
           component={motion.button}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -140,7 +146,7 @@ function Navbar() {
             backgroundColor: "#f44336",
           }}
         >
-          Logout
+          {isLoggingOut ? "Logging Out" : "Logout"} {/* Show "Logging Out" during process */}
         </Button>
       </DialogActions>
     </Dialog>
@@ -411,8 +417,8 @@ function Navbar() {
                     Settings
                   </Menu.Item>
                   <Menu.Item component={NavLink} to="/favourites">
-                      Favourites
-                    </Menu.Item>
+                    Favourites
+                  </Menu.Item>
                   <Menu.Item component={NavLink} onClick={handleLogoutClick}>
                     Logout
                   </Menu.Item>
