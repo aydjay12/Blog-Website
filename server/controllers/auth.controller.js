@@ -361,24 +361,17 @@ export const checkAuth = async (req, res) => {
  */
 export const logout = async (req, res) => {
   try {
-    // Clear the token cookie
     res.cookie("token", "", {
       httpOnly: true,
-      expires: new Date(0),
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "none", // Match login setting
+      expires: new Date(0), // Expire immediately
+      path: "/", // Ensure path matches
     });
-
-    res.status(200).json({
-      success: true,
-      message: "Logout successful",
-    });
+    res.status(200).json({ success: true, message: "Logout successful" });
   } catch (error) {
-    console.error("Error in logout controller:", error);
-    res.status(500).json({
-      success: false,
-      message: "Logout failed",
-    });
+    console.error("Error in logout:", error);
+    res.status(500).json({ success: false, message: "Logout failed" });
   }
 };
 
