@@ -10,7 +10,7 @@ import Loading from "./components/loading/Loading";
 
 const AppContent = () => {
   const location = useLocation();
-  const { checkAuth, isCheckingAuth, isLoggedOut } = useAuthStore();
+  const { checkAuth, isCheckingAuth } = useAuthStore();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   const authRoutes = [
@@ -34,13 +34,10 @@ const AppContent = () => {
     location.pathname.startsWith(route.split(":")[0])
   );
 
-  // Check authentication status on mount
+  // Check authentication status on mount only if not already checked
   useEffect(() => {
     const verifyAuth = async () => {
-      if (isLoggedOut) {
-        setIsAuthChecked(true); // Skip check if logged out
-        return;
-      }
+      if (isAuthChecked) return; // Skip if already checked
       try {
         await checkAuth();
         const { isAuthenticated } = useAuthStore.getState();
@@ -54,7 +51,7 @@ const AppContent = () => {
       }
     };
     verifyAuth();
-  }, [checkAuth, isLoggedOut]);
+  }, [checkAuth]);
 
   // Track the last visited non-auth page
   useEffect(() => {
