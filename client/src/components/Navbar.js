@@ -146,7 +146,7 @@ function Navbar() {
             backgroundColor: "#f44336",
           }}
         >
-          {isLoggingOut ? "Logging Out" : "Logout"} {/* Show "Logging Out" during process */}
+          {isLoggingOut ? "Logging out" : "Logout"} {/* Show "Logging Out" during process */}
         </Button>
       </DialogActions>
     </Dialog>
