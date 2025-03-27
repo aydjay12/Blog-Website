@@ -4,14 +4,14 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import AnimatedRoutes from "./components/AnimatedRoutes";
-import { useEffect, useState } from "react"; // Added useState
+import { useEffect, useState } from "react";
 import { useAuthStore } from "./store/useAuthStore";
 import Loading from "./components/loading/Loading";
 
 const AppContent = () => {
   const location = useLocation();
-  const { checkAuth, isCheckingAuth } = useAuthStore();
-  const [isAuthChecked, setIsAuthChecked] = useState(false); // Track when auth check is done
+  const { checkAuth, isCheckingAuth, isLoggedOut } = useAuthStore();
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   const authRoutes = [
     "/login",
@@ -37,11 +37,15 @@ const AppContent = () => {
   // Check authentication status on mount
   useEffect(() => {
     const verifyAuth = async () => {
+      if (isLoggedOut) {
+        setIsAuthChecked(true); // Skip check if logged out
+        return;
+      }
       try {
-        await checkAuth(); // Check if user is authenticated
+        await checkAuth();
         const { isAuthenticated } = useAuthStore.getState();
         if (isAuthenticated) {
-          await useAuthStore.getState().getProfile(); // Fetch profile if authenticated
+          await useAuthStore.getState().getProfile();
         }
       } catch (error) {
         console.log("Initial auth check or profile fetch failed:", error);
@@ -50,7 +54,7 @@ const AppContent = () => {
       }
     };
     verifyAuth();
-  }, [checkAuth]);
+  }, [checkAuth, isLoggedOut]);
 
   // Track the last visited non-auth page
   useEffect(() => {
@@ -59,12 +63,12 @@ const AppContent = () => {
     }
   }, [location.pathname, isAuthRoute, isAuthChecked]);
 
-  // If still checking auth, don't render anything yet (no flash)
+  // If still checking auth initially, show nothing briefly
   if (!isAuthChecked) {
-    return null; // Brief delay without a loading state for public routes
+    return null;
   }
 
-  // Show loading only for protected routes during checkAuth (shouldn't happen post-initial check)
+  // Show loading only for protected routes during checkAuth
   if (isCheckingAuth && isProtectedRoute) {
     return <Loading />;
   }
