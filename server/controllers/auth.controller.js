@@ -6,6 +6,7 @@ import cloudinary from "../lib/cloudinary.js";
 import { Post } from "../models/posts.model.js";
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
 import { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail, sendResetSuccessEmail } from "../nodemailer/emails.js";
+import jwt from "jsonwebtoken";
 
 /**
  * Register a new user (reader or blogger)
@@ -361,13 +362,17 @@ export const checkAuth = async (req, res) => {
  */
 export const logout = async (req, res) => {
   try {
+    const token = req.cookies.token;
+    if (token) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      await User.findByIdAndUpdate(decoded.userId, { revokedAt: new Date() });
+    }
     res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "none",
       path: "/",
     });
-    console.log("Cookie cleared on server");
     res.status(200).json({ success: true, message: "Logout successful" });
   } catch (error) {
     console.error("Error in logout:", error);
