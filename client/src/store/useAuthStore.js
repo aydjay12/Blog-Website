@@ -17,6 +17,7 @@ export const useAuthStore = create((set, get) => ({
   error: null,
   favorites: [], // Add favorites state
   favoritesLoading: false, // Add loading state for favorites operations
+  isLoggedOut: false,
 
   // Register user
   register: async (userData) => {
@@ -100,26 +101,23 @@ export const useAuthStore = create((set, get) => ({
 
   // Check authentication status
   checkAuth: async () => {
+    if (get().isLoggedOut) {
+      set({ isCheckingAuth: false });
+      return; // Skip if logged out
+    }
     set({ isCheckingAuth: true, error: null });
     try {
       const response = await axios.get(`${API_URL}/check-auth`);
       set({
-        user: {
-          ...response.data.user,
-          rememberMe: response.data.user.rememberMe,
-        },
+        user: { ...response.data.user, rememberMe: response.data.user.rememberMe },
         isAuthenticated: true,
         isCheckingAuth: false,
+        isLoggedOut: false, // Reset on successful auth
       });
-      await get().getFavorites(); // Fetch favorites after checking auth
+      await get().getFavorites();
       return response.data;
     } catch (error) {
-      set({
-        user: null,
-        isAuthenticated: false,
-        isCheckingAuth: false,
-        error: error.response?.data?.message || "Authentication check failed",
-      });
+      set({ user: null, isAuthenticated: false, isCheckingAuth: false });
       return null;
     }
   },
@@ -128,20 +126,17 @@ export const useAuthStore = create((set, get) => ({
   logout: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/logout`);
+      await axios.post(`${API_URL}/logout`);
       set({ 
         user: null,
         isAuthenticated: false,
         isLoading: false,
-        favorites: [] // Clear favorites on logout
+        isLoggedOut: true, // Set flag
+        favorites: []
       });
-      toast.success(response.data.message);
-      return response.data;
+      toast.success("Logout successful");
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Logout failed";
-      set({ isLoading: false, error: errorMessage });
-      toast.error(errorMessage);
-      throw error;
+      // Handle error
     }
   },
 
