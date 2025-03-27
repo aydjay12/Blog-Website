@@ -6,56 +6,30 @@ import { User } from "../models/user.model.js";
  * Extracts user information and attaches it to request object
  */
 export const verifyToken = async (req, res, next) => {
-  // Get token from either cookies, auth header, or query string
-  const token = 
-    req.cookies.token || 
-    (req.headers.authorization && req.headers.authorization.split(" ")[1]) ||
-    req.query.token;
-  
+  const token = req.cookies.token;
   if (!token) {
-    return res
-      .status(401)
-      .json({ success: false, message: "Unauthorized - No token provided" });
+    return res.status(401).json({ success: false, message: "Unauthorized - No token provided" });
   }
 
   try {
-    // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (!decoded) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Unauthorized - Invalid token" });
-    }
-
-    // Fetch user profile and exclude password
     const user = await User.findById(decoded.userId).select("-password");
 
     if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    // Update last login timestamp
-    await User.findByIdAndUpdate(user._id, { lastLogin: Date.now() });
+    // Check if token was revoked
+    if (user.revokedAt && new Date(user.revokedAt) > new Date(decoded.iat * 1000)) {
+      return res.status(401).json({ success: false, message: "Unauthorized - Token revoked" });
+    }
 
-    // Attach user data to request object
     req.user = user;
     req.userId = user._id;
-
     next();
   } catch (error) {
-    console.log("Error in verifyToken middleware", error);
-    
-    // Handle token expiration specifically
-    if (error.name === "TokenExpiredError") {
-      return res
-        .status(401)
-        .json({ success: false, message: "Token expired, please log in again" });
-    }
-    
-    return res.status(500).json({ success: false, message: "Server error" });
+    console.log("Error in verifyToken middleware:", error);
+    return res.status(401).json({ success: false, message: "Unauthorized - Invalid token" });
   }
 };
 
