@@ -49,6 +49,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    revokedAt: { type: Date, default: null },
     
     // Blogger specific fields
     displayName: {
