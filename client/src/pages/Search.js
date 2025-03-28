@@ -116,52 +116,50 @@ export default function Search() {
     }
   }, [results, hasSearched, isFilterSearchActive]);
 
-  useEffect(() => {
-  if (showTagDropdown) {
-    setFilteredTags(
-      tagInput.trim()
-        ? sortedAvailableTags.filter(tag => tag.toLowerCase().includes(tagInput.toLowerCase()) && !tags.includes(tag))
-        : sortedAvailableTags.filter(tag => !tags.includes(tag))
-    );
+  // Move filtering logic to a dedicated useEffect
+useEffect(() => {
+  setFilteredTags(
+    tagInput.trim()
+      ? sortedAvailableTags.filter(tag => tag.toLowerCase().includes(tagInput.toLowerCase()) && !tags.includes(tag))
+      : sortedAvailableTags.filter(tag => !tags.includes(tag))
+  );
+}, [tagInput, sortedAvailableTags, tags]); // Only depends on input and tags
 
-    const dropdown = document.querySelector('.tag-dropdown');
-    const tagInputElement = document.querySelector('.tag-search-input');
+// Separate useEffect for dropdown visibility and event handling
+useEffect(() => {
+  const dropdown = document.querySelector('.tag-dropdown');
+  const tagInputElement = document.querySelector('.tag-search-input');
 
-    if (dropdown && tagInputElement) {
-      // Handle initial focus to keep keyboard active
-      const handleFocus = () => {
-        setTimeout(() => {
-          // Ensure input stays focused after automatic scroll
-          tagInputElement.focus();
-          // Adjust page scroll to keep input visible
-          const inputRect = tagInputElement.getBoundingClientRect();
-          if (inputRect.bottom > window.innerHeight) {
-            window.scrollTo({
-              top: window.scrollY + (inputRect.bottom - window.innerHeight) + 10,
-              behavior: 'smooth'
-            });
-          }
-        }, 300); // Delay to match keyboard animation
-      };
-
-      // Dismiss keyboard and enable dropdown scrolling on touch scroll
-      const handleTouchMove = (e) => {
-        if (dropdown.contains(e.target)) {
-          tagInputElement.blur(); // Dismiss keyboard
-          dropdown.scrollTop = dropdown.scrollTop; // Ensure scroll persists
+  if (dropdown && tagInputElement && showTagDropdown) {
+    const handleFocus = () => {
+      setTimeout(() => {
+        tagInputElement.focus(); // Keep keyboard active
+        const inputRect = tagInputElement.getBoundingClientRect();
+        if (inputRect.bottom > window.innerHeight) {
+          window.scrollTo({
+            top: window.scrollY + (inputRect.bottom - window.innerHeight) + 10,
+            behavior: 'smooth'
+          });
         }
-      };
+      }, 300);
+    };
 
-      tagInputElement.addEventListener('focus', handleFocus);
-      dropdown.addEventListener('touchmove', handleTouchMove, { passive: true });
+    const handleTouchMove = (e) => {
+      if (dropdown.contains(e.target)) {
+        tagInputElement.blur(); // Dismiss keyboard
+        dropdown.scrollTop = dropdown.scrollTop; // Maintain scrollability
+      }
+    };
 
-      return () => {
-        tagInputElement.removeEventListener('focus', handleFocus);
-        dropdown.removeEventListener('touchmove', handleTouchMove);
-      };
-    }
+    tagInputElement.addEventListener('focus', handleFocus);
+    dropdown.addEventListener('touchmove', handleTouchMove, { passive: true });
+
+    return () => {
+      tagInputElement.removeEventListener('focus', handleFocus);
+      dropdown.removeEventListener('touchmove', handleTouchMove);
+    };
   }
-}, [tagInput, sortedAvailableTags, tags, showTagDropdown]);
+}, [showTagDropdown]); // Only depends on dropdown visibility
 
   useEffect(() => {
     window.scrollTo({ top: 460, behavior: "smooth" });
