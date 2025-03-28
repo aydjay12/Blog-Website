@@ -921,10 +921,10 @@
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   z-index: 10;
   margin-top: 5px;
-  -webkit-overflow-scrolling: touch; /* Enable smooth Webkit scrolling */
-  overscroll-behavior: contain; /* Prevent scroll bubbling */
-  touch-action: pan-y; /* Force vertical touch scrolling */
-  -webkit-user-select: none; /* Avoid selection interference */
+  -webkit-overflow-scrolling: touch; /* Enable Webkit scrolling */
+  overscroll-behavior: contain; /* Isolate scroll */
+  touch-action: pan-y; /* Allow vertical touch scrolling */
+  -webkit-user-select: none; /* Prevent selection interference */
   transform: translateZ(0); /* Hardware acceleration */
   pointer-events: auto; /* Keep interactive */
 }
