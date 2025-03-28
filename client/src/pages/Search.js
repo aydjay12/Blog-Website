@@ -124,25 +124,12 @@ export default function Search() {
         : sortedAvailableTags.filter(tag => !tags.includes(tag))
     );
 
-    // Adjust dropdown height only on mobile when keyboard is active
-    const adjustDropdownHeight = () => {
-      const dropdown = document.querySelector('.tag-dropdown');
-      if (dropdown && window.innerWidth <= 768) { // Apply only on mobile-sized screens
-        const inputRect = document.querySelector('.tag-search-input').getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
-        const availableHeight = viewportHeight - inputRect.bottom - 10; // 10px buffer
-        if (availableHeight < 200) { // Only adjust if keyboard reduces space
-          dropdown.style.maxHeight = `${Math.max(100, availableHeight)}px`; // Minimum 100px
-        } else {
-          dropdown.style.maxHeight = '200px'; // Reset to default on desktop or when space is sufficient
-        }
-      }
-    };
-
-    window.addEventListener('resize', adjustDropdownHeight);
-    adjustDropdownHeight(); // Initial call
-
-    return () => window.removeEventListener('resize', adjustDropdownHeight);
+    // Reset scroll state to ensure touch scrolling works
+    const dropdown = document.querySelector('.tag-dropdown');
+    if (dropdown) {
+      dropdown.scrollTop = 0; // Reset scroll position
+      dropdown.focus(); // Force focus to re-enable touch interaction
+    }
   }
 }, [tagInput, sortedAvailableTags, tags, showTagDropdown]);
 
