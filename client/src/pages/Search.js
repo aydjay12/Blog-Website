@@ -125,34 +125,42 @@ export default function Search() {
     );
 
     const dropdown = document.querySelector('.tag-dropdown');
-    if (dropdown) {
-      // Ensure dropdown stays scrollable
-      dropdown.scrollTop = 0; // Reset scroll position
-      dropdown.setAttribute('tabindex', '-1'); // Make it focusable
-      dropdown.focus(); // Force initial focus
+    const tagInputElement = document.querySelector('.tag-search-input');
 
-      // Prevent focus loss after page scroll
-      const keepDropdownScrollable = (e) => {
-        if (dropdown && !dropdown.contains(e.target)) {
-          dropdown.focus(); // Refocus dropdown on any outside interaction
+    if (dropdown && tagInputElement) {
+      // Make dropdown focusable
+      dropdown.setAttribute('tabindex', '-1');
+
+      // Handle automatic scroll on focus
+      const handleFocus = () => {
+        // Delay to catch automatic scroll after keyboard opens
+        setTimeout(() => {
+          dropdown.scrollTop = 0; // Reset dropdown scroll
+          dropdown.focus(); // Ensure dropdown is scrollable
+          // Optionally adjust page scroll to keep input visible without breaking dropdown
+          const inputRect = tagInputElement.getBoundingClientRect();
+          if (inputRect.bottom > window.innerHeight) {
+            window.scrollTo({
+              top: window.scrollY + (inputRect.bottom - window.innerHeight) + 10, // Small buffer
+              behavior: 'smooth'
+            });
+          }
+        }, 300); // Adjust delay if needed (matches keyboard animation)
+      };
+
+      // Re-focus on touch interaction to maintain scrollability
+      const handleTouchStart = (e) => {
+        if (dropdown.contains(e.target)) {
+          dropdown.focus();
         }
       };
 
-      // Re-focus on tag click to maintain scrollability
-      const handleTagClick = () => {
-        dropdown.focus();
-      };
-
-      document.addEventListener('touchmove', keepDropdownScrollable, { passive: false });
-      dropdown.querySelectorAll('.tag-dropdown-item').forEach(item => 
-        item.addEventListener('click', handleTagClick)
-      );
+      tagInputElement.addEventListener('focus', handleFocus);
+      dropdown.addEventListener('touchstart', handleTouchStart);
 
       return () => {
-        document.removeEventListener('touchmove', keepDropdownScrollable);
-        dropdown.querySelectorAll('.tag-dropdown-item').forEach(item => 
-          item.removeEventListener('click', handleTagClick)
-        );
+        tagInputElement.removeEventListener('focus', handleFocus);
+        dropdown.removeEventListener('touchstart', handleTouchStart);
       };
     }
   }
