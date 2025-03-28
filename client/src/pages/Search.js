@@ -117,14 +117,34 @@ export default function Search() {
   }, [results, hasSearched, isFilterSearchActive]);
 
   useEffect(() => {
-    if (showTagDropdown) {
-      setFilteredTags(
-        tagInput.trim()
-          ? sortedAvailableTags.filter(tag => tag.toLowerCase().includes(tagInput.toLowerCase()) && !tags.includes(tag))
-          : sortedAvailableTags.filter(tag => !tags.includes(tag))
-      );
-    }
-  }, [tagInput, sortedAvailableTags, tags, showTagDropdown]);
+  if (showTagDropdown) {
+    setFilteredTags(
+      tagInput.trim()
+        ? sortedAvailableTags.filter(tag => tag.toLowerCase().includes(tagInput.toLowerCase()) && !tags.includes(tag))
+        : sortedAvailableTags.filter(tag => !tags.includes(tag))
+    );
+
+    // Adjust dropdown height only on mobile when keyboard is active
+    const adjustDropdownHeight = () => {
+      const dropdown = document.querySelector('.tag-dropdown');
+      if (dropdown && window.innerWidth <= 768) { // Apply only on mobile-sized screens
+        const inputRect = document.querySelector('.tag-search-input').getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const availableHeight = viewportHeight - inputRect.bottom - 10; // 10px buffer
+        if (availableHeight < 200) { // Only adjust if keyboard reduces space
+          dropdown.style.maxHeight = `${Math.max(100, availableHeight)}px`; // Minimum 100px
+        } else {
+          dropdown.style.maxHeight = '200px'; // Reset to default on desktop or when space is sufficient
+        }
+      }
+    };
+
+    window.addEventListener('resize', adjustDropdownHeight);
+    adjustDropdownHeight(); // Initial call
+
+    return () => window.removeEventListener('resize', adjustDropdownHeight);
+  }
+}, [tagInput, sortedAvailableTags, tags, showTagDropdown]);
 
   useEffect(() => {
     window.scrollTo({ top: 460, behavior: "smooth" });
