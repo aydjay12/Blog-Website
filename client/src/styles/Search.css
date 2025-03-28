@@ -913,16 +913,18 @@
   top: 100%;
   left: 0;
   right: 0;
-  max-height: 200px;
-  overflow-y: auto;
+  max-height: 200px; /* Your original max-height for desktop */
+  overflow-y: scroll; /* Consistent scrollbar presence */
   background-color: white;
   border: 1px solid #e0e0e0;
   border-radius: 5px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   z-index: 10;
   margin-top: 5px;
-  -webkit-overflow-scrolling: touch; /* Add this line */
-    }
+  -webkit-overflow-scrolling: touch; /* Fix Webkit scrolling */
+  overscroll-behavior: contain; /* Isolate scroll behavior */
+  touch-action: pan-y; /* Enable vertical touch scrolling */
+}
   
   .tag-dropdown-item {
     padding: 8px 12px;
