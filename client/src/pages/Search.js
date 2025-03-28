@@ -124,11 +124,36 @@ export default function Search() {
         : sortedAvailableTags.filter(tag => !tags.includes(tag))
     );
 
-    // Reset scroll state to ensure touch scrolling works
     const dropdown = document.querySelector('.tag-dropdown');
     if (dropdown) {
+      // Ensure dropdown stays scrollable
       dropdown.scrollTop = 0; // Reset scroll position
-      dropdown.focus(); // Force focus to re-enable touch interaction
+      dropdown.setAttribute('tabindex', '-1'); // Make it focusable
+      dropdown.focus(); // Force initial focus
+
+      // Prevent focus loss after page scroll
+      const keepDropdownScrollable = (e) => {
+        if (dropdown && !dropdown.contains(e.target)) {
+          dropdown.focus(); // Refocus dropdown on any outside interaction
+        }
+      };
+
+      // Re-focus on tag click to maintain scrollability
+      const handleTagClick = () => {
+        dropdown.focus();
+      };
+
+      document.addEventListener('touchmove', keepDropdownScrollable, { passive: false });
+      dropdown.querySelectorAll('.tag-dropdown-item').forEach(item => 
+        item.addEventListener('click', handleTagClick)
+      );
+
+      return () => {
+        document.removeEventListener('touchmove', keepDropdownScrollable);
+        dropdown.querySelectorAll('.tag-dropdown-item').forEach(item => 
+          item.removeEventListener('click', handleTagClick)
+        );
+      };
     }
   }
 }, [tagInput, sortedAvailableTags, tags, showTagDropdown]);
