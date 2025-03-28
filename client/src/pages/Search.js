@@ -128,39 +128,36 @@ export default function Search() {
     const tagInputElement = document.querySelector('.tag-search-input');
 
     if (dropdown && tagInputElement) {
-      // Make dropdown focusable
-      dropdown.setAttribute('tabindex', '-1');
-
-      // Handle automatic scroll on focus
+      // Handle initial focus to keep keyboard active
       const handleFocus = () => {
-        // Delay to catch automatic scroll after keyboard opens
         setTimeout(() => {
-          dropdown.scrollTop = 0; // Reset dropdown scroll
-          dropdown.focus(); // Ensure dropdown is scrollable
-          // Optionally adjust page scroll to keep input visible without breaking dropdown
+          // Ensure input stays focused after automatic scroll
+          tagInputElement.focus();
+          // Adjust page scroll to keep input visible
           const inputRect = tagInputElement.getBoundingClientRect();
           if (inputRect.bottom > window.innerHeight) {
             window.scrollTo({
-              top: window.scrollY + (inputRect.bottom - window.innerHeight) + 10, // Small buffer
+              top: window.scrollY + (inputRect.bottom - window.innerHeight) + 10,
               behavior: 'smooth'
             });
           }
-        }, 300); // Adjust delay if needed (matches keyboard animation)
+        }, 300); // Delay to match keyboard animation
       };
 
-      // Re-focus on touch interaction to maintain scrollability
-      const handleTouchStart = (e) => {
+      // Dismiss keyboard and enable dropdown scrolling on touch scroll
+      const handleTouchMove = (e) => {
         if (dropdown.contains(e.target)) {
-          dropdown.focus();
+          tagInputElement.blur(); // Dismiss keyboard
+          dropdown.scrollTop = dropdown.scrollTop; // Ensure scroll persists
         }
       };
 
       tagInputElement.addEventListener('focus', handleFocus);
-      dropdown.addEventListener('touchstart', handleTouchStart);
+      dropdown.addEventListener('touchmove', handleTouchMove, { passive: true });
 
       return () => {
         tagInputElement.removeEventListener('focus', handleFocus);
-        dropdown.removeEventListener('touchstart', handleTouchStart);
+        dropdown.removeEventListener('touchmove', handleTouchMove);
       };
     }
   }
