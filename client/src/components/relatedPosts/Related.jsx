@@ -4,26 +4,21 @@ import "../../styles/Single.css";
 import { Link, useParams } from "react-router-dom";
 import { usePostsStore } from "../../store/usePostsStore";
 import Loading from "../../components/loading/Loading";
-
 const Related = () => {
   const { slug } = useParams(); // Get the slug from the URL
   const { relatedPosts, loadingRelated, fetchRelatedPosts } = usePostsStore();
-
   // Fetch related posts when the component mounts or slug changes
   useEffect(() => {
     if (slug) {
       fetchRelatedPosts(slug);
     }
   }, [slug, fetchRelatedPosts]);
-
   if (loadingRelated) {
     return <Loading />;
   }
-
   if (!relatedPosts.length) {
     return null; // Or display a message like "No related posts found"
   }
-
   return (
     <motion.div
       className="related-posts-section"
@@ -33,10 +28,9 @@ const Related = () => {
     >
       <h2 className="related-posts-title">You might also like</h2>
       <div className="related-posts-grid">
-        {relatedPosts.map((post, index) => {
+        {relatedPosts.slice(0, 3).map((post, index) => {
           // Limit categories to the first 2
           const displayedCategories = post.categories.slice(0, 2);
-
           return (
             <motion.div
               className="related-post-card"
@@ -69,7 +63,9 @@ const Related = () => {
                   </div>
                   <h3 className="related-post-title">{post.title}</h3>
                   <div className="related-post-meta">
-                    <span className="related-post-author">By {post.author}</span>
+                    <span className="related-post-author">
+                      By {post.author}
+                    </span>
                     <span className="related-post-date">
                       {new Date(post.publishedAt).toLocaleDateString("en-US", {
                         year: "numeric",
@@ -87,5 +83,4 @@ const Related = () => {
     </motion.div>
   );
 };
-
 export default Related;
