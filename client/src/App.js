@@ -38,6 +38,12 @@ const AppContent = () => {
   useEffect(() => {
     const verifyAuth = async () => {
       if (isAuthChecked) return; // Skip if already checked
+      
+      // Set a timeout to prevent infinite loading
+      const timeoutId = setTimeout(() => {
+        setIsAuthChecked(true);
+      }, 5000); // 5 second timeout
+      
       try {
         await checkAuth();
         const { isAuthenticated } = useAuthStore.getState();
@@ -47,6 +53,7 @@ const AppContent = () => {
       } catch (error) {
         console.log("Initial auth check or profile fetch failed:", error);
       } finally {
+        clearTimeout(timeoutId);
         setIsAuthChecked(true);
       }
     };
@@ -60,9 +67,9 @@ const AppContent = () => {
     }
   }, [location.pathname, isAuthRoute, isAuthChecked]);
 
-  // If still checking auth initially, show nothing briefly
+  // If still checking auth initially, show loading
   if (!isAuthChecked) {
-    return null;
+    return <Loading />;
   }
 
   // Show loading only for protected routes during checkAuth

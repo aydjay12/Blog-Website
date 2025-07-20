@@ -1,39 +1,30 @@
 import React from "react";
 
-const Loading = () => {
+const RouteLoading = () => {
   return (
     <div style={{
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      minHeight: "100vh",
-      backgroundColor: "#f8f9fa",
-      fontFamily: "Josefin Sans, sans-serif",
+      minHeight: "50vh",
+      padding: "2rem",
     }}>
       <div style={{
-        border: "4px solid #f3f3f3",
+        border: "3px solid #f3f3f3",
         borderRadius: "50%",
-        borderTop: "4px solid #be9656",
-        width: "50px",
-        height: "50px",
+        borderTop: "3px solid #be9656",
+        width: "30px",
+        height: "30px",
         animation: "spin 1s linear infinite",
-        marginBottom: "1rem",
-      }}></div>
-      <h2 style={{ 
-        color: "#333", 
         marginBottom: "0.5rem",
-        fontSize: "1.5rem",
-        fontWeight: "500"
-      }}>
-        Welcome to My Blog
-      </h2>
+      }}></div>
       <p style={{ 
         color: "#666", 
-        fontSize: "1rem",
+        fontSize: "0.9rem",
         margin: "0"
       }}>
-        Loading your experience...
+        Loading page...
       </p>
       <style jsx>{`
         @keyframes spin {
@@ -45,4 +36,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default RouteLoading; 

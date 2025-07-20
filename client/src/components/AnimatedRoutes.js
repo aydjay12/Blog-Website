@@ -1,27 +1,30 @@
-import React from "react";
-import Home from "../pages/Home";
-import Blogs from "../pages/Blogs";
-import Single from "../pages/Single";
-import Write from "../pages/Write";
-import Settings from "../pages/Settings";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import About from "../pages/About";
-import Contact from "../pages/Contact";
-import NotFound from "../pages/NotFound";
+import React, { Suspense, lazy } from "react";
 import { Routes, Route, useLocation, useNavigationType, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import ResetPassword from "../pages/ResetPassword";
-import OTPVerification from "../pages/OTPVerification";
-import NewPassword from "../pages/NewPassword";
-import Search from "../pages/Search";
-import Edit from "../pages/Edit";
-import Privacy from "../pages/Privacy";
-import TermsOfService from "../pages/Terms";
-import Favourites from "../pages/Favourites";
-import Author from "../pages/Author";
 import { useAuthStore } from "../store/useAuthStore";
 import Loading from "../components/loading/Loading";
+import RouteLoading from "../components/loading/RouteLoading";
+
+// Lazy load components for better performance
+const Home = lazy(() => import("../pages/Home"));
+const Blogs = lazy(() => import("../pages/Blogs"));
+const Single = lazy(() => import("../pages/Single"));
+const Write = lazy(() => import("../pages/Write"));
+const Settings = lazy(() => import("../pages/Settings"));
+const Login = lazy(() => import("../pages/Login"));
+const Register = lazy(() => import("../pages/Register"));
+const About = lazy(() => import("../pages/About"));
+const Contact = lazy(() => import("../pages/Contact"));
+const NotFound = lazy(() => import("../pages/NotFound"));
+const ResetPassword = lazy(() => import("../pages/ResetPassword"));
+const OTPVerification = lazy(() => import("../pages/OTPVerification"));
+const NewPassword = lazy(() => import("../pages/NewPassword"));
+const Search = lazy(() => import("../pages/Search"));
+const Edit = lazy(() => import("../pages/Edit"));
+const Privacy = lazy(() => import("../pages/Privacy"));
+const TermsOfService = lazy(() => import("../pages/Terms"));
+const Favourites = lazy(() => import("../pages/Favourites"));
+const Author = lazy(() => import("../pages/Author"));
 
 // Protected route component for authenticated users
 const ProtectedRoute = ({ children, redirectTo = "/login" }) => {
@@ -86,97 +89,99 @@ function AnimatedRoutes() {
   return (
     <AnimatePresence mode="wait">
       <ScrollToTopOnMount />
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/blogs" element={<Blogs />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/post/:slug" element={<Single />} /> {/* Updated route */}
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/terms" element={<TermsOfService />} />
-        <Route path="/author/:authorName" element={<Author />} />
+      <Suspense fallback={<RouteLoading />}>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/post/:slug" element={<Single />} /> {/* Updated route */}
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/author/:authorName" element={<Author />} />
 
-        {/* Auth routes */}
-        <Route
-          path="/register"
-          element={
-            <AuthRoute>
-              <Register />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <AuthRoute>
-              <Login />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/forgot-password"
-          element={
-            <AuthRoute>
-              <ResetPassword />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/new-password"
-          element={
-            <AuthRoute>
-              <NewPassword />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/verify-otp"
-          element={
-            <AuthRoute>
-              <OTPVerification />
-            </AuthRoute>
-          }
-        />
+          {/* Auth routes */}
+          <Route
+            path="/register"
+            element={
+              <AuthRoute>
+                <Register />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <AuthRoute>
+                <Login />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/forgot-password"
+            element={
+              <AuthRoute>
+                <ResetPassword />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/new-password"
+            element={
+              <AuthRoute>
+                <NewPassword />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/verify-otp"
+            element={
+              <AuthRoute>
+                <OTPVerification />
+              </AuthRoute>
+            }
+          />
 
-        {/* Protected routes */}
-        <Route
-          path="/favourites"
-          element={
-            <ProtectedRoute>
-              <Favourites />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
-        />
+          {/* Protected routes */}
+          <Route
+            path="/favourites"
+            element={
+              <ProtectedRoute>
+                <Favourites />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Blogger routes */}
-        <Route
-          path="/write"
-          element={
-            <BloggerRoute>
-              <Write />
-            </BloggerRoute>
-          }
-        />
-        <Route
-          path="/edit/:slug"
-          element={
-            <BloggerRoute>
-              <Edit />
-            </BloggerRoute>
-          }
-        />
+          {/* Blogger routes */}
+          <Route
+            path="/write"
+            element={
+              <BloggerRoute>
+                <Write />
+              </BloggerRoute>
+            }
+          />
+          <Route
+            path="/edit/:slug"
+            element={
+              <BloggerRoute>
+                <Edit />
+              </BloggerRoute>
+            }
+          />
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </AnimatePresence>
   );
 }
