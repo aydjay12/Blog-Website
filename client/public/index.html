@@ -9,6 +9,14 @@
       name="description"
       content="Web site created using create-react-app"
     />
+    
+    <!-- DNS prefetch for API domain -->
+    <link rel="dns-prefetch" href="https://blog-website-a1ux.onrender.com">
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <link
       href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Rajdhani:wght@300;400;500;600;700&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Varela&family=Varela+Round&display=swap"
       rel="stylesheet"
@@ -22,9 +30,6 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>My Blog</title>
-    <meta name="description" content="A modern blog website with engaging content and user-friendly interface" />
-    <link rel="preconnect" href="https://blog-website-a1ux.onrender.com" />
-    <link rel="dns-prefetch" href="https://blog-website-a1ux.onrender.com" />
     <script type="text/javascript">
       // Single Page Apps for GitHub Pages
       // MIT License
@@ -56,6 +61,64 @@
     <!-- End Single Page Apps for GitHub Pages -->
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Initial loading spinner while React loads -->
+      <div id="initial-loading" style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-color: #f8f9fa;
+        font-family: 'Josefin Sans', sans-serif;
+      ">
+        <div style="
+          border: 3px solid #f3f3f3;
+          border-radius: 50%;
+          border-top: 3px solid #be9656;
+          width: 50px;
+          height: 50px;
+          animation: spin 1s linear infinite;
+          margin-bottom: 1rem;
+        "></div>
+        <p style="
+          color: #333;
+          font-size: 1.1rem;
+          font-weight: 500;
+          margin: 0;
+          text-align: center;
+        ">Loading...</p>
+        <p style="
+          color: #666;
+          font-size: 0.9rem;
+          margin: 0.5rem 0 0 0;
+          text-align: center;
+          max-width: 300px;
+        ">
+          Please wait while we prepare your experience...
+        </p>
+      </div>
+    </div>
+    
+    <style>
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Hide initial loading when React app is ready */
+      .react-loaded #initial-loading {
+        display: none;
+      }
+    </style>
+    
+    <script>
+      // Hide initial loading when React app is ready
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          document.body.classList.add('react-loaded');
+        }, 100);
+      });
+    </script>
   </body>
 </html>

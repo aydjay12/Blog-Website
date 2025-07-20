@@ -12,6 +12,7 @@ const AppContent = () => {
   const location = useLocation();
   const { checkAuth, isCheckingAuth } = useAuthStore();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const authRoutes = [
     "/login",
@@ -39,22 +40,25 @@ const AppContent = () => {
     const verifyAuth = async () => {
       if (isAuthChecked) return; // Skip if already checked
       
-      // Set a timeout to prevent infinite loading
+      // Set a timeout to prevent indefinite waiting (reduced from 10s to 6s)
       const timeoutId = setTimeout(() => {
         setIsAuthChecked(true);
-      }, 5000); // 5 second timeout
-      
+        setIsInitialLoading(false);
+      }, 6000); // 6 second timeout
+
       try {
         await checkAuth();
         const { isAuthenticated } = useAuthStore.getState();
         if (isAuthenticated) {
-          await useAuthStore.getState().getProfile();
+          // Don't wait for profile fetch - do it in background
+          useAuthStore.getState().getProfile().catch(console.error);
         }
       } catch (error) {
-        console.log("Initial auth check or profile fetch failed:", error);
+        console.log("Initial auth check failed:", error);
       } finally {
         clearTimeout(timeoutId);
         setIsAuthChecked(true);
+        setIsInitialLoading(false);
       }
     };
     verifyAuth();
@@ -67,8 +71,8 @@ const AppContent = () => {
     }
   }, [location.pathname, isAuthRoute, isAuthChecked]);
 
-  // If still checking auth initially, show loading
-  if (!isAuthChecked) {
+  // Show loading during initial auth check
+  if (isInitialLoading) {
     return <Loading />;
   }
 

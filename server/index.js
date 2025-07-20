@@ -17,11 +17,24 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cookieParser());
-// app.use(cors({ origin: "https://rentupgold.onrender.com", credentials: true }));
+
+// Configure CORS for both development and production
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://blog-website-kappa-roan.vercel.app"
+];
+
 app.use(cors({ 
-  origin: process.env.NODE_ENV === "production" 
-    ? ["https://blog-website-kappa-roan.vercel.app", "http://localhost:3000"]
-    : "http://localhost:3000", 
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true 
 }));
 
@@ -36,15 +49,6 @@ cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-// Health check endpoint
-app.get("/health", (req, res) => {
-  res.status(200).json({ 
-    status: "OK", 
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime()
-  });
 });
 
 app.use("/api/auth", authRoute(upload));
