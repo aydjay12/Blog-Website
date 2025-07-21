@@ -7,7 +7,7 @@ import {
   
   export const sendVerificationEmail = async (email, verificationToken) => {
 	const mailOptions = {
-	  from: `"${sender.name}" <${sender.email}>`, // Sender format: "RentUp <your.email@gmail.com>"
+	  from: `"${sender.name}" <${sender.email}>`, // Sender format: "My Blogs <your.email@gmail.com>"
 	  to: email, // Direct email string (NodeMailer accepts string or array)
 	  subject: "Verify your email",
 	  html: VERIFICATION_EMAIL_TEMPLATE.replace("{verificationCode}", verificationToken),
@@ -26,24 +26,24 @@ import {
 	const mailOptions = {
 	  from: `"${sender.name}" <${sender.email}>`,
 	  to: email,
-	  subject: "Welcome to RentUp!",
+	  subject: "Welcome to My Blogs!",
 	  html: `
 		<!DOCTYPE html>
 		<html lang="en">
 		<head>
 		  <meta charset="UTF-8">
 		  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		  <title>Welcome to RentUp</title>
+		  <title>Welcome to My Blogs</title>
 		</head>
 		<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
 		  <div style="background: linear-gradient(to right, #4CAF50, #45a049); padding: 20px; text-align: center;">
-			<h1 style="color: white; margin: 0;">Welcome to RentUp!</h1>
+			<h1 style="color: white; margin: 0;">Welcome to My Blogs!</h1>
 		  </div>
 		  <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
 			<p>Hello ${name},</p>
-			<p>We're thrilled to have you on board! Thank you for joining RentUp.</p>
+			<p>We're thrilled to have you on board! Thank you for joining My Blogs.</p>
 			<p>Get started by exploring our platform and let us know if you need any assistance.</p>
-			<p>Best regards,<br>The RentUp Team</p>
+			<p>Best regards,<br>The My Blogs Team</p>
 		  </div>
 		  <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
 			<p>This is an automated message, please do not reply to this email.</p>
