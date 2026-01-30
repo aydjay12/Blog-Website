@@ -53,7 +53,6 @@ export default function Search() {
   const { posts, loadingPost, error, fetchPosts } = usePostsStore();
   const location = useLocation();
   const navigate = useNavigate();
-  const searchRef = useRef(null);
 
   const categoryOptions = useMemo(
     () => [
@@ -118,14 +117,14 @@ export default function Search() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const queryFromUrl = params.get("query");
-    if (queryFromUrl && searchRef.current) {
+    if (queryFromUrl && search) {
       const decoded = decodeURIComponent(queryFromUrl);
       setQuery(decoded);
-      searchRef.current(decoded, false, true);
+      search(decoded, false, true);
       setTimeout(() => scrollToResults(), 100);
       setTimeout(() => scrollToAdvancedFilterResults(), 100);
     }
-  }, [location.search, posts]); // Removed search from dependencies to avoid loop
+  }, [location.search, posts, search]);
 
   useEffect(() => {
     if (results.length > 0 && searchResultsRef.current && hasSearched) {
@@ -205,7 +204,7 @@ export default function Search() {
 
   // Search function
   const search = React.useCallback((
-    searchText = query,
+    searchText,
     resetFilters = false,
     skipRecentUpdate = false,
     isFilterSearch = false
@@ -249,8 +248,9 @@ export default function Search() {
     setResults(filteredResults);
 
     // Update recent searches only if the search text is not empty and not already in the list
-    if (searchText && searchText.trim() && !recentSearches.includes(searchText)) {
+    if (searchText && searchText.trim()) {
       setRecentSearches((prevSearches) => {
+        if (prevSearches.includes(searchText)) return prevSearches;
         const updated = [
           searchText,
           ...prevSearches.filter((term) => term !== searchText).slice(0, 4),
@@ -272,17 +272,12 @@ export default function Search() {
     } else {
       scrollToResults();
     }
-  }, [query, categories, tags, posts, recentSearches, navigate]);
-
-  // Keep searchRef updated
-  useEffect(() => {
-    searchRef.current = search;
-  }, [search]);
+  }, [categories, tags, posts, navigate]); // Removed query and recentSearches from dependencies to avoid loop
 
   // Event handlers
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (query.trim()) search();
+    if (query.trim()) search(query);
   };
 
   const toggleCategory = (category) => {
