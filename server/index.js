@@ -56,6 +56,16 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// Middleware to ensure DB is connected before processing requests
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Database connection error" });
+  }
+});
+
 app.use("/api/auth", authRoute(upload));
 app.use("/api/posts", postsRoute);
 app.use("/api/comments", commentsRoute);
@@ -69,10 +79,6 @@ export default app;
 
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
-    connectDB();
     console.log(`Server is running on port ${PORT}`);
   });
-} else {
-  // In production (Vercel), we still need to connect to DB
-  connectDB();
 }
