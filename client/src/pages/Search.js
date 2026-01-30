@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../styles/Search.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { usePostsStore } from "../store/usePostsStore";
 import BlogPost from "../components/blogpost/Blogpost";
 import Loading from "../components/loading/Loading";
@@ -14,17 +14,7 @@ const stripHtml = (html, maxLength = 150) => {
   return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 };
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffInMs = now - date;
-  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-  if (diffInDays === 0) return "Today";
-  if (diffInDays === 1) return "1 day ago";
-  if (diffInDays < 7) return `${diffInDays} days ago`;
-  const diffInWeeks = Math.floor(diffInDays / 7);
-  return diffInWeeks === 1 ? "1 week ago" : `${diffInWeeks} weeks ago`;
-};
+
 
 // Animation variants
 const animations = {
@@ -125,8 +115,8 @@ export default function Search() {
   }, []);
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const queryFromUrl = searchParams.get("query");
+    const params = new URLSearchParams(location.search);
+    const queryFromUrl = params.get("query");
     if (queryFromUrl) {
       const decoded = decodeURIComponent(queryFromUrl);
       setQuery(decoded);
@@ -134,7 +124,7 @@ export default function Search() {
       setTimeout(() => scrollToResults(), 100);
       setTimeout(() => scrollToAdvancedFilterResults(), 100);
     }
-  }, [location.search, posts]);
+  }, [location.search, posts, search]);
 
   useEffect(() => {
     if (results.length > 0 && searchResultsRef.current && hasSearched) {
@@ -182,7 +172,7 @@ export default function Search() {
       const handleTouchMove = (e) => {
         if (dropdown.contains(e.target)) {
           tagInputElement.blur(); // Dismiss keyboard
-          dropdown.scrollTop = dropdown.scrollTop; // Maintain scrollability
+          dropdown.scrollTop = dropdown.scrollTop + 0; // Maintain scrollability helper (trigger)
         }
       };
 
@@ -213,7 +203,7 @@ export default function Search() {
   }, []);
 
   // Search function
-  const search = (
+  const search = React.useCallback((
     searchText = query,
     resetFilters = false,
     skipRecentUpdate = false,
@@ -281,7 +271,7 @@ export default function Search() {
     } else {
       scrollToResults();
     }
-  };
+  }, [query, categories, tags, posts, recentSearches, navigate]);
 
   // Event handlers
   const handleSubmit = (e) => {

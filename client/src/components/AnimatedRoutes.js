@@ -56,7 +56,6 @@ const BloggerRoute = ({ children, redirectTo = "/" }) => {
 // Redirect if authenticated
 const AuthRoute = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
-  const location = useLocation();
 
   const lastVisitedPage = localStorage.getItem("lastVisitedPage") || "/";
 

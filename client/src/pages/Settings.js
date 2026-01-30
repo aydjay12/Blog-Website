@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCamera, FaSave, FaEdit } from "react-icons/fa";
-import { CircleUserRound, Loader } from "lucide-react";
+import { Loader } from "lucide-react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -23,7 +23,6 @@ export default function Settings() {
     updateProfile,
     uploadProfileImage,
     logout,
-    isLoading: storeLoading, // Rename to avoid confusion
     error,
   } = useAuthStore();
 
@@ -609,11 +608,10 @@ export default function Settings() {
                           {availableCategories.map((category) => (
                             <div
                               key={category}
-                              className={`category-chip ${
-                                formData.categories.includes(category)
+                              className={`category-chip ${formData.categories.includes(category)
                                   ? "selected"
                                   : ""
-                              }`}
+                                }`}
                               onClick={() =>
                                 !isProfileLoading &&
                                 handleCategoryToggle(category)

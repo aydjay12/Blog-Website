@@ -105,7 +105,7 @@ const OTPVerification = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = React.useCallback(async (e) => {
     if (e) e.preventDefault();
 
     if (!user?.email) {
@@ -121,13 +121,13 @@ const OTPVerification = () => {
     } catch (err) {
       setLocalError(err.response?.data?.message || "Invalid verification code. Please try again.");
     }
-  };
+  }, [user, code, verifyEmail, navigate, previousPage]);
 
   useEffect(() => {
     if (code.every((digit) => digit !== "")) {
       handleSubmit();
     }
-  }, [code]);
+  }, [code, handleSubmit]);
 
   return (
     <motion.div

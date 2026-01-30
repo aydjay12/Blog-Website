@@ -38,7 +38,7 @@ export default function Write() {
 
   const navigate = useNavigate();
   const { createPost, uploadPostImage, loadingPost } = usePostsStore();
-  const { currentUser, isAuthenticated } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
 
   const categories = [
     "Technology",
@@ -196,9 +196,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel t
         cursorOffset = selection ? -8 : -23;
         break;
       case "list":
-        formattedText = `\n\n* ${
-          selection || "List item 1"
-        }\n* List item 2\n* List item 3\n\n`;
+        formattedText = `\n\n* ${selection || "List item 1"
+          }\n* List item 2\n* List item 3\n\n`;
         cursorOffset = selection ? 0 : -34;
         break;
       default:
@@ -339,7 +338,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel t
     showSuccess("Draft saved successfully!", "draft");
   };
 
-  const loadDraft = () => {
+  const loadDraft = React.useCallback(() => {
     const savedDraft = localStorage.getItem("blogDraft");
     if (savedDraft) {
       try {
@@ -363,14 +362,14 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel t
       showError("No draft found");
       return false;
     }
-  };
+  }, []);
 
   useEffect(() => {
     const checkForDraft = () => localStorage.getItem("blogDraft") !== null;
     if (checkForDraft() && title === "" && content === "") {
       loadDraft();
     }
-  }, []);
+  }, [title, content, loadDraft]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -451,9 +450,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel t
           </motion.div>
 
           <motion.div
-            className={`form-group category-section ${
-              validationErrors.categories ? "validation-error" : ""
-            }`}
+            className={`form-group category-section ${validationErrors.categories ? "validation-error" : ""
+              }`}
             variants={sectionVariants}
           >
             <div className="category-label">
@@ -469,9 +467,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel t
                 <motion.button
                   type="button"
                   key={index}
-                  className={`category-tag ${
-                    selectedCategories.includes(category) ? "active" : ""
-                  }`}
+                  className={`category-tag ${selectedCategories.includes(category) ? "active" : ""
+                    }`}
                   onClick={() => toggleCategory(category)}
                   variants={sectionVariants}
                   whileHover={{ scale: 1.05 }}
@@ -489,9 +486,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel t
           </motion.div>
 
           <motion.div
-            className={`form-group tags-section ${
-              validationErrors.tags ? "validation-error" : ""
-            }`}
+            className={`form-group tags-section ${validationErrors.tags ? "validation-error" : ""
+              }`}
             variants={sectionVariants}
           >
             <div className="tags-label">

@@ -8,28 +8,6 @@ import { useAuthStore } from "../store/useAuthStore";
 import Loading from "../components/loading/Loading"; // Assuming you have this component
 import BlogPost from "../components/blogpost/Blogpost";
 
-// Utility function to strip HTML tags and truncate text
-const stripHtml = (html, maxLength = 150) => {
-  const tempDiv = document.createElement("div");
-  tempDiv.innerHTML = html;
-  const text = tempDiv.textContent || tempDiv.innerText || "";
-  return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-};
-
-// Utility function to format date as "X days ago"
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffInMs = now - date;
-  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-
-  if (diffInDays === 0) return "Today";
-  if (diffInDays === 1) return "1 day ago";
-  if (diffInDays < 7) return `${diffInDays} days ago`;
-  const diffInWeeks = Math.floor(diffInDays / 7);
-  return diffInWeeks === 1 ? "1 week ago" : `${diffInWeeks} weeks ago`;
-};
-
 export default function Author() {
   const { authorName } = useParams();
   const [authorPosts, setAuthorPosts] = useState([]);
@@ -76,7 +54,7 @@ export default function Author() {
       if (
         currentUser &&
         currentUser.displayName.toLowerCase() ===
-          decodedAuthorName.toLowerCase()
+        decodedAuthorName.toLowerCase()
       ) {
         setAuthor({
           author: currentUser.displayName,
@@ -293,9 +271,8 @@ export default function Author() {
                             {Array.from({ length: totalPages }, (_, i) => (
                               <motion.button
                                 key={i + 1}
-                                className={`pagination-btn ${
-                                  currentPage === i + 1 ? "active" : ""
-                                }`}
+                                className={`pagination-btn ${currentPage === i + 1 ? "active" : ""
+                                  }`}
                                 onClick={() => setCurrentPage(i + 1)}
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}

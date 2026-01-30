@@ -10,7 +10,7 @@ import { useAuthStore } from "../store/useAuthStore"; // Adjust the path as need
 export default function Register() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { register, isLoading, error, clearError } = useAuthStore();
+  const { register, isLoading, clearError } = useAuthStore();
   const [isReader, setIsReader] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -73,7 +73,7 @@ export default function Register() {
       ...commonData,
       [name]: value,
     });
-  
+
     if (errors[name] || errors.submit) {
       setErrors({
         ...errors,
@@ -82,14 +82,14 @@ export default function Register() {
       });
     }
   };
-  
+
   const handleBloggerInputChange = (e) => {
     const { name, value } = e.target;
     setBloggerData({
       ...bloggerData,
       [name]: value,
     });
-  
+
     if (errors[name] || errors.submit) {
       setErrors({
         ...errors,
@@ -158,7 +158,7 @@ export default function Register() {
       setErrors(validationErrors);
       return;
     }
-  
+
     try {
       const userData = {
         username: commonData.username,
@@ -177,12 +177,12 @@ export default function Register() {
       );
       navigate("/verify-otp");
     } catch (err) {
-      setErrors({ 
-        submit: err.response?.data?.message || "Failed to register. Please try again." 
+      setErrors({
+        submit: err.response?.data?.message || "Failed to register. Please try again."
       });
     }
   };
-  
+
   const handleBloggerSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateBloggerForm();
@@ -190,7 +190,7 @@ export default function Register() {
       setErrors(validationErrors);
       return;
     }
-  
+
     try {
       const userData = {
         username: commonData.username,
@@ -212,8 +212,8 @@ export default function Register() {
       );
       navigate("/verify-otp");
     } catch (err) {
-      setErrors({ 
-        submit: err.response?.data?.message || "Failed to register. Please try again." 
+      setErrors({
+        submit: err.response?.data?.message || "Failed to register. Please try again."
       });
     }
   };
@@ -407,11 +407,10 @@ export default function Register() {
                   {availableCategories.map((category) => (
                     <div
                       key={category}
-                      className={`category-chip ${
-                        bloggerData.categories.includes(category)
+                      className={`category-chip ${bloggerData.categories.includes(category)
                           ? "selected"
                           : ""
-                      }`}
+                        }`}
                       onClick={() =>
                         !isLoading && handleCategoryToggle(category)
                       }

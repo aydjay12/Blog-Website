@@ -2,7 +2,6 @@ import { useLocation } from "react-router";
 import { motion } from "framer-motion";
 import Header from "../components/header/Header";
 import Posts from "../components/posts/Posts";
-import Sidebar from "../components/sidebar/Sidebar";
 import "../styles/Home.css";
 import { useEffect } from "react";
 

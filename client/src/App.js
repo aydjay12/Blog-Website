@@ -39,7 +39,7 @@ const AppContent = () => {
   useEffect(() => {
     const verifyAuth = async () => {
       if (isAuthChecked) return; // Skip if already checked
-      
+
       // Set a timeout to prevent indefinite waiting (reduced from 10s to 6s)
       const timeoutId = setTimeout(() => {
         setIsAuthChecked(true);
@@ -62,7 +62,7 @@ const AppContent = () => {
       }
     };
     verifyAuth();
-  }, [checkAuth]);
+  }, [checkAuth, isAuthChecked]);
 
   // Track the last visited non-auth page
   useEffect(() => {

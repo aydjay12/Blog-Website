@@ -1,33 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import "../styles/Blogs.css";
-import Sidebar from "../components/sidebar/Sidebar";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../components/loading/Loading";
 import { usePostsStore } from "../store/usePostsStore";
 import BlogPost from "../components/blogpost/Blogpost";
 
-// Utility function to strip HTML tags and truncate text
-const stripHtml = (html, maxLength = 150) => {
-  const tempDiv = document.createElement("div");
-  tempDiv.innerHTML = html;
-  const text = tempDiv.textContent || tempDiv.innerText || "";
-  return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-};
-
-// Utility function to format date as "X days ago"
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffInMs = now - date;
-  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-
-  if (diffInDays === 0) return "Today";
-  if (diffInDays === 1) return "1 day ago";
-  if (diffInDays < 7) return `${diffInDays} days ago`;
-  const diffInWeeks = Math.floor(diffInDays / 7);
-  return diffInWeeks === 1 ? "1 week ago" : `${diffInWeeks} weeks ago`;
-};
+const categories = [
+  "All",
+  "Technology",
+  "Travel",
+  "Lifestyle",
+  "Health",
+  "Business",
+  "Creativity",
+];
 
 export default function Blogs() {
   const location = useLocation();
@@ -41,15 +28,7 @@ export default function Blogs() {
 
   const { posts, loadingPost, error, fetchPosts } = usePostsStore();
 
-  const categories = [
-    "All",
-    "Technology",
-    "Travel",
-    "Lifestyle",
-    "Health",
-    "Business",
-    "Creativity",
-  ];
+
 
   useEffect(() => {
     fetchPosts();
@@ -61,7 +40,7 @@ export default function Blogs() {
     } else if (!categoryParam) {
       setActiveCategory("All");
     }
-  }, [categoryParam, categories]);
+  }, [categoryParam]);
 
   useEffect(() => {
     window.scrollTo({
@@ -89,10 +68,7 @@ export default function Blogs() {
     visible: { opacity: 1, scale: 1 },
   };
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
+
 
   const containerVariants = {
     hidden: { opacity: 0 },
