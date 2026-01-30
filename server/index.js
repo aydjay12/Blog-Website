@@ -14,11 +14,6 @@ dotenv.config();
 
 const app = express();
 
-// Health check route for keeping the server awake
-app.get("/ping", (req, res) => {
-  res.status(200).send("pong");
-});
-
 const PORT = process.env.PORT || 3000;
 
 app.use(cookieParser());
