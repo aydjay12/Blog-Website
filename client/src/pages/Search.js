@@ -110,8 +110,18 @@ export default function Search() {
   }, [fetchPosts]);
 
   useEffect(() => {
-    const saved = localStorage.getItem("recentSearches");
-    if (saved) setRecentSearches(JSON.parse(saved));
+    try {
+      const saved = localStorage.getItem("recentSearches");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setRecentSearches(parsed);
+        }
+      }
+    } catch (e) {
+      console.error("Failed to parse recent searches", e);
+      localStorage.removeItem("recentSearches");
+    }
   }, []);
 
   useEffect(() => {
@@ -220,7 +230,7 @@ export default function Search() {
       usingTags: tags.length > 0,
     });
 
-    const filteredResults = posts.filter((post) => {
+    const filteredResults = Array.isArray(posts) ? posts.filter((post) => {
       const queryLower = (searchText || "").toLowerCase();
       const matchesQuery =
         (post.title?.toLowerCase() || "").includes(queryLower) ||
@@ -243,17 +253,18 @@ export default function Search() {
         tags.length === 0 ||
         tags.every((tag) => (post.tags || []).includes(tag));
       return matchesQuery && matchesCategory && matchesTags;
-    });
+    }) : [];
 
     setResults(filteredResults);
 
     // Update recent searches only if the search text is not empty and not already in the list
     if (searchText && searchText.trim()) {
       setRecentSearches((prevSearches) => {
-        if (prevSearches.includes(searchText)) return prevSearches;
+        const currentSearches = Array.isArray(prevSearches) ? prevSearches : [];
+        if (currentSearches.includes(searchText)) return currentSearches;
         const updated = [
           searchText,
-          ...prevSearches.filter((term) => term !== searchText).slice(0, 4),
+          ...currentSearches.filter((term) => term !== searchText).slice(0, 4),
         ];
         localStorage.setItem("recentSearches", JSON.stringify(updated));
         return updated;
