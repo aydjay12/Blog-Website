@@ -62,6 +62,8 @@ export default function Single() {
   // Fetch post
   useEffect(() => {
     const fetchData = async () => {
+      // Immediately scroll to top when navigating to a new post
+      window.scrollTo({ top: 0, behavior: "instant" });
       setHasFetchedPost(false);
       await fetchPostBySlug(slug);
       setHasFetchedPost(true);
@@ -78,9 +80,12 @@ export default function Single() {
     }
   }, [isAuthenticated, hasFetchedPost, currentPost?._id, checkIsAuthor]);
 
+  // Scroll to top after post has loaded
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+    if (hasFetchedPost && currentPost) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [hasFetchedPost, currentPost]);
 
   useEffect(() => {
     if (deleteSuccess) {

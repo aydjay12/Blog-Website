@@ -97,25 +97,25 @@ export const useAuthStore = create((set, get) => ({
   // Check authentication status
   checkAuth: async () => {
     const state = get();
-    
+
     // Check if we've recently checked auth (within last 5 minutes)
     if (state.lastAuthCheck && Date.now() - state.lastAuthCheck < 5 * 60 * 1000) {
       return state.isAuthenticated ? { user: state.user } : null;
     }
-    
+
     set({ isCheckingAuth: true, error: null });
-    
+
     // Create a timeout promise
     const timeoutPromise = new Promise((_, reject) => {
       setTimeout(() => reject(new Error('Request timeout')), 8000); // 8 second timeout
     });
-    
+
     try {
       const response = await Promise.race([
         axios.get(`${API_URL}/check-auth`),
         timeoutPromise
       ]);
-      
+
       set({
         user: { ...response.data.user, rememberMe: response.data.user.rememberMe },
         isAuthenticated: true,
@@ -126,10 +126,10 @@ export const useAuthStore = create((set, get) => ({
       return response.data;
     } catch (error) {
       console.log("Auth check failed:", error.message);
-      set({ 
-        user: null, 
-        isAuthenticated: false, 
-        isCheckingAuth: false, 
+      set({
+        user: null,
+        isAuthenticated: false,
+        isCheckingAuth: false,
         error: null,
         lastAuthCheck: Date.now(),
       });

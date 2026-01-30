@@ -151,10 +151,10 @@ export default function Search() {
     setFilteredTags(
       tagInput.trim()
         ? sortedAvailableTags.filter(
-            (tag) =>
-              tag.toLowerCase().includes(tagInput.toLowerCase()) &&
-              !tags.includes(tag)
-          )
+          (tag) =>
+            tag.toLowerCase().includes(tagInput.toLowerCase()) &&
+            !tags.includes(tag)
+        )
         : sortedAvailableTags.filter((tag) => !tags.includes(tag))
     );
   }, [tagInput, sortedAvailableTags, tags]); // Only depends on input and tags
@@ -402,9 +402,8 @@ export default function Search() {
                       {categoryOptions.map((category) => (
                         <motion.button
                           key={category}
-                          className={`category-btn ${
-                            categories.includes(category) ? "active" : ""
-                          }`}
+                          className={`category-btn ${categories.includes(category) ? "active" : ""
+                            }`}
                           onClick={() => toggleCategory(category)}
                           variants={animations.item}
                         >
@@ -488,46 +487,46 @@ export default function Search() {
 
                   {((categories.length > 0 && !categories.includes("All")) ||
                     tags.length > 0) && (
-                    <div className="applied-filters">
-                      <h4>Applied Filters</h4>
-                      <div className="filter-tags">
-                        {categories.map(
-                          (category) =>
-                            category !== "All" && (
-                              <span
-                                key={category}
-                                className="filter-tag category-filter-tag"
-                              >
-                                {category}
-                                <button
-                                  onClick={() => toggleCategory(category)}
-                                  className="remove-filter"
+                      <div className="applied-filters">
+                        <h4>Applied Filters</h4>
+                        <div className="filter-tags">
+                          {categories.map(
+                            (category) =>
+                              category !== "All" && (
+                                <span
+                                  key={category}
+                                  className="filter-tag category-filter-tag"
                                 >
-                                  ×
-                                </button>
-                              </span>
-                            )
-                        )}
-                        {tags.map((tag) => (
-                          <span key={tag} className="filter-tag tag-filter-tag">
-                            #{tag}
-                            <button
-                              onClick={() => removeTag(tag)}
-                              className="remove-filter"
-                            >
-                              ×
-                            </button>
-                          </span>
-                        ))}
-                        <button
-                          className="clear-filters-btn"
-                          onClick={clearFilters}
-                        >
-                          Clear All Filters
-                        </button>
+                                  {category}
+                                  <button
+                                    onClick={() => toggleCategory(category)}
+                                    className="remove-filter"
+                                  >
+                                    ×
+                                  </button>
+                                </span>
+                              )
+                          )}
+                          {tags.map((tag) => (
+                            <span key={tag} className="filter-tag tag-filter-tag">
+                              #{tag}
+                              <button
+                                onClick={() => removeTag(tag)}
+                                className="remove-filter"
+                              >
+                                ×
+                              </button>
+                            </span>
+                          ))}
+                          <button
+                            className="clear-filters-btn"
+                            onClick={clearFilters}
+                          >
+                            Clear All Filters
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
                   <div className="filter-actions">
                     <button
@@ -605,11 +604,9 @@ export default function Search() {
           ) : results.length > 0 ? (
             <>
               <div className="results-count">
-                <p>{`Found ${results.length} result${
-                  results.length !== 1 ? "s" : ""
-                }${
-                  searchParams.text.trim() ? ` for '${searchParams.text}'` : ""
-                } in all posts`}</p>
+                <p>{`Found ${results.length} result${results.length !== 1 ? "s" : ""
+                  }${searchParams.text.trim() ? ` for '${searchParams.text}'` : ""
+                  } in all posts`}</p>
               </div>
               {(() => {
                 const indexOfLastPost = currentPage * postsPerPage;
@@ -633,7 +630,7 @@ export default function Search() {
                         <BlogPost post={post} key={post._id || post.id} />
                       ))}
                     </motion.div>
-                    {results.length > postsPerPage && (
+                    {results.length > postsPerPage && !error && !loadingPost && (
                       <motion.div
                         className="pagination"
                         variants={animations.container}
@@ -653,9 +650,8 @@ export default function Search() {
                         {Array.from({ length: totalPages }, (_, i) => (
                           <motion.button
                             key={i + 1}
-                            className={`pagination-btn ${
-                              currentPage === i + 1 ? "active" : ""
-                            }`}
+                            className={`pagination-btn ${currentPage === i + 1 ? "active" : ""
+                              }`}
                             onClick={() => setCurrentPage(i + 1)}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}

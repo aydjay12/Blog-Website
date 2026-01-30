@@ -27,18 +27,18 @@ export const usePostsStore = create((set, get) => ({
   // Fetch all posts
   fetchPosts: async () => {
     const state = get();
-    
+
     // Check if we've recently fetched posts (within last 2 minutes)
     if (state.lastPostsFetch && Date.now() - state.lastPostsFetch < 2 * 60 * 1000 && state.posts.length > 0) {
       return; // Skip if recently fetched and we have posts
     }
-    
+
     set({ loadingPost: true, error: null });
     try {
       const response = await axios.get(API_URL);
       if (response.data.success) {
-        set({ 
-          posts: response.data.posts, 
+        set({
+          posts: response.data.posts,
           loadingPost: false,
           lastPostsFetch: Date.now()
         });

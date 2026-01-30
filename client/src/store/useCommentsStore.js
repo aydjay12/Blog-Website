@@ -85,33 +85,33 @@ export const useCommentsStore = create((set) => ({
     }
   },
 
-    // Update a reply
-    updateReply: async (postId, commentId, replyId, content) => {
-        set({ loading: true, error: null });
-        try {
-          const response = await axios.put(`${API_URL}/${postId}/${commentId}/${replyId}`, { content });
-          set((state) => {
-            const updatedComments = state.comments.map((comment) =>
-              comment._id === commentId
-                ? {
-                    ...comment,
-                    replies: comment.replies.map((reply) =>
-                      reply._id === replyId
-                        ? { ...reply, content: response.data.reply.content }
-                        : reply
-                    ),
-                  }
-                : comment
-            );
-            return { comments: updatedComments, loading: false };
-          });
-          toast.success(response.data.message);
-        } catch (error) {
-          const message = error.response?.data?.message || "Failed to update reply";
-          set({ error: message, loading: false });
-          toast.error(message);
-        }
-      },
+  // Update a reply
+  updateReply: async (postId, commentId, replyId, content) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await axios.put(`${API_URL}/${postId}/${commentId}/${replyId}`, { content });
+      set((state) => {
+        const updatedComments = state.comments.map((comment) =>
+          comment._id === commentId
+            ? {
+              ...comment,
+              replies: comment.replies.map((reply) =>
+                reply._id === replyId
+                  ? { ...reply, content: response.data.reply.content }
+                  : reply
+              ),
+            }
+            : comment
+        );
+        return { comments: updatedComments, loading: false };
+      });
+      toast.success(response.data.message);
+    } catch (error) {
+      const message = error.response?.data?.message || "Failed to update reply";
+      set({ error: message, loading: false });
+      toast.error(message);
+    }
+  },
 
   // Delete a comment
   deleteComment: async (postId, commentId) => {
@@ -139,9 +139,9 @@ export const useCommentsStore = create((set) => ({
         const updatedComments = state.comments.map((comment) =>
           comment._id === commentId
             ? {
-                ...comment,
-                replies: comment.replies.filter((reply) => reply._id !== replyId),
-              }
+              ...comment,
+              replies: comment.replies.filter((reply) => reply._id !== replyId),
+            }
             : comment
         );
         return { comments: updatedComments, loading: false };
@@ -154,8 +154,8 @@ export const useCommentsStore = create((set) => ({
     }
   },
 
-// Like or unlike a comment
-likeComment: async (postId, commentId) => {
+  // Like or unlike a comment
+  likeComment: async (postId, commentId) => {
     set({ loading: true, error: null });
     try {
       const response = await axios.post(`${API_URL}/${postId}/${commentId}/like`);
@@ -163,9 +163,9 @@ likeComment: async (postId, commentId) => {
         const updatedComments = state.comments.map((comment) =>
           comment._id === commentId
             ? {
-                ...comment,
-                likes: response.data.likes // Ensure backend returns updated likes array
-              }
+              ...comment,
+              likes: response.data.likes // Ensure backend returns updated likes array
+            }
             : comment
         );
         return { comments: updatedComments, loading: false };
@@ -177,7 +177,7 @@ likeComment: async (postId, commentId) => {
       toast.error(message);
     }
   },
-  
+
   // Like or unlike a reply
   likeReply: async (postId, commentId, replyId) => {
     set({ loading: true, error: null });
@@ -187,13 +187,13 @@ likeComment: async (postId, commentId) => {
         const updatedComments = state.comments.map((comment) =>
           comment._id === commentId
             ? {
-                ...comment,
-                replies: comment.replies.map((reply) =>
-                  reply._id === replyId
-                    ? { ...reply, likes: response.data.likes } // Ensure backend returns updated likes
-                    : reply
-                ),
-              }
+              ...comment,
+              replies: comment.replies.map((reply) =>
+                reply._id === replyId
+                  ? { ...reply, likes: response.data.likes } // Ensure backend returns updated likes
+                  : reply
+              ),
+            }
             : comment
         );
         return { comments: updatedComments, loading: false };

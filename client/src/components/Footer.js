@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -21,7 +21,7 @@ function Footer() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (email) {
       const subject = "Newsletter Subscription";
       const body = `I would like to subscribe to your newsletter. My email is: ${email}`;
@@ -64,30 +64,30 @@ function Footer() {
 
   const socialIconVariants = {
     rest: { scale: 1 },
-    hover: { 
-      scale: 1.2, 
-      rotate: 5, 
-      transition: { duration: 0.3 } 
+    hover: {
+      scale: 1.2,
+      rotate: 5,
+      transition: { duration: 0.3 }
     }
   };
 
   const subscribeButtonVariants = {
     rest: { scale: 1 },
-    hover: { 
-      scale: 1.05, 
-      transition: { duration: 0.3 } 
+    hover: {
+      scale: 1,
+      transition: { duration: 0.3 }
     },
-    tap: { scale: 0.95 }
+    tap: { scale: 1 }
   };
 
   return (
-    <motion.footer 
+    <motion.footer
       className="footer"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7 }}
     >
-      <motion.div 
+      <motion.div
         className="footer-content"
         variants={containerVariants}
         initial="hidden"
@@ -97,11 +97,11 @@ function Footer() {
         <motion.div className="footer-section about" variants={itemVariants}>
           <h2 className="logo-text">MyBlog</h2>
           <p>
-            A platform dedicated to sharing knowledge, experiences, and stories from 
+            A platform dedicated to sharing knowledge, experiences, and stories from
             writers around the world. Join our community of passionate bloggers today.
           </p>
           <div className="contact">
-            <motion.div 
+            <motion.div
               className="contact-item"
               whileHover={{ x: 5 }}
               transition={{ type: "spring", stiffness: 300 }}
@@ -109,7 +109,7 @@ function Footer() {
               <PhoneIcon className="contact-icon" />
               <span>+1 123 456 7890</span>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="contact-item"
               whileHover={{ x: 5 }}
               transition={{ type: "spring", stiffness: 300 }}
@@ -117,7 +117,7 @@ function Footer() {
               <EmailIcon className="contact-icon" />
               <span>info@myblog.com</span>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="contact-item"
               whileHover={{ x: 5 }}
               transition={{ type: "spring", stiffness: 300 }}
@@ -139,7 +139,7 @@ function Footer() {
               { text: "Privacy Policy", path: "/privacy" },
               { text: "Terms of Service", path: "/terms" }
             ].map((item, index) => (
-              <motion.li 
+              <motion.li
                 key={index}
                 whileHover={{ x: 10, color: "#007bff" }}
                 transition={{ type: "spring", stiffness: 400 }}
@@ -163,13 +163,13 @@ function Footer() {
               { name: "Business", slug: "Business" },
               { name: "Creativity", slug: "Creativity" }
             ].map((category, index) => (
-              <motion.li 
+              <motion.li
                 key={index}
                 whileHover={{ x: 10, color: "#007bff" }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
-                <a 
-                  href={`/blogs?category=${category.slug}`} 
+                <a
+                  href={`/blogs?category=${category.slug}`}
                   onClick={(e) => handleCategoryClick(category.slug, e)}
                 >
                   {category.name}
@@ -182,27 +182,26 @@ function Footer() {
         <motion.div className="footer-section subscribe" variants={itemVariants}>
           <h2>Stay Updated</h2>
           <p>Subscribe to our newsletter for the latest blog posts and updates.</p>
-          <motion.form 
+          <motion.form
             onSubmit={handleSubmit}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
           >
-            <motion.input 
-              type="email" 
-              placeholder="Enter your email" 
-              required 
+            <motion.input
+              type="email"
+              placeholder="Enter your email"
+              required
               value={email}
               onChange={handleEmailChange}
-              whileFocus={{ scale: 1.02 }}
+              whileFocus={{ scale: 1 }}
             />
-            <motion.button 
-              className="btn-subscribe" 
+            <motion.button
+              className="btn-subscribe"
               type="submit"
               variants={subscribeButtonVariants}
               initial="rest"
               whileHover="hover"
-              whileTap="tap"
             >
               Subscribe
             </motion.button>
@@ -214,10 +213,10 @@ function Footer() {
               { icon: <InstagramIcon className="social-icon" />, url: "https://instagram.com" },
               { icon: <LinkedInIcon className="social-icon" />, url: "https://linkedin.com" }
             ].map((social, index) => (
-              <motion.a 
+              <motion.a
                 key={index}
-                href={social.url} 
-                target="_blank" 
+                href={social.url}
+                target="_blank"
                 rel="noreferrer"
                 variants={socialIconVariants}
                 initial="rest"
@@ -230,7 +229,7 @@ function Footer() {
         </motion.div>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         className="footer-bottom"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

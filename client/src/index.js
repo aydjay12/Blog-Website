@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -22,6 +23,16 @@ root.render(
 
 // Hide initial loading after React mounts
 setTimeout(hideInitialLoading, 100);
+
+// Register service worker to cache Font Awesome and other external resources
+serviceWorkerRegistration.register({
+  onSuccess: () => {
+    console.log('[App] Service Worker registered successfully. Icons cached for offline use.');
+  },
+  onUpdate: (registration) => {
+    console.log('[App] New service worker available. Icons cache will be updated.');
+  }
+});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

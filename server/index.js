@@ -14,6 +14,11 @@ dotenv.config();
 
 const app = express();
 
+// Health check route for keeping the server awake
+app.get("/ping", (req, res) => {
+  res.status(200).send("pong");
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.use(cookieParser());
@@ -24,18 +29,18 @@ const allowedOrigins = [
   "https://blog-website-kappa-roan.vercel.app"
 ];
 
-app.use(cors({ 
+app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    
+
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true 
+  credentials: true
 }));
 
 app.use(express.json({ limit: "10mb" }));
@@ -52,17 +57,22 @@ cloudinary.config({
 });
 
 app.use("/api/auth", authRoute(upload));
-app.use("/api/posts", postsRoute); 
+app.use("/api/posts", postsRoute);
 app.use("/api/comments", commentsRoute);
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join(__dirname, "client/dist")));
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
-//   });
-// }
-
-app.listen(PORT, () => {
-  connectDB();
-  console.log(`Server is running on port ${PORT}`);
+app.get("/", (req, res) => {
+  res.send("API is running...");
 });
+
+// Export the app for Vercel
+module.exports = app;
+
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    connectDB();
+    console.log(`Server is running on port ${PORT}`);
+  });
+} else {
+  // In production (Vercel), we still need to connect to DB
+  connectDB();
+}

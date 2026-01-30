@@ -73,7 +73,7 @@ export default function Contact() {
     // Send email using EmailJS
     emailjs
       .sendForm(
-        "service_tlpt3lq", // Same service ID as ContactUs.js
+        "service_7gco76f", // Same service ID as ContactUs.js
         "template_nn1ajim", // Same template ID as ContactUs.js
         formRef.current, // Use the form ref
         "--gZTzItUaERWwh7S" // Same public key as ContactUs.js

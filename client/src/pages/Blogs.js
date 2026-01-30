@@ -108,8 +108,8 @@ export default function Blogs() {
     activeCategory === "All"
       ? posts
       : posts.filter(
-          (post) => post.categories && post.categories.includes(activeCategory)
-        );
+        (post) => post.categories && post.categories.includes(activeCategory)
+      );
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -154,9 +154,8 @@ export default function Blogs() {
           {categories.map((category, index) => (
             <motion.button
               key={index}
-              className={`category-btn ${
-                activeCategory === category ? "active" : ""
-              }`}
+              className={`category-btn ${activeCategory === category ? "active" : ""
+                }`}
               onClick={() => handleCategoryChange(category)}
               variants={categoryVariants}
               whileHover={{ scale: 1.05 }}
@@ -194,7 +193,7 @@ export default function Blogs() {
             </div>
           )}
 
-          {filteredPosts.length > 0 && (
+          {filteredPosts.length > 0 && !error && !loadingPost && (
             <motion.div
               className="pagination"
               variants={containerVariants}
@@ -215,9 +214,8 @@ export default function Blogs() {
               {Array.from({ length: totalPages }, (_, i) => (
                 <motion.button
                   key={i + 1}
-                  className={`pagination-btn ${
-                    currentPage === i + 1 ? "active" : ""
-                  }`}
+                  className={`pagination-btn ${currentPage === i + 1 ? "active" : ""
+                    }`}
                   onClick={() => paginate(i + 1)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
