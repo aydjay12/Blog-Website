@@ -104,6 +104,79 @@ export default function Search() {
     }
   };
 
+  // Search function
+  const search = React.useCallback((
+    searchText,
+    resetFilters = false,
+    skipRecentUpdate = false,
+    isFilterSearch = false
+  ) => {
+    setIsFilterSearchActive(isFilterSearch);
+    setCurrentPage(1);
+    setHasSearched(true);
+
+    const searchQuery = isFilterSearch ? "" : searchText;
+    setSearchParams({
+      text: searchQuery,
+      usingCategories: !categories.includes("All") || categories.length > 1,
+      usingTags: tags.length > 0,
+    });
+
+    const filteredResults = Array.isArray(posts) ? posts.filter((post) => {
+      const queryLower = (searchText || "").toLowerCase();
+      const matchesQuery =
+        (post.title?.toLowerCase() || "").includes(queryLower) ||
+        stripHtml(post.content || "")
+          .toLowerCase()
+          .includes(queryLower) ||
+        (post.author?.toLowerCase() || "").includes(queryLower) ||
+        (post.tags || []).some((tag) =>
+          (tag?.toLowerCase() || "").includes(queryLower)
+        ) ||
+        (post.categories || []).some((category) =>
+          (category?.toLowerCase() || "").includes(queryLower)
+        );
+      const matchesCategory =
+        categories.includes("All") ||
+        (post.categories || []).some((category) =>
+          categories.includes(category)
+        );
+      const matchesTags =
+        tags.length === 0 ||
+        tags.every((tag) => (post.tags || []).includes(tag));
+      return matchesQuery && matchesCategory && matchesTags;
+    }) : [];
+
+    setResults(filteredResults);
+
+    // Update recent searches only if the search text is not empty and not already in the list
+    if (searchText && searchText.trim()) {
+      setRecentSearches((prevSearches) => {
+        const currentSearches = Array.isArray(prevSearches) ? prevSearches : [];
+        if (currentSearches.includes(searchText)) return currentSearches;
+        const updated = [
+          searchText,
+          ...currentSearches.filter((term) => term !== searchText).slice(0, 4),
+        ];
+        localStorage.setItem("recentSearches", JSON.stringify(updated));
+        return updated;
+      });
+    }
+
+    navigate("/search", { replace: true });
+    setQuery("");
+    if (resetFilters) {
+      setCategories(["All"]);
+      setTags([]);
+    }
+
+    if (isFilterSearch) {
+      scrollToAdvancedFilterResults();
+    } else {
+      scrollToResults();
+    }
+  }, [categories, tags, posts, navigate]);
+
   // Effects
   useEffect(() => {
     fetchPosts();
@@ -212,78 +285,7 @@ export default function Search() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Search function
-  const search = React.useCallback((
-    searchText,
-    resetFilters = false,
-    skipRecentUpdate = false,
-    isFilterSearch = false
-  ) => {
-    setIsFilterSearchActive(isFilterSearch);
-    setCurrentPage(1);
-    setHasSearched(true);
 
-    const searchQuery = isFilterSearch ? "" : searchText;
-    setSearchParams({
-      text: searchQuery,
-      usingCategories: !categories.includes("All") || categories.length > 1,
-      usingTags: tags.length > 0,
-    });
-
-    const filteredResults = Array.isArray(posts) ? posts.filter((post) => {
-      const queryLower = (searchText || "").toLowerCase();
-      const matchesQuery =
-        (post.title?.toLowerCase() || "").includes(queryLower) ||
-        stripHtml(post.content || "")
-          .toLowerCase()
-          .includes(queryLower) ||
-        (post.author?.toLowerCase() || "").includes(queryLower) ||
-        (post.tags || []).some((tag) =>
-          (tag?.toLowerCase() || "").includes(queryLower)
-        ) ||
-        (post.categories || []).some((category) =>
-          (category?.toLowerCase() || "").includes(queryLower)
-        );
-      const matchesCategory =
-        categories.includes("All") ||
-        (post.categories || []).some((category) =>
-          categories.includes(category)
-        );
-      const matchesTags =
-        tags.length === 0 ||
-        tags.every((tag) => (post.tags || []).includes(tag));
-      return matchesQuery && matchesCategory && matchesTags;
-    }) : [];
-
-    setResults(filteredResults);
-
-    // Update recent searches only if the search text is not empty and not already in the list
-    if (searchText && searchText.trim()) {
-      setRecentSearches((prevSearches) => {
-        const currentSearches = Array.isArray(prevSearches) ? prevSearches : [];
-        if (currentSearches.includes(searchText)) return currentSearches;
-        const updated = [
-          searchText,
-          ...currentSearches.filter((term) => term !== searchText).slice(0, 4),
-        ];
-        localStorage.setItem("recentSearches", JSON.stringify(updated));
-        return updated;
-      });
-    }
-
-    navigate("/search", { replace: true });
-    setQuery("");
-    if (resetFilters) {
-      setCategories(["All"]);
-      setTags([]);
-    }
-
-    if (isFilterSearch) {
-      scrollToAdvancedFilterResults();
-    } else {
-      scrollToResults();
-    }
-  }, [categories, tags, posts, navigate]); // Removed query and recentSearches from dependencies to avoid loop
 
   // Event handlers
   const handleSubmit = (e) => {
