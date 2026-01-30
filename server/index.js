@@ -64,8 +64,8 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-// Export the app for Vercel
-module.exports = app;
+// Export the app for Vercel (ESM)
+export default app;
 
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
