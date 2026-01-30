@@ -53,6 +53,7 @@ export default function Search() {
   const { posts, loadingPost, error, fetchPosts } = usePostsStore();
   const location = useLocation();
   const navigate = useNavigate();
+  const searchRef = useRef(null);
 
   const categoryOptions = useMemo(
     () => [
@@ -117,14 +118,14 @@ export default function Search() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const queryFromUrl = params.get("query");
-    if (queryFromUrl) {
+    if (queryFromUrl && searchRef.current) {
       const decoded = decodeURIComponent(queryFromUrl);
       setQuery(decoded);
-      search(decoded, false, true);
+      searchRef.current(decoded, false, true);
       setTimeout(() => scrollToResults(), 100);
       setTimeout(() => scrollToAdvancedFilterResults(), 100);
     }
-  }, [location.search, posts, search]);
+  }, [location.search, posts]); // Removed search from dependencies to avoid loop
 
   useEffect(() => {
     if (results.length > 0 && searchResultsRef.current && hasSearched) {
@@ -221,18 +222,18 @@ export default function Search() {
     });
 
     const filteredResults = posts.filter((post) => {
-      const queryLower = searchText.toLowerCase();
+      const queryLower = (searchText || "").toLowerCase();
       const matchesQuery =
-        post.title?.toLowerCase().includes(queryLower) ||
+        (post.title?.toLowerCase() || "").includes(queryLower) ||
         stripHtml(post.content || "")
           .toLowerCase()
           .includes(queryLower) ||
-        post.author?.toLowerCase().includes(queryLower) ||
+        (post.author?.toLowerCase() || "").includes(queryLower) ||
         (post.tags || []).some((tag) =>
-          tag.toLowerCase().includes(queryLower)
+          (tag?.toLowerCase() || "").includes(queryLower)
         ) ||
         (post.categories || []).some((category) =>
-          category.toLowerCase().includes(queryLower)
+          (category?.toLowerCase() || "").includes(queryLower)
         );
       const matchesCategory =
         categories.includes("All") ||
@@ -248,7 +249,7 @@ export default function Search() {
     setResults(filteredResults);
 
     // Update recent searches only if the search text is not empty and not already in the list
-    if (searchText.trim() && !recentSearches.includes(searchText)) {
+    if (searchText && searchText.trim() && !recentSearches.includes(searchText)) {
       setRecentSearches((prevSearches) => {
         const updated = [
           searchText,
@@ -272,6 +273,11 @@ export default function Search() {
       scrollToResults();
     }
   }, [query, categories, tags, posts, recentSearches, navigate]);
+
+  // Keep searchRef updated
+  useEffect(() => {
+    searchRef.current = search;
+  }, [search]);
 
   // Event handlers
   const handleSubmit = (e) => {
