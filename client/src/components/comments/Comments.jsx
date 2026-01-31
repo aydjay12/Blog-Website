@@ -241,12 +241,17 @@ const CommentsSection = ({ postId }) => {
     setReplyState((prev) => ({ ...prev, mention: null }));
   };
 
-  const sortedComments = [...comments].sort((a, b) => {
-    if (sortBy === "newest")
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    else if (sortBy === "popular") return b.likes.length - a.likes.length;
-    return 0;
-  });
+  const sortedComments = [...comments]
+    .filter(comment =>
+      // Filter out comments that are marked as deleted AND have no replies
+      !(comment.isDeleted && (!comment.replies || comment.replies.length === 0))
+    )
+    .sort((a, b) => {
+      if (sortBy === "newest")
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      else if (sortBy === "popular") return b.likes.length - a.likes.length;
+      return 0;
+    });
 
   const renderReplyForm = (commentId, replyId = null) => {
     const isVisible =
