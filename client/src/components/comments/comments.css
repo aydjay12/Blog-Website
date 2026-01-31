@@ -2,6 +2,7 @@
 .comments-section {
   margin: 3rem 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
   .comments-header {
     display: flex;
     justify-content: space-between;
@@ -10,17 +11,17 @@
     padding-bottom: 0;
     border-bottom: 1px solid #e0e0e0;
   }
-  
+
   .comments-title {
     font-size: 1.2rem;
     font-weight: 600;
     color: #333;
   }
-  
+
   .comments-sort {
     position: relative;
   }
-  
+
   .comments-sort-select {
     appearance: none;
     background-color: transparent;
@@ -34,29 +35,29 @@
     border-radius: 5px;
     padding: .8em 1.4em;
   }
-  
+
   .comments-sort-select:focus {
     outline: none;
   }
-  
+
   /* Comment Form */
   .comment-form-container {
     display: flex;
     margin-bottom: 2rem;
     gap: 0.75rem;
   }
-  
+
   .comment-form-avatar {
     flex-shrink: 0;
   }
-  
+
   .comment-form {
     display: flex;
     flex-direction: column;
     flex: 1;
     width: 100%;
   }
-  
+
   .comment-avatar {
     width: 40px;
     height: 40px;
@@ -65,15 +66,16 @@
     border-radius: 50%;
     object-fit: cover;
   }
-  
+
   .comment-avatar-small {
     width: 32px;
     height: 32px;
     min-width: 40px;
     min-height: 40px;
   }
-  
-  .comment-input, .reply-input {
+
+  .comment-input,
+  .reply-input {
     padding: 0.75rem;
     border: none;
     border-bottom: 1px solid #e0e0e0;
@@ -84,17 +86,19 @@
     resize: none;
     min-height: 20px;
   }
-  
+
   /* .comment-form .comment-input .reply-input{
     width: unset !important;
   } */
-  
-  .comment-input:focus, .reply-input:focus {
+
+  .comment-input:focus,
+  .reply-input:focus {
     outline: none;
     border-color: #be9656;
   }
-  
-  .comment-form-actions, .reply-form-actions {
+
+  .comment-form-actions,
+  .reply-form-actions {
     display: flex;
     justify-content: flex-end;
     gap: 0.75rem;
@@ -104,13 +108,15 @@
     opacity: 0;
     transition: height 0.3s ease, opacity 0.3s ease;
   }
-  
-  .comment-form-actions.show, .reply-form-actions.show {
+
+  .comment-form-actions.show,
+  .reply-form-actions.show {
     height: 36px;
     opacity: 1;
   }
-  
-  .comment-cancel-button, .reply-cancel-button {
+
+  .comment-cancel-button,
+  .reply-cancel-button {
     padding: 0.5rem 1rem;
     background-color: transparent;
     border: none;
@@ -120,12 +126,14 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
-  .comment-cancel-button:hover, .reply-cancel-button:hover {
+
+  .comment-cancel-button:hover,
+  .reply-cancel-button:hover {
     background-color: #f0f0f0;
   }
-  
-  .comment-submit-button, .reply-submit-button {
+
+  .comment-submit-button,
+  .reply-submit-button {
     padding: 0.5rem 1rem;
     background-color: #be9656;
     border: none;
@@ -135,63 +143,75 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
-  .comment-submit-button:hover, .reply-submit-button:hover {
+
+  .comment-submit-button:hover,
+  .reply-submit-button:hover {
     background-color: #a68449;
   }
-  
-  .comment-submit-button:disabled, .reply-submit-button:disabled {
+
+  .comment-submit-button:disabled,
+  .reply-submit-button:disabled {
     background-color: #d9d9d9;
     cursor: not-allowed;
   }
-  
+
   /* Comments List */
   .comments-list {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
   }
-  
+
   .comment-thread {
     display: flex;
     flex-direction: column;
   }
 
-  .reply-container-body{
+  .reply-container-body {
     max-width: 100%;
   }
-  
-  .comment, .reply {
+
+  .comment,
+  .reply {
     display: flex;
     gap: 0.75rem;
   }
-  
+
   .comment-avatar-container {
     flex-shrink: 0;
   }
-  
+
   .comment-content {
     flex: 1;
   }
-  
+
   .comment-header {
     display: flex;
     align-items: baseline;
     gap: 0.5rem;
     margin-bottom: 0.25rem;
   }
-  
+
   .comment-author {
     font-weight: 600;
     font-size: 0.9rem;
     color: #333;
   }
-  
+
   .comment-date {
     font-size: 0.8rem;
     color: #777;
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
-  
+
+  .edited-tag {
+    font-size: 0.75rem;
+    color: #aaa;
+    font-style: italic;
+  }
+
   .comment-text {
     font-size: 0.95rem;
     line-height: 1.5;
@@ -199,14 +219,14 @@
     color: #333;
     white-space: pre-line;
   }
-  
+
   /* Comment Actions */
   .comment-actions {
     display: flex;
     gap: 1rem;
     margin-bottom: 0.5rem;
   }
-  
+
   .comment-action {
     display: flex;
     align-items: center;
@@ -219,23 +239,23 @@
     padding: 0.3rem 0;
     transition: color 0.3s ease;
   }
-  
+
   .comment-action:hover {
     color: #333;
   }
-  
+
   .comment-action.like-button {
     font-size: 0.8rem;
   }
-  
+
   .comment-action.like-button.liked {
     color: #be9656;
   }
-  
+
   .comment-action.delete-button:hover {
     color: #d9534f;
   }
-  
+
   /* Reply Form */
   .reply-form-container {
     display: flex;
@@ -243,7 +263,7 @@
     margin-bottom: 1rem;
     gap: 0.75rem;
   }
-  
+
   .reply-form {
     display: flex;
     flex-direction: column;
@@ -251,14 +271,16 @@
     max-width: 100%;
     overflow: hidden;
   }
-  
+
   /* Comment Replies */
   .comment-replies-container {
-    margin-left: 40px; /* Align with parent comment content */
+    margin-left: 40px;
+    /* Align with parent comment content */
     margin-top: 0.5rem;
   }
-  
-  .view-replies-button, .hide-replies-button {
+
+  .view-replies-button,
+  .hide-replies-button {
     background: none;
     border: none;
     font-size: 0.85rem;
@@ -271,36 +293,40 @@
     display: flex;
     align-items: center;
   }
-  
-  .view-replies-button:hover, .hide-replies-button:hover {
+
+  .view-replies-button:hover,
+  .hide-replies-button:hover {
     color: #333;
   }
-  
+
   .comment-replies {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     margin-top: 0.5rem;
   }
-  
+
   /* Added CSS for Reply Mention Tag */
   .reply-input-container,
-    .edit-input-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      background-color: transparent;
-      border-bottom: 1px solid #e0e0e0;
-      flex-wrap: nowrap; /* Prevent wrapping */
-      width: 100%;
+  .edit-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border-bottom: 1px solid #e0e0e0;
+    flex-wrap: nowrap;
+    /* Prevent wrapping */
+    width: 100%;
   }
 
   .reply-input-container .reply-input,
-.edit-input-container .edit-input {
-  flex: 1; /* Allow input to take remaining space */
-  min-width: 0; /* Allow input to shrink if needed */
-}
-  
+  .edit-input-container .edit-input {
+    flex: 1;
+    /* Allow input to take remaining space */
+    min-width: 0;
+    /* Allow input to shrink if needed */
+  }
+
   .reply-mention-tag .remove-mention-btn,
   .edit-mention-tag .remove-mention-btn {
     background: none;
@@ -311,21 +337,23 @@
     padding: 0 0 0 4px;
     margin-left: 2px;
     line-height: 1;
-    flex-shrink: 0; /* Ensure the button doesn't shrink */
+    flex-shrink: 0;
+    /* Ensure the button doesn't shrink */
   }
-  
+
   .reply-mention-tag .remove-mention-btn:hover,
   .edit-mention-tag .remove-mention-btn:hover {
     color: #666;
   }
-  
+
   .reply-input.with-mention,
   .edit-input.with-mention {
     margin-left: 4px;
-    width: auto; /* Let the input adjust naturally */
+    width: auto;
+    /* Let the input adjust naturally */
     flex: 1;
   }
-  
+
   /* Delete Modal */
   .delete-modal-overlay {
     position: fixed;
@@ -339,7 +367,7 @@
     align-items: center;
     z-index: 1000;
   }
-  
+
   .delete-modal {
     background-color: white;
     border-radius: 8px;
@@ -348,23 +376,23 @@
     max-width: 400px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
-  
+
   .delete-modal h3 {
     margin-top: 0;
     color: #333;
   }
-  
+
   .delete-modal p {
     color: #555;
     margin-bottom: 20px;
   }
-  
+
   .delete-modal-actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
   }
-  
+
   .delete-modal-cancel {
     padding: 8px 16px;
     background-color: #f0f0f0;
@@ -373,7 +401,7 @@
     color: #555;
     cursor: pointer;
   }
-  
+
   .delete-modal-confirm {
     padding: 8px 16px;
     background-color: #d9534f;
@@ -382,15 +410,15 @@
     color: white;
     cursor: pointer;
   }
-  
+
   .delete-modal-cancel:hover {
     background-color: #e0e0e0;
   }
-  
+
   .delete-modal-confirm:hover {
     background-color: #c9302c;
   }
-  
+
   /* Notification */
   .notification {
     position: fixed;
@@ -407,184 +435,201 @@
     transition: .3s all ease-in-out;
     width: max-content;
   }
-  
+
   @keyframes fadeInOut {
-    0% { opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; }
+    0% {
+      opacity: 0;
+    }
+
+    10% {
+      opacity: 1;
+    }
+
+    90% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
   }
 
   /* Edit Form */
-.edit-form-container {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
+  .edit-form-container {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
 
-.edit-input {
-  padding: 0.75rem;
-  border: none;
-  border-bottom: 1px solid #e0e0e0;
-  font-size: 0.95rem;
-  background-color: transparent;
-  transition: border-color 0.3s ease;
-  font-family: inherit;
-  resize: none;
-  min-height: 20px;
-  width: 100%;
-}
+  .edit-input {
+    padding: 0.75rem;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.95rem;
+    background-color: transparent;
+    transition: border-color 0.3s ease;
+    font-family: inherit;
+    resize: none;
+    min-height: 20px;
+    width: 100%;
+  }
 
-.edit-input:focus {
-  outline: none;
-  border-color: #be9656;
-}
+  .edit-input:focus {
+    outline: none;
+    border-color: #be9656;
+  }
 
-.edit-form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-  margin-top: 0.75rem;
-  height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: height 0.3s ease, opacity 0.3s ease;
-}
+  .edit-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: height 0.3s ease, opacity 0.3s ease;
+  }
 
-.edit-form-actions.show {
-  height: 36px;
-  opacity: 1;
-}
+  .edit-form-actions.show {
+    height: 36px;
+    opacity: 1;
+  }
 
-.edit-cancel-button {
-  padding: 0.5rem 1rem;
-  background-color: transparent;
-  border: none;
-  border-radius: 18px;
-  color: #555;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+  .edit-cancel-button {
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    border: none;
+    border-radius: 18px;
+    color: #555;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
 
-.edit-cancel-button:hover {
-  background-color: #f0f0f0;
-}
+  .edit-cancel-button:hover {
+    background-color: #f0f0f0;
+  }
 
-.edit-submit-button {
-  padding: 0.5rem 1rem;
-  background-color: #be9656;
-  border: none;
-  border-radius: 18px;
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+  .edit-submit-button {
+    padding: 0.5rem 1rem;
+    background-color: #be9656;
+    border: none;
+    border-radius: 18px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
 
-.edit-submit-button:hover {
-  background-color: #a68449;
-}
+  .edit-submit-button:hover {
+    background-color: #a68449;
+  }
 
-.edit-submit-button:disabled {
-  background-color: #d9d9d9;
-  cursor: not-allowed;
-}
+  .edit-submit-button:disabled {
+    background-color: #d9d9d9;
+    cursor: not-allowed;
+  }
 
-/* Edit Button */
-.comment-action.edit-button {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
+  /* Edit Button */
+  .comment-action.edit-button {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
 
-.comment-action.edit-button:hover {
-  color: #be9656;
-}
+  .comment-action.edit-button:hover {
+    color: #be9656;
+  }
 
-/* Edit Input Container */
-.edit-input-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  border-bottom: 1px solid #e0e0e0;
-}
+  /* Edit Input Container */
+  .edit-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border-bottom: 1px solid #e0e0e0;
+  }
 
-.edit-input-container .edit-input {
-  width: 100%;
-}
+  .edit-input-container .edit-input {
+    width: 100%;
+  }
 
-/* Edit Mention Tag */
-.reply-mention-tag,
-.edit-mention-tag {
-  display: inline-flex;
-  align-items: center;
-  background-color: #f0f0f0;
-  border-radius: 3px;
-  padding: 2px 6px;
-  margin: 0 6px;
-  font-size: 0.9rem;
-  color: #555;
-  white-space: nowrap; /* Keep the tag on one line */
-  max-width: 150px; /* Prevent overly long tags from breaking layout */
-  overflow: hidden;
-  text-overflow: ellipsis; /* Add ellipsis for long usernames */
-}
+  /* Edit Mention Tag */
+  .reply-mention-tag,
+  .edit-mention-tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    padding: 2px 6px;
+    margin: 0 6px;
+    font-size: 0.9rem;
+    color: #555;
+    white-space: nowrap;
+    /* Keep the tag on one line */
+    max-width: 150px;
+    /* Prevent overly long tags from breaking layout */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Add ellipsis for long usernames */
+  }
 
-.edit-input.with-mention {
-  margin-left: 4px;
-  width: 100%;
-}
+  .edit-input.with-mention {
+    margin-left: 4px;
+    width: 100%;
+  }
 }
 
 /* Responsive Styles */
 @media screen and (max-width: 768px) {
-  .comments-section{
+  .comments-section {
     .comments-header {
       align-items: center;
       gap: 0.5rem;
     }
 
-    .comments-title{
+    .comments-title {
       font-size: 1.3rem !important;
       margin-top: 0 !important;
     }
-    
+
     .comments-sort {
       align-self: flex-end;
       margin-bottom: 1rem;
     }
 
-    .comments-sort-select{
+    .comments-sort-select {
       padding: .8rem .4rem;
     }
   }
 }
 
 @media screen and (max-width: 480px) {
-  .comments-section{
-    .comment-form-container, .reply-form-container {
+  .comments-section {
+
+    .comment-form-container,
+    .reply-form-container {
       gap: 0.5rem;
     }
-    
-    .comment-avatar, .comment-avatar-small {
+
+    .comment-avatar,
+    .comment-avatar-small {
       width: 32px;
       height: 32px;
     }
-    
+
     .comment-avatar-small {
       width: 28px;
       height: 28px;
     }
-    
+
     .comment-action span {
       display: none;
     }
-    
+
     .comment-action.like-button span {
       display: inline;
     }
-    
+
     .comment-replies-container {
       margin-left: 20px;
     }

@@ -73,7 +73,7 @@ export const useCommentsStore = create((set) => ({
       const response = await axios.put(`${API_URL}/${postId}/${commentId}`, { content });
       set((state) => {
         const updatedComments = state.comments.map((comment) =>
-          comment._id === commentId ? { ...comment, content: response.data.comment.content } : comment
+          comment._id === commentId ? { ...comment, content: response.data.comment.content, isEdited: true } : comment
         );
         return { comments: updatedComments, loading: false };
       });
@@ -97,7 +97,7 @@ export const useCommentsStore = create((set) => ({
               ...comment,
               replies: comment.replies.map((reply) =>
                 reply._id === replyId
-                  ? { ...reply, content: response.data.reply.content }
+                  ? { ...reply, content: response.data.reply.content, isEdited: true }
                   : reply
               ),
             }
@@ -118,10 +118,33 @@ export const useCommentsStore = create((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await axios.delete(`${API_URL}/${postId}/${commentId}`);
-      set((state) => ({
-        comments: state.comments.filter((comment) => comment._id !== commentId),
-        loading: false,
-      }));
+      set((state) => {
+        // Find existing comment to check for replies
+        const existingComment = state.comments.find(c => c._id === commentId);
+
+        let updatedComments;
+        if (existingComment && existingComment.replies && existingComment.replies.length > 0) {
+          // Soft delete: keep the comment but clear content/author
+          updatedComments = state.comments.map((comment) =>
+            comment._id === commentId ? {
+              ...comment,
+              content: "This comment has been deleted",
+              author: "Deleted User",
+              userImg: null, // removing profile image
+              // You might want to also flag it as deleted if you have a property for it
+              isDeleted: true
+            } : comment
+          );
+        } else {
+          // Hard delete if no replies
+          updatedComments = state.comments.filter((comment) => comment._id !== commentId);
+        }
+
+        return {
+          comments: updatedComments,
+          loading: false,
+        };
+      });
       toast.success(response.data.message);
     } catch (error) {
       const message = error.response?.data?.message || "Failed to delete comment";

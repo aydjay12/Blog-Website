@@ -180,6 +180,16 @@ const CommentsSection = ({ postId }) => {
     }
   };
 
+  // Mock function to update comment locally for "soft delete" visualization
+  // This helps if the backend actually deletes it but we want to show "deleted" state UI
+  // However, normally the backend should handle soft delete.
+  // Assuming if backend deletes, we refetch. If we want to simulate soft delete UI here:
+  /*
+  const softDeleteUI = (id, type) => {
+     // implementation to update local state logic
+  }
+  */
+
   const toggleLike = async (commentId, replyId = null) => {
     if (!isAuthenticated) {
       showNotification("You must be logged in to like");
@@ -270,15 +280,14 @@ const CommentsSection = ({ postId }) => {
             <input
               ref={replyInputRef}
               type="text"
-              placeholder={`Reply${replyState.mention ? "" : "..."}`}
-              className={`reply-input ${
-                replyState.mention ? "with-mention" : ""
-              }`}
+              placeholder={`Reply${replyState.mention ? ` to @${replyState.mention}` : "..."}`}
+              className={`reply-input ${replyState.mention ? "with-mention" : ""
+                }`}
               value={replyState.content}
               onChange={(e) =>
                 setReplyState((prev) => ({ ...prev, content: e.target.value }))
               }
-              onKeyPress={handleReplyKeyPress}
+              onKeyDown={handleReplyKeyPress}
             />
           </div>
           <motion.div
@@ -335,7 +344,7 @@ const CommentsSection = ({ postId }) => {
           onChange={(e) =>
             setEditState((prev) => ({ ...prev, content: e.target.value }))
           }
-          onKeyPress={handleEditKeyPress}
+          onKeyDown={handleEditKeyPress}
         />
         <motion.div
           className="edit-form-actions show"
@@ -529,9 +538,8 @@ const CommentsSection = ({ postId }) => {
             disabled={loading}
           />
           <motion.div
-            className={`comment-form-actions ${
-              newComment.trim() ? "show" : ""
-            }`}
+            className={`comment-form-actions ${newComment.trim() ? "show" : ""
+              }`}
             variants={containerVariants}
             initial="hidden"
             animate={newComment.trim() ? "visible" : "hidden"}
@@ -587,6 +595,7 @@ const CommentsSection = ({ postId }) => {
                   <span className="comment-author">{comment.author}</span>
                   <span className="comment-date">
                     {formatRelativeTime(comment.createdAt)}
+                    {comment.isEdited && <span className="edited-tag">Edited</span>}
                   </span>
                 </div>
 
@@ -602,9 +611,8 @@ const CommentsSection = ({ postId }) => {
                       animate="visible"
                     >
                       <motion.button
-                        className={`comment-action like-button ${
-                          comment.likes.includes(currentUser._id) ? "liked" : ""
-                        }`}
+                        className={`comment-action like-button ${comment.likes.includes(currentUser._id) ? "liked" : ""
+                          }`}
                         onClick={() => toggleLike(comment._id)}
                         variants={buttonVariants}
                         whileHover={{ scale: 1.1 }}
@@ -726,11 +734,12 @@ const CommentsSection = ({ postId }) => {
                                   </span>
                                   <span className="comment-date">
                                     {formatRelativeTime(reply.createdAt)}
+                                    {reply.isEdited && <span className="edited-tag">Edited</span>}
                                   </span>
                                 </div>
 
                                 {editState.commentId === comment._id &&
-                                editState.replyId === reply._id ? (
+                                  editState.replyId === reply._id ? (
                                   renderEditForm(
                                     comment._id,
                                     reply._id,
@@ -748,11 +757,10 @@ const CommentsSection = ({ postId }) => {
                                       animate="visible"
                                     >
                                       <motion.button
-                                        className={`comment-action like-button ${
-                                          reply.likes.includes(currentUser._id)
+                                        className={`comment-action like-button ${reply.likes.includes(currentUser._id)
                                             ? "liked"
                                             : ""
-                                        }`}
+                                          }`}
                                         onClick={() =>
                                           toggleLike(comment._id, reply._id)
                                         }
