@@ -108,7 +108,7 @@ export default function Search() {
   const search = React.useCallback((
     searchText,
     resetFilters = false,
-    skipRecentUpdate = false,
+    skipNavigate = false,
     isFilterSearch = false
   ) => {
     setIsFilterSearchActive(isFilterSearch);
@@ -152,7 +152,7 @@ export default function Search() {
     setResults(filteredResults);
 
     // Update recent searches only if the search text is not empty and not already in the list
-    if (searchText && searchText.trim() && !skipRecentUpdate) {
+    if (searchText && searchText.trim()) {
       setRecentSearches((prevSearches) => {
         const currentSearches = Array.isArray(prevSearches) ? prevSearches : [];
         if (currentSearches.includes(searchText)) return currentSearches;
@@ -165,7 +165,7 @@ export default function Search() {
       });
     }
 
-    if (!skipRecentUpdate) {
+    if (!skipNavigate) {
       navigate("/search", { replace: true });
       setQuery("");
     }
