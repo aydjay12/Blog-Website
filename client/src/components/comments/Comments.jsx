@@ -511,7 +511,7 @@ const CommentsSection = ({ postId }) => {
         transition={{ duration: 0.5 }}
       >
         <h2 className="comments-title">
-          {sortedComments.length} Comments
+          {sortedComments.length} {sortedComments.length === 1 ? "Comment" : "Comments"}
         </h2>
         <div className="comments-sort">
           <select

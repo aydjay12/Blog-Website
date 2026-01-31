@@ -36,11 +36,14 @@ const formatDate = (dateString) => {
     }
   }
 
-  // If 24 hours or more
   if (diffInDays === 1) return "1 day ago";
   if (diffInDays < 7) return `${diffInDays} days ago`;
   const diffInWeeks = Math.floor(diffInDays / 7);
-  return diffInWeeks === 1 ? "1 week ago" : `${diffInWeeks} weeks ago`;
+  if (diffInWeeks < 4) return diffInWeeks === 1 ? "1 week ago" : `${diffInWeeks} weeks ago`;
+  const diffInMonths = Math.floor(diffInDays / 30);
+  if (diffInMonths < 12) return diffInMonths === 1 ? "1 month ago" : `${diffInMonths} months ago`;
+  const diffInYears = Math.floor(diffInDays / 365);
+  return diffInYears === 1 ? "1 year ago" : `${diffInYears} years ago`;
 };
 
 // Animation variants for the blog card
