@@ -150,7 +150,7 @@ export default function Search() {
     setResults(filteredResults);
 
     // Update recent searches only if the search text is not empty and not already in the list
-    if (searchText && searchText.trim()) {
+    if (searchText && searchText.trim() && !skipRecentUpdate) {
       setRecentSearches((prevSearches) => {
         const currentSearches = Array.isArray(prevSearches) ? prevSearches : [];
         if (currentSearches.includes(searchText)) return currentSearches;
@@ -163,8 +163,10 @@ export default function Search() {
       });
     }
 
-    navigate("/search", { replace: true });
-    setQuery("");
+    if (!skipRecentUpdate) {
+      navigate("/search", { replace: true });
+      setQuery("");
+    }
     if (resetFilters) {
       setCategories(["All"]);
       setTags([]);
