@@ -621,259 +621,265 @@ const CommentsSection = ({ postId }) => {
                       initial="hidden"
                       animate="visible"
                     >
-                      {!comment.isDeleted && (
-                        <>
-                          <motion.button
-                            className={`comment-action like-button ${comment.likes.includes(currentUser._id) ? "liked" : ""
-                              }`}
-                            onClick={() => toggleLike(comment._id)}
-                            variants={buttonVariants}
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                          >
-                            {comment.likes.includes(currentUser._id) ? (
-                              <FaHeart />
-                            ) : (
-                              <FaRegHeart />
-                            )}
-                            <span>
-                              {comment.likes.length > 0 ? comment.likes.length : ""}
-                            </span>
-                          </motion.button>
+                      <motion.div
+                        className="comment-actions"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                      >
+                        <motion.button
+                          className={`comment-action like-button ${comment.likes.includes(currentUser._id) ? "liked" : ""
+                            }`}
+                          onClick={() => !comment.isDeleted && toggleLike(comment._id)}
+                          disabled={comment.isDeleted}
+                          variants={buttonVariants}
+                          whileHover={!comment.isDeleted ? { scale: 1.1 } : {}}
+                          whileTap={!comment.isDeleted ? { scale: 0.9 } : {}}
+                          style={comment.isDeleted ? { opacity: 0.5, cursor: "not-allowed" } : {}}
+                        >
+                          {comment.likes.includes(currentUser._id) ? (
+                            <FaHeart />
+                          ) : (
+                            <FaRegHeart />
+                          )}
+                          <span>
+                            {comment.likes.length > 0 ? comment.likes.length : ""}
+                          </span>
+                        </motion.button>
 
-                          <motion.button
-                            className="comment-action reply-button"
-                            onClick={() => handleReplyClick(comment._id)}
-                            variants={buttonVariants}
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                          >
-                            <FaReply />
-                            <span>Reply</span>
-                          </motion.button>
-                        </>
-                      )}
+                        <motion.button
+                          className="comment-action reply-button"
+                          onClick={() => !comment.isDeleted && handleReplyClick(comment._id)}
+                          disabled={comment.isDeleted}
+                          variants={buttonVariants}
+                          whileHover={!comment.isDeleted ? { scale: 1.1 } : {}}
+                          whileTap={!comment.isDeleted ? { scale: 0.9 } : {}}
+                          style={comment.isDeleted ? { opacity: 0.5, cursor: "not-allowed" } : {}}
+                        >
+                          <FaReply />
+                          <span>Reply</span>
+                        </motion.button>
 
-                      {isCurrentUserContent(comment.author) && (
-                        <>
-                          <motion.button
-                            className="comment-action edit-button"
-                            onClick={() =>
-                              handleEditClick(
-                                comment._id,
-                                null,
-                                comment.content
-                              )
-                            }
-                            variants={buttonVariants}
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                          >
-                            <FaEdit />
-                            <span>Edit</span>
-                          </motion.button>
-                          <motion.button
-                            className="comment-action delete-button"
-                            onClick={() =>
-                              openDeleteModal("comment", comment._id)
-                            }
-                            variants={buttonVariants}
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                          >
-                            <FaTrash />
-                            <span>Delete</span>
-                          </motion.button>
-                        </>
-                      )}
-                    </motion.div>
-                  </>
+                        {isCurrentUserContent(comment.author) && (
+                          <>
+                            <motion.button
+                              className="comment-action edit-button"
+                              onClick={() =>
+                                handleEditClick(
+                                  comment._id,
+                                  null,
+                                  comment.content
+                                )
+                              }
+                              variants={buttonVariants}
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                            >
+                              <FaEdit />
+                              <span>Edit</span>
+                            </motion.button>
+                            <motion.button
+                              className="comment-action delete-button"
+                              onClick={() =>
+                                openDeleteModal("comment", comment._id)
+                              }
+                              variants={buttonVariants}
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                            >
+                              <FaTrash />
+                              <span>Delete</span>
+                            </motion.button>
+                          </>
+                        )}
+                      </motion.div>
+                    </>
                 )}
 
-                {renderReplyForm(comment._id)}
+                    {renderReplyForm(comment._id)}
+                  </div>
               </div>
-            </div>
 
-            {comment.replies.length > 0 && (
-              <div className="comment-replies-container">
-                {!expandedComments[comment._id] ? (
-                  <motion.button
-                    className="view-replies-button"
-                    onClick={() => toggleReplies(comment._id)}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    View {comment.replies.length}{" "}
-                    {comment.replies.length === 1 ? "reply" : "replies"}
-                  </motion.button>
-                ) : (
-                  <>
+              {comment.replies.length > 0 && (
+                <div className="comment-replies-container">
+                  {!expandedComments[comment._id] ? (
                     <motion.button
-                      className="hide-replies-button"
+                      className="view-replies-button"
                       onClick={() => toggleReplies(comment._id)}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.3 }}
                       whileHover={{ scale: 1.05 }}
                     >
-                      Hide replies
+                      View {comment.replies.length}{" "}
+                      {comment.replies.length === 1 ? "reply" : "replies"}
                     </motion.button>
-                    <motion.div
-                      className="comment-replies"
-                      variants={containerVariants}
-                      initial="hidden"
-                      animate="visible"
-                    >
-                      {comment.replies.map((reply) => (
-                        <motion.div
-                          className="reply-thread"
-                          key={reply._id}
-                          variants={replyVariants}
-                        >
-                          <div className="reply-container-body">
-                            <div className="reply">
-                              <div className="comment-avatar-container">
-                                <img
-                                  src={reply.userImg || ProfilePic}
-                                  alt=""
-                                  className="comment-avatar comment-avatar-small"
-                                />
-                              </div>
-
-                              <div className="comment-content">
-                                <div className="comment-header">
-                                  <span className="comment-author">
-                                    {reply.author}
-                                  </span>
-                                  <span className="comment-date">
-                                    {formatRelativeTime(reply.createdAt)}
-                                    {reply.isEdited && <span className="edited-tag">Edited</span>}
-                                  </span>
+                  ) : (
+                    <>
+                      <motion.button
+                        className="hide-replies-button"
+                        onClick={() => toggleReplies(comment._id)}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                        whileHover={{ scale: 1.05 }}
+                      >
+                        Hide replies
+                      </motion.button>
+                      <motion.div
+                        className="comment-replies"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                      >
+                        {comment.replies.map((reply) => (
+                          <motion.div
+                            className="reply-thread"
+                            key={reply._id}
+                            variants={replyVariants}
+                          >
+                            <div className="reply-container-body">
+                              <div className="reply">
+                                <div className="comment-avatar-container">
+                                  <img
+                                    src={reply.userImg || ProfilePic}
+                                    alt=""
+                                    className="comment-avatar comment-avatar-small"
+                                  />
                                 </div>
 
-                                {editState.commentId === comment._id &&
-                                  editState.replyId === reply._id ? (
-                                  renderEditForm(
-                                    comment._id,
-                                    reply._id,
-                                    reply.content
-                                  )
-                                ) : (
-                                  <>
-                                    <p className="comment-text">
-                                      {reply.content}
-                                    </p>
-                                    <motion.div
-                                      className="comment-actions"
-                                      variants={containerVariants}
-                                      initial="hidden"
-                                      animate="visible"
-                                    >
-                                      <motion.button
-                                        className={`comment-action like-button ${reply.likes.includes(currentUser._id)
-                                          ? "liked"
-                                          : ""
-                                          }`}
-                                        onClick={() =>
-                                          toggleLike(comment._id, reply._id)
-                                        }
-                                        variants={buttonVariants}
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                      >
-                                        {reply.likes.includes(
-                                          currentUser._id
-                                        ) ? (
-                                          <FaHeart />
-                                        ) : (
-                                          <FaRegHeart />
-                                        )}
-                                        <span>
-                                          {reply.likes.length > 0
-                                            ? reply.likes.length
-                                            : ""}
-                                        </span>
-                                      </motion.button>
+                                <div className="comment-content">
+                                  <div className="comment-header">
+                                    <span className="comment-author">
+                                      {reply.author}
+                                    </span>
+                                    <span className="comment-date">
+                                      {formatRelativeTime(reply.createdAt)}
+                                      {reply.isEdited && <span className="edited-tag">Edited</span>}
+                                    </span>
+                                  </div>
 
-                                      <motion.button
-                                        className="comment-action reply-button"
-                                        onClick={() => {
-                                          if (
-                                            reply.author ===
-                                            currentUser.username
-                                          ) {
-                                            handleReplyClick(
-                                              comment._id,
-                                              reply._id
-                                            );
-                                          } else {
-                                            handleReplyClick(
-                                              comment._id,
-                                              reply._id,
-                                              reply.author
-                                            );
+                                  {editState.commentId === comment._id &&
+                                    editState.replyId === reply._id ? (
+                                    renderEditForm(
+                                      comment._id,
+                                      reply._id,
+                                      reply.content
+                                    )
+                                  ) : (
+                                    <>
+                                      <p className="comment-text">
+                                        {reply.content}
+                                      </p>
+                                      <motion.div
+                                        className="comment-actions"
+                                        variants={containerVariants}
+                                        initial="hidden"
+                                        animate="visible"
+                                      >
+                                        <motion.button
+                                          className={`comment-action like-button ${reply.likes.includes(currentUser._id)
+                                            ? "liked"
+                                            : ""
+                                            }`}
+                                          onClick={() =>
+                                            toggleLike(comment._id, reply._id)
                                           }
-                                        }}
-                                        variants={buttonVariants}
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                      >
-                                        <FaReply />
-                                        <span>Reply</span>
-                                      </motion.button>
+                                          variants={buttonVariants}
+                                          whileHover={{ scale: 1.1 }}
+                                          whileTap={{ scale: 0.9 }}
+                                        >
+                                          {reply.likes.includes(
+                                            currentUser._id
+                                          ) ? (
+                                            <FaHeart />
+                                          ) : (
+                                            <FaRegHeart />
+                                          )}
+                                          <span>
+                                            {reply.likes.length > 0
+                                              ? reply.likes.length
+                                              : ""}
+                                          </span>
+                                        </motion.button>
 
-                                      {isCurrentUserContent(reply.author) && (
-                                        <>
-                                          <motion.button
-                                            className="comment-action edit-button"
-                                            onClick={() =>
-                                              handleEditClick(
-                                                comment._id,
-                                                reply._id,
-                                                reply.content
-                                              )
-                                            }
-                                            variants={buttonVariants}
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.9 }}
-                                          >
-                                            <FaEdit />
-                                            <span>Edit</span>
-                                          </motion.button>
-                                          <motion.button
-                                            className="comment-action delete-button"
-                                            onClick={() =>
-                                              openDeleteModal(
-                                                "reply",
+                                        <motion.button
+                                          className="comment-action reply-button"
+                                          onClick={() => {
+                                            if (
+                                              reply.author ===
+                                              currentUser.username
+                                            ) {
+                                              handleReplyClick(
                                                 comment._id,
                                                 reply._id
-                                              )
+                                              );
+                                            } else {
+                                              handleReplyClick(
+                                                comment._id,
+                                                reply._id,
+                                                reply.author
+                                              );
                                             }
-                                            variants={buttonVariants}
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.9 }}
-                                          >
-                                            <FaTrash />
-                                            <span>Delete</span>
-                                          </motion.button>
-                                        </>
-                                      )}
-                                    </motion.div>
-                                  </>
-                                )}
+                                          }}
+                                          variants={buttonVariants}
+                                          whileHover={{ scale: 1.1 }}
+                                          whileTap={{ scale: 0.9 }}
+                                        >
+                                          <FaReply />
+                                          <span>Reply</span>
+                                        </motion.button>
+
+                                        {isCurrentUserContent(reply.author) && (
+                                          <>
+                                            <motion.button
+                                              className="comment-action edit-button"
+                                              onClick={() =>
+                                                handleEditClick(
+                                                  comment._id,
+                                                  reply._id,
+                                                  reply.content
+                                                )
+                                              }
+                                              variants={buttonVariants}
+                                              whileHover={{ scale: 1.1 }}
+                                              whileTap={{ scale: 0.9 }}
+                                            >
+                                              <FaEdit />
+                                              <span>Edit</span>
+                                            </motion.button>
+                                            <motion.button
+                                              className="comment-action delete-button"
+                                              onClick={() =>
+                                                openDeleteModal(
+                                                  "reply",
+                                                  comment._id,
+                                                  reply._id
+                                                )
+                                              }
+                                              variants={buttonVariants}
+                                              whileHover={{ scale: 1.1 }}
+                                              whileTap={{ scale: 0.9 }}
+                                            >
+                                              <FaTrash />
+                                              <span>Delete</span>
+                                            </motion.button>
+                                          </>
+                                        )}
+                                      </motion.div>
+                                    </>
+                                  )}
+                                </div>
                               </div>
+                              {renderReplyForm(comment._id, reply._id)}
                             </div>
-                            {renderReplyForm(comment._id, reply._id)}
-                          </div>
-                        </motion.div>
-                      ))}
-                    </motion.div>
-                  </>
-                )}
-              </div>
-            )}
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    </>
+                  )}
+                </div>
+              )}
           </motion.div>
         ))}
       </div>
