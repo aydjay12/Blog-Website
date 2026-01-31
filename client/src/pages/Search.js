@@ -113,7 +113,9 @@ export default function Search() {
   ) => {
     setIsFilterSearchActive(isFilterSearch);
     setCurrentPage(1);
-    setHasSearched(true);
+    if (posts.length > 0 || !loadingPost) {
+      setHasSearched(true);
+    }
 
     const searchQuery = isFilterSearch ? "" : searchText;
     setSearchParams({
