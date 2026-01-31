@@ -510,7 +510,9 @@ const CommentsSection = ({ postId }) => {
         animate="visible"
         transition={{ duration: 0.5 }}
       >
-        <h2 className="comments-title">{comments.length} Comments</h2>
+        <h2 className="comments-title">
+          {sortedComments.reduce((acc, comment) => acc + 1 + (comment.replies?.length || 0), 0)} Comments
+        </h2>
         <div className="comments-sort">
           <select
             value={sortBy}
@@ -619,34 +621,38 @@ const CommentsSection = ({ postId }) => {
                       initial="hidden"
                       animate="visible"
                     >
-                      <motion.button
-                        className={`comment-action like-button ${comment.likes.includes(currentUser._id) ? "liked" : ""
-                          }`}
-                        onClick={() => toggleLike(comment._id)}
-                        variants={buttonVariants}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        {comment.likes.includes(currentUser._id) ? (
-                          <FaHeart />
-                        ) : (
-                          <FaRegHeart />
-                        )}
-                        <span>
-                          {comment.likes.length > 0 ? comment.likes.length : ""}
-                        </span>
-                      </motion.button>
+                      {!comment.isDeleted && (
+                        <>
+                          <motion.button
+                            className={`comment-action like-button ${comment.likes.includes(currentUser._id) ? "liked" : ""
+                              }`}
+                            onClick={() => toggleLike(comment._id)}
+                            variants={buttonVariants}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                          >
+                            {comment.likes.includes(currentUser._id) ? (
+                              <FaHeart />
+                            ) : (
+                              <FaRegHeart />
+                            )}
+                            <span>
+                              {comment.likes.length > 0 ? comment.likes.length : ""}
+                            </span>
+                          </motion.button>
 
-                      <motion.button
-                        className="comment-action reply-button"
-                        onClick={() => handleReplyClick(comment._id)}
-                        variants={buttonVariants}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        <FaReply />
-                        <span>Reply</span>
-                      </motion.button>
+                          <motion.button
+                            className="comment-action reply-button"
+                            onClick={() => handleReplyClick(comment._id)}
+                            variants={buttonVariants}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                          >
+                            <FaReply />
+                            <span>Reply</span>
+                          </motion.button>
+                        </>
+                      )}
 
                       {isCurrentUserContent(comment.author) && (
                         <>
