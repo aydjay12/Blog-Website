@@ -1,40 +1,51 @@
 .header {
-  margin-top: 60px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .headerTitles {
+  position: absolute;
+  top: 43px;
+  /* Consistent top spacing */
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: "Lora", serif;
   color: #444;
+  text-align: center;
+  width: 100%;
 }
 
 .headerTitleSm {
-  position: absolute;
-  top: 17%;
   font-size: 20px;
+  margin-bottom: 20px;
 }
 
 .headerTitleLg {
-  position: absolute;
-  top: 20%;
   font-size: 100px;
+  font-weight: 400;
+  line-height: 0.8;
 }
 
 .headerImg {
   width: 100%;
   height: 450px;
-  margin-top: 40px;
+  margin-top: 80px;
   object-fit: cover;
 }
 
 @media only screen and (max-width: 768px) {
   .headerTitleSm {
-    font-size: 22px;
+    font-size: 18px;
   }
 
-  .headerImg{
+  .headerTitleLg {
+    font-size: 60px;
+  }
+
+  .headerImg {
     height: 350px;
   }
 }
