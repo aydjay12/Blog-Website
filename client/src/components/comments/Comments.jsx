@@ -511,7 +511,7 @@ const CommentsSection = ({ postId }) => {
         transition={{ duration: 0.5 }}
       >
         <h2 className="comments-title">
-          {sortedComments.reduce((acc, comment) => acc + 1 + (comment.replies?.length || 0), 0)} Comments
+          {sortedComments.length} Comments
         </h2>
         <div className="comments-sort">
           <select
