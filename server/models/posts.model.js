@@ -27,6 +27,14 @@ const replySchema = new mongoose.Schema(
       ref: "User",
       default: []
     }], // Array of user IDs who liked the reply
+    isEdited: {
+      type: Boolean,
+      default: false,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
@@ -58,6 +66,14 @@ const commentSchema = new mongoose.Schema(
       ref: "User",
       default: []
     }], // Array of user IDs who liked the comment
+    isEdited: {
+      type: Boolean,
+      default: false,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

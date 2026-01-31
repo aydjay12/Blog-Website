@@ -153,6 +153,7 @@ export const updateComment = async (req, res) => {
     }
 
     comment.content = content;
+    comment.isEdited = true;
     await post.save();
 
     res.status(200).json({
@@ -200,7 +201,8 @@ export const updateReply = async (req, res) => {
     }
 
     reply.content = content;
-    reply.date = new Date(); // Optional: update timestamp
+    reply.isEdited = true;
+    // reply.date = new Date(); // keeping original date logic if preferred, or updating
     await post.save();
 
     res.status(200).json({
@@ -237,7 +239,19 @@ export const deleteComment = async (req, res) => {
       return res.status(403).json({ success: false, message: "You can only delete your own comments" });
     }
 
-    post.comments.pull(commentId);
+    // Check if comment has replies
+    if (comment.replies && comment.replies.length > 0) {
+      // Soft delete
+      comment.content = "This comment has been deleted";
+      comment.author = "Deleted User";
+      comment.userImg = null; // or a deleted placeholder
+      // You might want a flag too
+      comment.isDeleted = true;
+    } else {
+      // Hard delete
+      post.comments.pull(commentId);
+    }
+
     await post.save();
 
     res.status(200).json({

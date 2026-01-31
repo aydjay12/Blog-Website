@@ -210,11 +210,15 @@ const CommentsSection = ({ postId }) => {
   const isCurrentUserContent = (author) => author === currentUser.username;
 
   const handleReplyClick = (commentId, replyId = null, mentionUser = null) => {
+    // Close any open edit form
+    resetEditState();
     setReplyState({ commentId, replyId, content: "", mention: mentionUser });
     setTimeout(() => replyInputRef.current?.focus(), 10);
   };
 
   const handleEditClick = (commentId, replyId = null, content) => {
+    // Close any open reply form
+    resetReplyState();
     setEditState({ commentId, replyId, content });
     setTimeout(() => editInputRef.current?.focus(), 10);
   };
@@ -758,8 +762,8 @@ const CommentsSection = ({ postId }) => {
                                     >
                                       <motion.button
                                         className={`comment-action like-button ${reply.likes.includes(currentUser._id)
-                                            ? "liked"
-                                            : ""
+                                          ? "liked"
+                                          : ""
                                           }`}
                                         onClick={() =>
                                           toggleLike(comment._id, reply._id)
