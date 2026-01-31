@@ -422,35 +422,42 @@
   /* Notification */
   .notification {
     position: fixed;
-    bottom: 20px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #333;
+    background: linear-gradient(135deg, #be9656, #a88349);
     color: white;
-    padding: 10px 20px;
-    border-radius: 4px;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    animation: fadeInOut 3s ease;
-    transition: .3s all ease-in-out;
+    padding: 12px 32px;
+    border-radius: 50px;
+    z-index: 2000;
+    box-shadow: 0 10px 30px rgba(190, 150, 86, 0.4);
+    animation: fadeInOut 3s ease forwards;
+    transition: all 0.3s ease;
     width: max-content;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
   }
 
   @keyframes fadeInOut {
     0% {
       opacity: 0;
+      transform: translate(-50%, 20px);
     }
 
-    10% {
+    15% {
       opacity: 1;
+      transform: translate(-50%, 0);
     }
 
-    90% {
+    85% {
       opacity: 1;
+      transform: translate(-50%, 0);
     }
 
     100% {
       opacity: 0;
+      transform: translate(-50%, -10px);
     }
   }
 
