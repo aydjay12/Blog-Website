@@ -6,7 +6,8 @@
   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
-  height: 100%; /* Ensures the card takes full height of grid cell */
+  height: 100%;
+  /* Ensures the card takes full height of grid cell */
 }
 
 .post:hover {
@@ -15,7 +16,8 @@
 }
 
 .post-image-container {
-  height: 200px; /* Fixed height like Blogs.css */
+  height: 200px;
+  /* Fixed height like Blogs.css */
   position: relative;
   overflow: hidden;
 }
@@ -70,7 +72,8 @@
   padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Allows this section to expand and maintain consistency */
+  flex-grow: 1;
+  /* Allows this section to expand and maintain consistency */
 }
 
 .postCats {
@@ -107,6 +110,16 @@
 .post-author {
   display: flex;
   align-items: center;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.post-author:hover span {
+  color: #be9656;
+}
+
+.post-author:hover .author-img {
+  transform: scale(1.1);
 }
 
 .author-img {
@@ -115,6 +128,7 @@
   border-radius: 50%;
   object-fit: cover;
   margin-right: 8px;
+  transition: transform 0.3s ease;
 }
 
 .post-author span {
@@ -131,10 +145,12 @@
   line-height: 1.6;
   font-size: 0.95rem;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Limits to 3 lines like Blogs.css */
+  -webkit-line-clamp: 3;
+  /* Limits to 3 lines like Blogs.css */
   -webkit-box-orient: vertical;
   overflow: hidden;
-  flex-grow: 1; /* Ensures consistent height by pushing content */
+  flex-grow: 1;
+  /* Ensures consistent height by pushing content */
 }
 
 @media only screen and (max-width: 768px) {
@@ -160,15 +176,19 @@
 
   /* Disable hover effects on mobile */
   .post:hover .post-overlay {
-    opacity: 1; /* Already visible, no change needed */
+    opacity: 1;
+    /* Already visible, no change needed */
   }
 
   .post:hover .postImg {
-    transform: none; /* Disable image zoom on mobile */
+    transform: none;
+    /* Disable image zoom on mobile */
   }
 
   .post:hover {
-    transform: none; /* Disable card lift on mobile */
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07); /* Keep original shadow */
+    transform: none;
+    /* Disable card lift on mobile */
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07);
+    /* Keep original shadow */
   }
 }

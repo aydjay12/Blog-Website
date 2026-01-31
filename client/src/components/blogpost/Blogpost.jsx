@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/Blogs.css"; // Assuming this contains the blog-card styles; adjust if needed
 
 // Utility function to strip HTML tags and truncate text
@@ -77,6 +77,14 @@ export default function BlogPost({
 
   // Limit categories to the first 2
   const displayedCategories = categories.slice(0, 2);
+  const navigate = useNavigate();
+
+  const handleAuthorClick = (e) => {
+    e.preventDefault(); // Prevent bubbling if necessary, though it's separate
+    if (author) {
+      navigate(`/author/${encodeURIComponent(author)}`);
+    }
+  };
 
   return (
     <motion.div
@@ -107,7 +115,14 @@ export default function BlogPost({
       <div className="blog-info">
         <h2 className="blog-title">{title}</h2>
         <div className="blog-meta">
-          {showAuthor && <span className="blog-author">By {author}</span>}
+          {showAuthor && (
+            <span
+              className="blog-author"
+              onClick={handleAuthorClick}
+            >
+              By {author}
+            </span>
+          )}
           <span className="blog-date">{formatDate(postDate)}</span>
         </div>
         <p className="blog-desc">{stripHtml(content)}</p>

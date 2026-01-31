@@ -8,6 +8,7 @@
   background-size: cover;
   background-position: center;
   min-height: 80vh;
+
   .login-card {
     background-color: white;
     border-radius: 10px;
@@ -16,34 +17,36 @@
     padding: 1em 2.5rem;
     padding-bottom: 3rem;
     transition: transform 0.3s ease;
-    @media(max-width: 768px){
+
+    @media(max-width: 768px) {
       border-radius: 0;
     }
   }
-    
+
   .login-card:hover {
     transform: translateY(-5px);
-    @media(max-width: 768px){
+
+    @media(max-width: 768px) {
       transform: unset;
     }
   }
-    
+
   .login-header {
     text-align: center;
     margin-bottom: 2rem;
   }
-    
+
   .login-header h1 {
     font-size: 2rem;
     color: #333;
     margin-bottom: 0.5rem;
   }
-    
+
   .login-header p {
     color: #777;
     font-size: 1rem;
   }
-    
+
   .user-type-toggle {
     display: flex;
     background-color: #f5f5f5;
@@ -51,7 +54,7 @@
     margin-bottom: 2rem;
     overflow: hidden;
   }
-    
+
   .toggle-btn {
     flex: 1;
     padding: 0.8rem 1rem;
@@ -65,35 +68,35 @@
     font-size: 1rem;
     transition: all 0.3s ease;
   }
-    
+
   .toggle-btn.active {
     background-color: #be9656;
     color: white;
   }
-    
+
   .toggle-icon {
     font-size: 1.2rem;
   }
-    
+
   .login-form {
     display: flex;
     flex-direction: column;
   }
-    
+
   .form-group {
     margin-bottom: 1.5rem;
     width: 100%;
     display: flex;
     flex-direction: column;
   }
-    
+
   .form-group label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
     color: #555;
   }
-    
+
   .form-group input {
     padding: 0.8rem 1rem;
     font-size: 1rem;
@@ -101,19 +104,19 @@
     border-radius: 5px;
     transition: border-color 0.3s ease;
   }
-    
+
   .form-group input:focus {
     outline: none;
     border-color: #be9656;
   }
-    
+
   .password-input-container {
     position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
   }
-    
+
   .password-toggle {
     position: absolute;
     right: 10px;
@@ -126,28 +129,27 @@
     display: flex;
     align-items: center;
   }
-    
+
   .form-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
+    margin-top: 0.5rem;
     font-size: 0.9rem;
   }
-    
+
   .remember-me {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1em;
-    margin-top: 0.5em;
   }
-  
+
   .remember-me div {
     display: flex;
     align-items: center;
   }
-  
+
   .remember-me div input {
     width: 30px;
     height: 30px;
@@ -156,11 +158,11 @@
     cursor: pointer;
     background: transparent;
   }
-  
+
   .remember-me div label {
     color: #555;
   }
-  
+
   input[type="checkbox"] {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -174,12 +176,12 @@
     color: #be9656;
     border: 1px solid #ccc;
   }
-  
+
   input[type="checkbox"]:checked {
     position: relative;
     border: 1px solid #be9656;
   }
-  
+
   input[type="checkbox"]:checked::before {
     content: "\2714";
     position: absolute;
@@ -189,18 +191,18 @@
     font-size: 14px;
     color: #be9656;
   }
-    
+
   .forgot-password {
     color: #be9656;
     text-decoration: none;
     transition: color 0.3s ease;
   }
-    
+
   .forgot-password:hover {
     color: #a88144;
     text-decoration: underline;
   }
-    
+
   .login-submit-btn {
     background-color: #be9656;
     color: white;
@@ -212,20 +214,20 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
+
   .login-submit-btn:disabled {
     background-color: #cba97a;
     cursor: not-allowed;
   }
-  
+
   .login-submit-btn:disabled:hover {
     background-color: #b19268;
   }
-    
+
   .login-submit-btn:hover {
     background-color: #a88144;
   }
-  
+
   .error-message {
     color: #e74c3c;
     font-size: 0.8rem;
@@ -233,7 +235,7 @@
     display: block;
     text-align: center;
   }
-  
+
   /* New styles for Google Sign-in */
   .divider {
     display: flex;
@@ -242,19 +244,19 @@
     margin: 1.5rem 0;
     color: #777;
   }
-  
+
   .divider::before,
   .divider::after {
     content: "";
     flex: 1;
     border-bottom: 1px solid #ddd;
   }
-  
+
   .divider span {
     padding: 0 1rem;
     font-size: 0.9rem;
   }
-  
+
   .google-signin-btn {
     display: flex;
     align-items: center;
@@ -269,28 +271,29 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    svg{
+
+    svg {
       margin-top: .15rem;
     }
   }
-  
+
   .google-signin-btn:hover {
     background-color: #f5f5f5;
     border-color: #ccc;
   }
-  
+
   .google-icon {
     font-size: 1.2rem;
     color: #4285F4;
   }
-    
+
   .login-footer {
     text-align: center;
     margin-top: 1.5rem;
     font-size: 0.95rem;
     color: #555;
   }
-    
+
   .register-link {
     color: #be9656;
     text-decoration: none;
@@ -298,7 +301,7 @@
     transition: color 0.3s ease;
     margin-left: .3rem;
   }
-    
+
   .register-link:hover {
     color: #a88144;
     text-decoration: underline;
@@ -310,6 +313,7 @@
   .login-container {
     padding: 0;
     min-height: unset;
+
     .login-card {
       padding: 1em;
       padding-bottom: 3em;
@@ -318,7 +322,7 @@
       box-shadow: none;
       min-height: 80vh;
     }
-      
+
     .login-header h1 {
       font-size: 1.8rem;
     }

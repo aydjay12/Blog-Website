@@ -183,6 +183,7 @@
       flex: 1 1 100%;
       /* About section takes full width */
       margin-bottom: 1.5rem;
+      padding-right: 0;
     }
 
     .footer-section.subscribe {

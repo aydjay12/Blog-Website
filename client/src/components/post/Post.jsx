@@ -67,6 +67,10 @@ export default function Post({ post }) {
     });
   };
 
+  const handleAuthorClick = () => {
+    navigate(`/author/${encodeURIComponent(author)}`);
+  };
+
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
@@ -115,7 +119,7 @@ export default function Post({ post }) {
           </Link>
         </span>
         <div className="post-meta">
-          <div className="post-author">
+          <div className="post-author" onClick={handleAuthorClick}>
             <img
               src={authorImg || ProfilePic}
               alt={author}

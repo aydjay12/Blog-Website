@@ -303,6 +303,8 @@ export default function Single() {
                         stiffness: 400,
                         damping: 10,
                       }}
+                      onClick={handleAuthorClick}
+                      style={{ cursor: "pointer" }}
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = ProfilePic;
@@ -318,6 +320,8 @@ export default function Single() {
                         stiffness: 400,
                         damping: 10,
                       }}
+                      onClick={handleAuthorClick}
+                      style={{ cursor: "pointer" }}
                     />
                   )}
                   <div className="author-info">
