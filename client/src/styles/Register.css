@@ -4,14 +4,12 @@
   justify-content: center;
   align-items: center;
   background-color: #f8f9fa;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.8),
-      rgba(255, 255, 255, 0.8)
-    ),
+  background: linear-gradient(rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.8)),
     url("https://images.pexels.com/photos/768473/pexels-photo-768473.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
   background-size: cover;
   background-position: center;
-  min-height: 80vh;
+  min-height: 90vh;
 
   .register-card {
     background-color: white;
@@ -20,6 +18,7 @@
     width: 60%;
     overflow: hidden;
     transition: transform 0.3s ease;
+
     @media (max-width: 768px) {
       border-radius: 0;
     }
@@ -27,6 +26,7 @@
 
   .register-card:hover {
     transform: translateY(-5px);
+
     @media (max-width: 768px) {
       transform: unset;
     }
@@ -108,11 +108,11 @@
     border-radius: 50%;
   }
 
-  .toggle-switch input:checked + label {
+  .toggle-switch input:checked+label {
     background-color: #be9656;
   }
 
-  .toggle-switch input:checked + label:before {
+  .toggle-switch input:checked+label:before {
     transform: translateX(26px);
   }
 
@@ -254,7 +254,7 @@
     font-size: 0.95rem;
   }
 
-  .login-link:hover{
+  .login-link:hover {
     color: #666;
     text-decoration: unset;
   }
@@ -270,79 +270,81 @@
     color: #a88144;
     text-decoration: underline;
   }
+
   /* Google Sign-up Button */
-.google-signup-container {
-  padding: 0;
-  padding-bottom: 0.5rem;
-  margin-top: 1.5rem;
-}
-
-.google-signup-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 1rem;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  svg{
-    margin-top: .15rem;
+  .google-signup-container {
+    padding: 0;
+    padding-bottom: 0.5rem;
+    margin-top: 1.5rem;
   }
-}
 
-.google-signup-btn:hover {
-  background-color: #f8f8f8;
-  border-color: #ccc;
-}
+  .google-signup-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 1rem;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
 
-.google-signup-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
+    svg {
+      margin-top: .15rem;
+    }
+  }
 
-.google-icon {
-  font-size: 1.5rem;
-  margin-right: 0.5rem;
-}
+  .google-signup-btn:hover {
+    background-color: #f8f8f8;
+    border-color: #ccc;
+  }
 
-.or-divider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 1.5rem 0;
-  margin-bottom: 2em;
-  color: #777;
-}
+  .google-signup-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
 
-.or-divider::before,
-.or-divider::after {
-  content: "";
-  flex: 1;
-  border-bottom: 1px solid #ddd;
-}
+  .google-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
 
-.or-divider span {
-  padding: 0 0.5rem;
-  font-size: 0.9rem;
-}
+  .or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+    margin-bottom: 2em;
+    color: #777;
+  }
 
-/* Loading state */
-.register-btn.loading {
-  background-color: #cba97a;
-  cursor: not-allowed;
-}
+  .or-divider::before,
+  .or-divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+  }
 
-.form-error {
-  text-align: center;
-  margin-bottom: 1rem;
-  font-weight: 500;
-}
+  .or-divider span {
+    padding: 0 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  /* Loading state */
+  .register-btn.loading {
+    background-color: #cba97a;
+    cursor: not-allowed;
+  }
+
+  .form-error {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
 }
 
 /* OTP Verification Styles */
@@ -352,161 +354,162 @@
   align-items: center;
   background-color: #f8f9fa;
   padding: 6rem 2rem;
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.8),
-    rgba(255, 255, 255, 0.8)
-  ),
-  url("https://images.pexels.com/photos/768473/pexels-photo-768473.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
-background-size: cover;
-background-position: center;
-min-height: 70vh;
-  
-.otp-verification-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  width: 50%;
-  padding: 2rem;
-  transition: transform 0.3s ease;
-  padding-bottom: 3rem;
-  @media (max-width: 768px) {
-    border-radius: 0;
+  background: linear-gradient(rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.8)),
+    url("https://images.pexels.com/photos/768473/pexels-photo-768473.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
+  background-size: cover;
+  background-position: center;
+  min-height: 70vh;
+
+  .otp-verification-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    padding: 2rem;
+    transition: transform 0.3s ease;
+    padding-bottom: 3rem;
+
+    @media (max-width: 768px) {
+      border-radius: 0;
+    }
   }
-}
 
-.otp-verification-card:hover {
-  transform: translateY(-5px);
-  @media (max-width: 768px) {
-    transform: unset;
+  .otp-verification-card:hover {
+    transform: translateY(-5px);
+
+    @media (max-width: 768px) {
+      transform: unset;
+    }
   }
-}
 
-.otp-verification-card h2 {
-  text-align: center;
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 0.5rem;
-  margin-top: 0;
-}
-
-.otp-info {
-  text-align: center;
-  color: #666;
-  margin-bottom: 2rem;
-}
-
-.otp-section h3 {
-  text-align: center;
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 1.5rem;
-}
-
-.otp-input-section {
-  margin-bottom: 2rem;
-}
-
-.otp-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.otp-input-container {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.otp-input-box {
-  width: 3rem;
-  height: 3rem;
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-}
-
-.otp-input-box:focus {
-  border-color: #be9656;
-  outline: none;
-}
-
-.otp-error {
-  color: #e74c3c;
-  text-align: center;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-}
-
-.otp-button-container {
-  margin-top: 1.5rem;
-}
-
-.verify-button {
-  width: 100%;
-  padding: 0.8rem;
-  background-color: #be9656;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.verify-button:hover {
-  background-color: #a88144;
-}
-
-.verify-button:disabled {
-  background-color: #cba97a;
-  cursor: not-allowed;
-}
-
-.verify-button:disabled:hover {
-  background-color: #ccaf85;
-}
-
-.loading-spinner {
-  width: 1.5rem;
-  height: 1.5rem;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
+  .otp-verification-card h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    margin-top: 0;
   }
-  100% {
-    transform: rotate(360deg);
+
+  .otp-info {
+    text-align: center;
+    color: #666;
+    margin-bottom: 2rem;
   }
-}
 
-.resend-otp-link {
-  display: block;
-  text-align: center;
-  margin-top: 1.5rem;
-  color: #666;
-  font-size: 0.95rem;
-}
+  .otp-section h3 {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+  }
 
-.resend-text {
-  color: #be9656;
-  font-weight: 500;
-  transition: color 0.3s;
-}
+  .otp-input-section {
+    margin-bottom: 2rem;
+  }
 
-.resend-text:hover {
-  color: #a88144;
-  text-decoration: underline;
-}
+  .otp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .otp-input-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .otp-input-box {
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .otp-input-box:focus {
+    border-color: #be9656;
+    outline: none;
+  }
+
+  .otp-error {
+    color: #e74c3c;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+
+  .otp-button-container {
+    margin-top: 1.5rem;
+  }
+
+  .verify-button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #be9656;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .verify-button:hover {
+    background-color: #a88144;
+  }
+
+  .verify-button:disabled {
+    background-color: #cba97a;
+    cursor: not-allowed;
+  }
+
+  .verify-button:disabled:hover {
+    background-color: #ccaf85;
+  }
+
+  .loading-spinner {
+    width: 1.5rem;
+    height: 1.5rem;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .resend-otp-link {
+    display: block;
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #666;
+    font-size: 0.95rem;
+  }
+
+  .resend-text {
+    color: #be9656;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  .resend-text:hover {
+    color: #a88144;
+    text-decoration: underline;
+  }
 }
 
 /* Responsive Design */
@@ -514,6 +517,7 @@ min-height: 70vh;
   .register-container {
     padding: 0;
     min-height: unset;
+
     .register-card {
       width: 100%;
       padding-top: 2rem;
@@ -521,28 +525,32 @@ min-height: 70vh;
       box-shadow: none;
       min-height: 80vh;
     }
+
     .register-header,
     .register-form {
       padding: 1rem !important;
     }
+
     .form-row {
       flex-direction: column;
       gap: 0;
     }
-  
+
     .register-header h2 {
       font-size: 1.8rem;
     }
   }
-  .otp-verification-container{
+
+  .otp-verification-container {
     padding: 0;
     min-height: unset;
+
     .otp-input-box {
       width: 2.5rem;
       height: 2.5rem;
       font-size: 1.2rem;
     }
-  
+
     .otp-verification-card {
       padding: 1rem;
       padding-bottom: 4rem;
@@ -555,12 +563,13 @@ min-height: 70vh;
 }
 
 @media screen and (max-width: 480px) {
-  .register-container{
+  .register-container {
+
     .register-header,
     .register-form {
       padding: 1rem !important;
     }
-  
+
     .register-header h2 {
       font-size: 1.6rem;
     }

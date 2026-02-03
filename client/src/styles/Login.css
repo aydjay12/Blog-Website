@@ -7,7 +7,7 @@
     url("https://images.pexels.com/photos/768473/pexels-photo-768473.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
   background-size: cover;
   background-position: center;
-  min-height: 80vh;
+  min-height: 90vh;
 
   .login-card {
     background-color: white;
