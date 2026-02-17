@@ -7,6 +7,7 @@ import AnimatedRoutes from "./components/AnimatedRoutes";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "./store/useAuthStore";
 import Loading from "./components/loading/Loading";
+import { motion, AnimatePresence } from "framer-motion";
 
 const AppContent = () => {
   const location = useLocation();
@@ -83,9 +84,33 @@ const AppContent = () => {
 
   return (
     <div className="App">
-      {!isAuthRoute && <Navbar />}
+      <AnimatePresence>
+        {!isAuthRoute && (
+          <motion.div
+            key="navbar"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Navbar />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <AnimatedRoutes />
-      {!isAuthRoute && <Footer />}
+      <AnimatePresence>
+        {!isAuthRoute && (
+          <motion.div
+            key="footer"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Footer />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
