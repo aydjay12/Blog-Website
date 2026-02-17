@@ -1,14 +1,8 @@
-// usePostsStore.js
 import { create } from "zustand";
-import axios from "axios";
+import axiosInstance from "../lib/axios";
 import { toast } from "react-toastify";
 
-const API_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:8000/api/posts"
-    : "https://blog-api-ecru-seven.vercel.app/api/posts";
-
-axios.defaults.withCredentials = true;
+const API_URL = "/posts";
 
 export const usePostsStore = create((set, get) => ({
   posts: [],
@@ -35,7 +29,7 @@ export const usePostsStore = create((set, get) => ({
 
     set({ loadingPost: true, error: null });
     try {
-      const response = await axios.get(API_URL);
+      const response = await axiosInstance.get(API_URL);
       if (response.data.success) {
         set({
           posts: response.data.posts,
@@ -56,7 +50,7 @@ export const usePostsStore = create((set, get) => ({
   fetchPostBySlug: async (slug) => {
     set({ loadingPost: true, error: null, currentPost: null });
     try {
-      const response = await axios.get(`${API_URL}/${slug}`);
+      const response = await axiosInstance.get(`${API_URL}/${slug}`);
       if (response.data.success) {
         set({ currentPost: response.data.post, loadingPost: false });
       } else {
@@ -73,7 +67,7 @@ export const usePostsStore = create((set, get) => ({
   fetchRelatedPosts: async (slug) => {
     set({ loadingRelated: true, error: null, relatedPosts: [] });
     try {
-      const response = await axios.get(`${API_URL}/${slug}/related`);
+      const response = await axiosInstance.get(`${API_URL}/${slug}/related`);
       if (response.data.success) {
         set({ relatedPosts: response.data.relatedPosts, loadingRelated: false });
       } else {
@@ -90,7 +84,7 @@ export const usePostsStore = create((set, get) => ({
   checkIsAuthor: async (postId) => {
     set({ loadingAuthorCheck: true, error: null });
     try {
-      const response = await axios.get(`${API_URL}/${postId}/is-author`);
+      const response = await axiosInstance.get(`${API_URL}/${postId}/is-author`);
       if (response.data.success) {
         set({ isAuthor: response.data.isAuthor, loadingAuthorCheck: false });
       } else {
@@ -106,7 +100,7 @@ export const usePostsStore = create((set, get) => ({
   createPost: async (postData) => {
     set({ loadingPost: true, error: null });
     try {
-      const response = await axios.post(API_URL, postData);
+      const response = await axiosInstance.post(API_URL, postData);
       if (response.data.success) {
         set((state) => ({
           posts: [response.data.post, ...state.posts],
@@ -129,7 +123,7 @@ export const usePostsStore = create((set, get) => ({
   updatePost: async (id, postData) => {
     set({ loadingUpdate: true, error: null });
     try {
-      const response = await axios.put(`${API_URL}/${id}`, postData);
+      const response = await axiosInstance.put(`${API_URL}/${id}`, postData);
       if (response.data.success) {
         set((state) => ({
           posts: state.posts.map((post) =>
@@ -154,7 +148,7 @@ export const usePostsStore = create((set, get) => ({
   deletePost: async (id) => {
     set({ loadingDelete: true, error: null });
     try {
-      const response = await axios.delete(`${API_URL}/${id}`);
+      const response = await axiosInstance.delete(`${API_URL}/${id}`);
       if (response.data.success) {
         set((state) => ({
           posts: state.posts.filter((post) => post._id !== id),
@@ -181,7 +175,7 @@ export const usePostsStore = create((set, get) => ({
       const formData = new FormData();
       formData.append("image", file);
 
-      const response = await axios.post(`${API_URL}/upload-image`, formData, {
+      const response = await axiosInstance.post(`${API_URL}/upload-image`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -1,14 +1,8 @@
-// useCommentsStore.js
 import { create } from "zustand";
-import axios from "axios";
+import axiosInstance from "../lib/axios";
 import { toast } from "react-toastify";
 
-const API_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:8000/api/comments"
-    : "https://blog-api-ecru-seven.vercel.app/api/comments";
-
-axios.defaults.withCredentials = true;
+const API_URL = "/comments";
 
 export const useCommentsStore = create((set) => ({
   comments: [],
@@ -19,7 +13,7 @@ export const useCommentsStore = create((set) => ({
   fetchComments: async (postId) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.get(`${API_URL}/${postId}`);
+      const response = await axiosInstance.get(`${API_URL}/${postId}`);
       set({ comments: response.data.comments, loading: false });
     } catch (error) {
       const message = error.response?.data?.message || "Failed to fetch comments";
@@ -32,7 +26,7 @@ export const useCommentsStore = create((set) => ({
   createComment: async (postId, content) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/${postId}`, { content });
+      const response = await axiosInstance.post(`${API_URL}/${postId}`, { content });
       set((state) => ({
         comments: [...state.comments, response.data.comment],
         loading: false,
@@ -49,7 +43,7 @@ export const useCommentsStore = create((set) => ({
   createReply: async (postId, commentId, content) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/${postId}/${commentId}/reply`, { content });
+      const response = await axiosInstance.post(`${API_URL}/${postId}/${commentId}/reply`, { content });
       set((state) => {
         const updatedComments = state.comments.map((comment) =>
           comment._id === commentId
@@ -70,7 +64,7 @@ export const useCommentsStore = create((set) => ({
   updateComment: async (postId, commentId, content) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.put(`${API_URL}/${postId}/${commentId}`, { content });
+      const response = await axiosInstance.put(`${API_URL}/${postId}/${commentId}`, { content });
       set((state) => {
         const updatedComments = state.comments.map((comment) =>
           comment._id === commentId ? { ...comment, content: response.data.comment.content, isEdited: true } : comment
@@ -89,7 +83,7 @@ export const useCommentsStore = create((set) => ({
   updateReply: async (postId, commentId, replyId, content) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.put(`${API_URL}/${postId}/${commentId}/${replyId}`, { content });
+      const response = await axiosInstance.put(`${API_URL}/${postId}/${commentId}/${replyId}`, { content });
       set((state) => {
         const updatedComments = state.comments.map((comment) =>
           comment._id === commentId
@@ -117,7 +111,7 @@ export const useCommentsStore = create((set) => ({
   deleteComment: async (postId, commentId) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.delete(`${API_URL}/${postId}/${commentId}`);
+      const response = await axiosInstance.delete(`${API_URL}/${postId}/${commentId}`);
       set((state) => {
         // Find existing comment to check for replies
         const existingComment = state.comments.find(c => c._id === commentId);
@@ -157,7 +151,7 @@ export const useCommentsStore = create((set) => ({
   deleteReply: async (postId, commentId, replyId) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.delete(`${API_URL}/${postId}/${commentId}/${replyId}`);
+      const response = await axiosInstance.delete(`${API_URL}/${postId}/${commentId}/${replyId}`);
       set((state) => {
         const updatedComments = state.comments.map((comment) =>
           comment._id === commentId
@@ -181,7 +175,7 @@ export const useCommentsStore = create((set) => ({
   likeComment: async (postId, commentId) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/${postId}/${commentId}/like`);
+      const response = await axiosInstance.post(`${API_URL}/${postId}/${commentId}/like`);
       set((state) => {
         const updatedComments = state.comments.map((comment) =>
           comment._id === commentId
@@ -205,7 +199,7 @@ export const useCommentsStore = create((set) => ({
   likeReply: async (postId, commentId, replyId) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/${postId}/${commentId}/${replyId}/like`);
+      const response = await axiosInstance.post(`${API_URL}/${postId}/${commentId}/${replyId}/like`);
       set((state) => {
         const updatedComments = state.comments.map((comment) =>
           comment._id === commentId

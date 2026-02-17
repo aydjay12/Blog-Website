@@ -6,7 +6,15 @@ import { User } from "../models/user.model.js";
  * Extracts user information and attaches it to request object
  */
 export const verifyToken = async (req, res, next) => {
-  const token = req.cookies.token;
+  let token = req.cookies.token;
+
+  if (!token) {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.substring(7); // Remove "Bearer " prefix
+    }
+  }
+
   if (!token) {
     return res.status(401).json({ success: false, message: "Unauthorized - No token provided" });
   }
@@ -69,17 +77,17 @@ export const verifyOwnership = (resourceModel, resourceIdParam = "id") => {
   return async (req, res, next) => {
     try {
       const resourceId = req.params[resourceIdParam];
-      
+
       const { [resourceModel]: Model } = await import(`../models/posts.model.js`);
-      
+
       const resource = await Model.findById(resourceId);
-      
+
       if (!resource) {
         return res
           .status(404)
           .json({ success: false, message: "Resource not found" });
       }
-      
+
       // Check ownership using authorId (ObjectId) instead of author (string)
       if (resource.authorId?.toString() !== req.userId.toString()) {
         console.log("Ownership check failed:", {
@@ -90,7 +98,7 @@ export const verifyOwnership = (resourceModel, resourceIdParam = "id") => {
           .status(403)
           .json({ success: false, message: "Forbidden - You do not have permission to modify this resource" });
       }
-      
+
       next();
     } catch (error) {
       console.log(`Error in verifyOwnership middleware for ${resourceModel}`, error);

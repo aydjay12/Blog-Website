@@ -1,13 +1,18 @@
 import { create } from "zustand";
-import axios from "axios";
+import axiosInstance from "../lib/axios";
 import { toast } from "react-toastify";
 
-const API_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:8000/api/auth"
-    : "https://blog-api-ecru-seven.vercel.app/api/auth";
-
-axios.defaults.withCredentials = true;
+const setStoredToken = (token) => {
+  try {
+    if (token) {
+      localStorage.setItem("auth_token", token);
+    } else {
+      localStorage.removeItem("auth_token");
+    }
+  } catch (error) {
+    console.error("Failed to update token in localStorage:", error);
+  }
+};
 
 export const useAuthStore = create((set, get) => ({
   user: null,
@@ -23,7 +28,7 @@ export const useAuthStore = create((set, get) => ({
   register: async (userData) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/register`, userData);
+      const response = await axiosInstance.post("/auth/register", userData);
       toast.success(response.data.message);
       set({ isLoading: false });
       return response.data;
@@ -39,7 +44,10 @@ export const useAuthStore = create((set, get) => ({
   verifyEmail: async (email, token) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/verify-email`, { email, token });
+      const response = await axiosInstance.post("/auth/verify-email", { email, token });
+      if (response.data.token) {
+        setStoredToken(response.data.token);
+      }
       set({
         user: response.data.user,
         isAuthenticated: true,
@@ -59,7 +67,7 @@ export const useAuthStore = create((set, get) => ({
   resendVerification: async (email) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/resend-verification`, { email });
+      const response = await axiosInstance.post("/auth/resend-verification", { email });
       toast.success(response.data.message);
       set({ isLoading: false });
       return response.data;
@@ -75,7 +83,10 @@ export const useAuthStore = create((set, get) => ({
   login: async (credentials) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/login`, credentials);
+      const response = await axiosInstance.post("/auth/login", credentials);
+      if (response.data.token) {
+        setStoredToken(response.data.token);
+      }
       set({
         user: { ...response.data.user, rememberMe: response.data.user.rememberMe },
         isAuthenticated: true,
@@ -112,7 +123,7 @@ export const useAuthStore = create((set, get) => ({
 
     try {
       const response = await Promise.race([
-        axios.get(`${API_URL}/check-auth`),
+        axiosInstance.get("/auth/check-auth"),
         timeoutPromise
       ]);
 
@@ -141,7 +152,8 @@ export const useAuthStore = create((set, get) => ({
   logout: async () => {
     set({ isLoading: true, error: null });
     try {
-      await axios.post(`${API_URL}/logout`);
+      await axiosInstance.post("/auth/logout");
+      setStoredToken(null);
       set({
         user: null,
         isAuthenticated: false,
@@ -160,7 +172,7 @@ export const useAuthStore = create((set, get) => ({
   forgotPassword: async (email) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/forgot-password`, { email });
+      const response = await axiosInstance.post("/auth/forgot-password", { email });
       set({ isLoading: false });
       toast.success(response.data.message);
       return response.data;
@@ -176,7 +188,7 @@ export const useAuthStore = create((set, get) => ({
   resetPassword: async (token, password) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/reset-password`, { token, password });
+      const response = await axiosInstance.post("/auth/reset-password", { token, password });
       set({ isLoading: false });
       toast.success(response.data.message);
       return response.data;
@@ -192,7 +204,7 @@ export const useAuthStore = create((set, get) => ({
   resendResetLink: async (email) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/resend-reset-link`, { email });
+      const response = await axiosInstance.post("/auth/resend-reset-link", { email });
       set({ isLoading: false });
       toast.success(response.data.message);
       return response.data;
@@ -208,7 +220,7 @@ export const useAuthStore = create((set, get) => ({
   fetchUserByDisplayName: async (displayName) => {
     set({ loading: true, error: null, currentUser: null });
     try {
-      const response = await axios.get(`${API_URL}/display/${encodeURIComponent(displayName)}`);
+      const response = await axiosInstance.get(`/auth/display/${encodeURIComponent(displayName)}`);
       if (response.data.success) {
         set({ currentUser: response.data.user, loading: false });
       } else {
@@ -225,7 +237,7 @@ export const useAuthStore = create((set, get) => ({
   getProfile: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_URL}/profile`);
+      const response = await axiosInstance.get("/auth/profile");
       set({
         user: response.data.user,
         isLoading: false,
@@ -243,7 +255,7 @@ export const useAuthStore = create((set, get) => ({
   updateProfile: async (profileData) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.put(`${API_URL}/profile`, profileData);
+      const response = await axiosInstance.put("/auth/profile", profileData);
       set({
         user: response.data.user,
         isLoading: false,
@@ -264,7 +276,7 @@ export const useAuthStore = create((set, get) => ({
     const formData = new FormData();
     formData.append("image", file);
     try {
-      const response = await axios.post(`${API_URL}/profile/upload-image`, formData, {
+      const response = await axiosInstance.post("/auth/profile/upload-image", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       set((state) => ({
@@ -285,7 +297,7 @@ export const useAuthStore = create((set, get) => ({
   toggleFavorite: async (postId) => {
     set({ favoritesLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/toggle-favorite`, { postId });
+      const response = await axiosInstance.post("/auth/toggle-favorite", { postId });
       set((state) => {
         const isFavorited = response.data.isFavorited;
         let updatedFavorites = [...state.favorites];
@@ -311,7 +323,7 @@ export const useAuthStore = create((set, get) => ({
   getFavorites: async () => {
     set({ favoritesLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_URL}/favorites`);
+      const response = await axiosInstance.get("/auth/favorites");
       set({
         favorites: response.data.favorites,
         favoritesLoading: false,
