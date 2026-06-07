@@ -12,7 +12,7 @@ export const connectDB = async () => {
 
     try {
         const conn = await mongoose.connect(process.env.DATABASE_URL, {
-            serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of default 30s
+            serverSelectionTimeoutMS: 30000, // Timeout after 30s for better reliability
         });
 
         isConnected = !!conn.connections[0].readyState;
