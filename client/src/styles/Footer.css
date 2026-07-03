@@ -154,6 +154,8 @@
   .footer-bottom p {
     font-size: 1rem;
     color: #aaa;
+    padding-bottom: 1rem;
+    margin-bottom: 0 !important;
   }
 }
 
