@@ -1,10 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
 import "../styles/Contact.css";
 
 export default function Contact() {
-  const formRef = useRef(); // Add ref for the form
 
   const [formData, setFormData] = useState({
     name: "",
@@ -70,54 +68,30 @@ export default function Contact() {
 
     setFormStatus({ ...formStatus, submitted: true });
 
-    // Send email using EmailJS
-    emailjs
-      .sendForm(
-        "service_7gco76f", // Same service ID as ContactUs.js
-        "template_nn1ajim", // Same template ID as ContactUs.js
-        formRef.current, // Use the form ref
-        "--gZTzItUaERWwh7S" // Same public key as ContactUs.js
-      )
-      .then(
-        () => {
-          setFormStatus({
-            submitted: false,
-            success: true,
-            error: null,
-          });
-          setFormData({
-            name: "",
-            email: "",
-            subject: "",
-            message: "",
-          });
-          // Scroll to top on success
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          setTimeout(() => {
-            setFormStatus({
-              submitted: false,
-              success: false,
-              error: null,
-            });
-          }, 5000);
-        },
-        (error) => {
-          setFormStatus({
-            submitted: false,
-            success: false,
-            error: "Error sending message",
-          });
-          console.error("EmailJS error:", error);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          setTimeout(() => {
-            setFormStatus({
-              submitted: false,
-              success: false,
-              error: null,
-            });
-          }, 5000);
-        }
-      );
+    // Dummy success - no external service call
+    // Simulate async submission for UX (spinner) then always succeed
+    setTimeout(() => {
+      setFormStatus({
+        submitted: false,
+        success: true,
+        error: null,
+      });
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+      // Scroll to top on success
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        setFormStatus({
+          submitted: false,
+          success: false,
+          error: null,
+        });
+      }, 5000);
+    }, 600);
   };
 
   // Animation variants
@@ -272,7 +246,6 @@ export default function Contact() {
           )}
 
           <motion.form
-            ref={formRef} // Attach ref to the form
             className="contact-form"
             onSubmit={handleSubmit}
             variants={containerVariants}
