@@ -88,20 +88,19 @@ const userSchema = new mongoose.Schema(
 );
 
 // Pre-save middleware to validate blogger-specific fields
-userSchema.pre("save", function(next) {
+userSchema.pre("save", function() {
   if (this.role === "blogger") {
     // Validate required blogger fields
     if (!this.displayName) {
-      return next(new Error("Display name is required for bloggers"));
+      throw new Error("Display name is required for bloggers");
     }
     if (!this.bio) {
-      return next(new Error("Bio is required for bloggers"));
+      throw new Error("Bio is required for bloggers");
     }
     if (!this.categories || this.categories.length === 0) {
-      return next(new Error("At least one category is required for bloggers"));
+      throw new Error("At least one category is required for bloggers");
     }
   }
-  next();
 });
 
 // Virtual property to check if user is a blogger

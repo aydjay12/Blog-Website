@@ -134,14 +134,13 @@ const postSchema = new mongoose.Schema(
 );
 
 // Pre-save middleware to generate slug if not provided
-postSchema.pre("save", function (next) {
+postSchema.pre("save", function () {
   if (!this.slug) {
     this.slug = this.title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
   }
-  next();
 });
 
 // Method to check if a user can edit the post
